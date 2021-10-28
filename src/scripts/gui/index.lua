@@ -8,6 +8,7 @@ local templates = require("templates")
 --- @class MainGuiRefs
 --- @field window LuaGuiElement
 --- @field titlebar_flow LuaGuiElement
+--- @field pin_button LuaGuiElement
 
 --- @class MainGui
 local MainGui = {}
@@ -98,6 +99,12 @@ function index.new(player, player_table)
         },
         { type = "label", style = "frame_title", caption = { "gui.tlst-tasks" }, ignored_by_interaction = true },
         { type = "empty-widget", style = "flib_horizontal_pusher", ignored_by_interaction = true },
+        templates.frame_action_button(
+          "flib_pin",
+          { "gui.flib-keep-open" },
+          { gui = "main", action = "pin" },
+          { "pin_button" }
+        ),
         templates.frame_action_button("utility/close", { "gui.close-instruction" }, { gui = "main", action = "close" }),
       },
     },
