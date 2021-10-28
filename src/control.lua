@@ -24,7 +24,7 @@
   - Each task only has one owner?
   - A task can have infinite subtasks
     - Subtasks are just pointers to other tasks, so they support the full feature suite, including more subtasks
-    - Subtasks are only displayed by their titles in the main list
+    - Subtasks are only displayed by their titles in the tasks list
   - Any task can be opened in a new GUI to view its details, including subtasks
   - Investigate PRing `swap_children()` and `move_child()` functions to the LuaGuiElement API
 ]]
@@ -33,10 +33,10 @@ local event = require("__flib__.event")
 local gui = require("__flib__.gui")
 local migration = require("__flib__.migration")
 
-local main_gui = require("scripts.gui.main.index")
 local migrations = require("scripts.migrations")
 local player_data = require("scripts.player-data")
 local task = require("scripts.task")
+local tasks_gui = require("scripts.gui.tasks.index")
 
 -- BOOTSTRAP
 
@@ -58,7 +58,7 @@ event.on_load(function()
   end
 
   for _, player_table in pairs(global.players) do
-    main_gui.load(player_table.guis.main)
+    tasks_gui.load(player_table.guis.tasks)
   end
 end)
 
@@ -73,8 +73,8 @@ end)
 gui.hook_events(function(e)
   local msg = gui.read_action(e)
   if msg then
-    if msg.gui == "main" then
-      local Gui = main_gui.get(e.player_index)
+    if msg.gui == "tasks" then
+      local Gui = tasks_gui.get(e.player_index)
       if Gui then
         Gui:dispatch(msg, e)
       end
@@ -84,8 +84,8 @@ end)
 
 event.register("tlst-toggle-gui", function(e)
   local player_table = global.players[e.player_index]
-  if player_table and player_table.guis.main then
-    player_table.guis.main:toggle()
+  if player_table and player_table.guis.tasks then
+    player_table.guis.tasks:toggle()
   end
 end)
 

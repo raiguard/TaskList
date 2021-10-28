@@ -5,7 +5,7 @@ local templates = require("templates")
 
 -- GUI
 
---- @class MainGuiRefs
+--- @class TasksGuiRefs
 --- @field window LuaGuiElement
 --- @field titlebar_flow LuaGuiElement
 --- @field pin_button LuaGuiElement
@@ -13,19 +13,19 @@ local templates = require("templates")
 --- @field description_textfield LuaGuiElement
 --- @field scroll_pane LuaGuiElement
 
---- @class MainGui
-local MainGui = {}
+--- @class TasksGui
+local TasksGui = {}
 
-MainGui.actions = actions
+TasksGui.actions = actions
 
-function MainGui:destroy()
+function TasksGui:destroy()
   local window = self.refs.window
   if window and window.valid() then
     self.refs.window.destroy()
   end
 end
 
-function MainGui:open()
+function TasksGui:open()
   self.refs.window.bring_to_front()
   self.refs.window.visible = true
   self.state.visible = true
@@ -37,7 +37,7 @@ function MainGui:open()
   -- self.player.set_shortcut_toggled("tlst-toggle-gui", true)
 end
 
-function MainGui:close()
+function TasksGui:close()
   if self.state.pinning then
     return
   end
@@ -52,7 +52,7 @@ function MainGui:close()
   -- self.player.set_shortcut_toggled("tlst-toggle-gui", false)
 end
 
-function MainGui:toggle()
+function TasksGui:toggle()
   if self.state.visible then
     self:close()
   else
@@ -60,7 +60,7 @@ function MainGui:toggle()
   end
 end
 
-function MainGui:dispatch(msg, e)
+function TasksGui:dispatch(msg, e)
   local transform = msg.transform
   if transform then
     if transform == "handle_titlebar_click" and e.button == defines.mouse_button_type.middle then
@@ -76,7 +76,7 @@ function MainGui:dispatch(msg, e)
   end
 end
 
-function MainGui:update_tasks()
+function TasksGui:update_tasks()
   -- TEMPORARY: Destroy and recreate it all
 
   local scroll_pane = self.refs.scroll_pane
@@ -94,7 +94,7 @@ function MainGui:update_tasks()
         caption = task.title,
         state = task.completed,
         actions = {
-          on_checked_state_changed = { gui = "main", action = "toggle_task_completed", task_id = task.id },
+          on_checked_state_changed = { gui = "tasks", action = "toggle_task_completed", task_id = task.id },
         },
       },
     })
@@ -108,7 +108,7 @@ local index = {}
 --- @param player LuaPlayer
 --- @param player_table PlayerTable
 function index.new(player, player_table)
-  --- @type MainGuiRefs
+  --- @type TasksGuiRefs
   local refs = gui.build(player.gui.screen, {
     {
       type = "frame",
@@ -116,24 +116,27 @@ function index.new(player, player_table)
       ref = { "window" },
       visible = false,
       actions = {
-        on_closed = { gui = "main", action = "close" },
+        on_closed = { gui = "tasks", action = "close" },
       },
       {
         type = "flow",
         style = "flib_titlebar_flow",
         ref = { "titlebar_flow" },
         actions = {
-          on_click = { gui = "main", transform = "handle_titlebar_click" },
+          on_click = { gui = "tasks", transform = "handle_titlebar_click" },
         },
         { type = "label", style = "frame_title", caption = { "gui.tlst-tasks" }, ignored_by_interaction = true },
         { type = "empty-widget", style = "flib_titlebar_drag_handle", ignored_by_interaction = true },
         templates.frame_action_button(
           "flib_pin",
           { "gui.flib-keep-open" },
-          { gui = "main", action = "pin" },
+          { gui = "tasks", action = "pin" },
           { "pin_button" }
         ),
-        templates.frame_action_button("utility/close", { "gui.close-instruction" }, { gui = "main", action = "close" }),
+        templates.frame_action_button("utility/close", { "gui.close-instruction" }, {
+          gui = "tasks",
+          action = "close",
+        }),
       },
       {
         type = "frame",
@@ -149,7 +152,7 @@ function index.new(player, player_table)
             style = "confirm_button",
             caption = "Create",
             actions = {
-              on_click = { gui = "main", action = "create_task" },
+              on_click = { gui = "tasks", action = "create_task" },
             },
           },
         },
@@ -165,12 +168,12 @@ function index.new(player, player_table)
   refs.window.force_auto_center()
   refs.titlebar_flow.drag_target = refs.window
 
-  --- @type MainGui
+  --- @type TasksGui
   local self = {
     player = player,
     player_table = player_table,
     refs = refs,
-    --- @class MainGuiState
+    --- @class TasksGuiState
     state = {
       pinned = false,
       pinning = false,
@@ -178,23 +181,23 @@ function index.new(player, player_table)
     },
   }
 
-  setmetatable(self, { __index = MainGui })
+  setmetatable(self, { __index = TasksGui })
 
-  player_table.guis.main = self
+  player_table.guis.tasks = self
 end
 
---- @param Gui MainGui
+--- @param Gui TasksGui
 function index.load(Gui)
-  setmetatable(Gui, { __index = MainGui })
+  setmetatable(Gui, { __index = TasksGui })
 end
 
 --- Safely retrieves the GUI reference, checking for validity of the window.
 --- @param player_index number
---- @return MainGui
+--- @return TasksGui
 function index.get(player_index)
   local player_table = global.players[player_index]
   if player_table then
-    local Gui = player_table.guis.main
+    local Gui = player_table.guis.tasks
     if Gui and Gui.refs.window.valid then
       return Gui
     end

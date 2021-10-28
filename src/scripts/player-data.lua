@@ -1,4 +1,4 @@
-local main_gui = require("scripts.gui.main.index")
+local tasks_gui = require("scripts.gui.tasks.index")
 
 local player_data = {}
 
@@ -15,12 +15,12 @@ end
 --- @param player LuaPlayer
 --- @param player_table PlayerTable
 function player_data.refresh(player, player_table)
-  local Gui = player_table.guis.main
+  local Gui = player_table.guis.tasks
   if Gui then
     Gui:destroy()
   end
 
-  main_gui.new(player, player_table)
+  tasks_gui.new(player, player_table)
 end
 
 return player_data

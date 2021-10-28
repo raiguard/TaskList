@@ -12,17 +12,17 @@ local function toggle_fab(elem, sprite, state)
   end
 end
 
---- @param Gui MainGui
+--- @param Gui TasksGui
 function actions.recenter(Gui)
   Gui.refs.window.force_auto_center()
 end
 
---- @param Gui MainGui
+--- @param Gui TasksGui
 function actions.close(Gui)
   Gui:close()
 end
 
---- @param Gui MainGui
+--- @param Gui TasksGui
 function actions.pin(Gui)
   Gui.state.pinned = not Gui.state.pinned
 
@@ -38,7 +38,7 @@ function actions.pin(Gui)
   end
 end
 
---- @param Gui MainGui
+--- @param Gui TasksGui
 function actions.create_task(Gui)
   local refs = Gui.refs
 
@@ -47,7 +47,7 @@ function actions.create_task(Gui)
   Gui:update_tasks()
 end
 
---- @param Gui MainGui
+--- @param Gui TasksGui
 --- @param msg table
 --- @param e on_gui_checked_state_changed
 function actions.toggle_task_completed(Gui, msg, e)
