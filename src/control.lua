@@ -24,7 +24,7 @@ local player_data = require("scripts.player-data")
 event.on_init(function()
   global.players = {}
 
-  for player in pairs(game.players) do
+  for _, player in pairs(game.players) do
     player_data.init(player)
   end
 
@@ -37,8 +37,37 @@ event.on_configuration_changed(function(e)
   end
 end)
 
+-- INTERACTION
+
+gui.hook_events(function(e)
+  local msg = gui.read_action(e)
+  if msg then
+    if msg.gui == "main" then
+      -- TODO: Make this a util function
+      -- Phobos would be really nice here...
+      local player_table = global.players[e.player_index]
+      if player_table then
+        local Gui = player_table.guis.main
+        if Gui then
+          Gui:dispatch(msg, e)
+        end
+      end
+    end
+  end
+end)
+
+event.register("tlst-toggle-gui", function(e)
+  local player_table = global.players[e.player_index]
+  if player_table and player_table.guis.main then
+    player_table.guis.main:toggle()
+  end
+end)
+
 -- PLAYER
 
 event.on_player_created(function(e)
-  player_data.init(game.get_player(e.player_index))
+  local player = game.get_player(e.player_index)
+
+  player_data.init(player)
+  player_data.refresh(player, global.players[e.player_index])
 end)

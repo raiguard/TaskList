@@ -1,3 +1,5 @@
+local main_gui = require("scripts.gui.index")
+
 local player_data = {}
 
 --- Initializes the player's `global` table.
@@ -13,7 +15,12 @@ end
 --- @param player LuaPlayer
 --- @param player_table PlayerTable
 function player_data.refresh(player, player_table)
-  -- TODO:
+  local Gui = player_table.guis.main
+  if Gui then
+    Gui:destroy()
+  end
+
+  main_gui.new(player, player_table)
 end
 
 return player_data
