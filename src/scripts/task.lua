@@ -1,5 +1,19 @@
+local util = require("scripts.util")
+
 --- @class Task
 local Task = {}
+
+--- Delete the task and remove it from all GUIs.
+function Task:delete()
+  global.tasks[self.id] = nil
+
+  for player_index in pairs(global.players) do
+    local Gui = util.get_tasks_gui(player_index)
+    if Gui then
+      Gui:delete_task(self.id)
+    end
+  end
+end
 
 local task = {}
 

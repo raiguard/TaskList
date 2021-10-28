@@ -37,6 +37,7 @@ local migrations = require("scripts.migrations")
 local player_data = require("scripts.player-data")
 local task = require("scripts.task")
 local tasks_gui = require("scripts.gui.tasks.index")
+local util = require("scripts.util")
 
 -- BOOTSTRAP
 
@@ -74,7 +75,7 @@ gui.hook_events(function(e)
   local msg = gui.read_action(e)
   if msg then
     if msg.gui == "tasks" then
-      local Gui = tasks_gui.get(e.player_index)
+      local Gui = util.get_tasks_gui(e.player_index)
       if Gui then
         Gui:dispatch(msg, e)
       end

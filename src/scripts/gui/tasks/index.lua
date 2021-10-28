@@ -76,6 +76,14 @@ function TasksGui:dispatch(msg, e)
   end
 end
 
+function TasksGui:delete_task(task_id)
+  --- @type LuaGuiElement
+  local row = self.refs.scroll_pane[tostring(task_id)]
+  if row then
+    row.destroy()
+  end
+end
+
 function TasksGui:update_tasks()
   -- TEMPORARY: Destroy and recreate it all
 
@@ -95,6 +103,14 @@ function TasksGui:update_tasks()
         state = task.completed,
         actions = {
           on_checked_state_changed = { gui = "tasks", action = "toggle_task_completed", task_id = task.id },
+        },
+      },
+      {
+        type = "sprite-button",
+        style = "tool_button_red",
+        sprite = "utility/trash",
+        actions = {
+          on_click = { gui = "tasks", action = "delete_task", task_id = task.id },
         },
       },
     })
@@ -189,19 +205,6 @@ end
 --- @param Gui TasksGui
 function index.load(Gui)
   setmetatable(Gui, { __index = TasksGui })
-end
-
---- Safely retrieves the GUI reference, checking for validity of the window.
---- @param player_index number
---- @return TasksGui
-function index.get(player_index)
-  local player_table = global.players[player_index]
-  if player_table then
-    local Gui = player_table.guis.tasks
-    if Gui and Gui.refs.window.valid then
-      return Gui
-    end
-  end
 end
 
 return index

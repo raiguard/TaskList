@@ -60,4 +60,15 @@ function actions.toggle_task_completed(Gui, msg, e)
   end
 end
 
+--- @param Gui TasksGui
+--- @param msg table
+function actions.delete_task(Gui, msg)
+  local task_id = msg.task_id
+
+  local task = global.tasks[task_id]
+  if task then
+    task:delete()
+  end
+end
+
 return actions
