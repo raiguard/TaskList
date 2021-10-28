@@ -9,8 +9,6 @@ local templates = require("templates")
 --- @field window LuaGuiElement
 --- @field titlebar_flow LuaGuiElement
 --- @field pin_button LuaGuiElement
---- @field title_textfield LuaGuiElement
---- @field description_textfield LuaGuiElement
 --- @field scroll_pane LuaGuiElement
 
 --- @class TasksGui
@@ -23,6 +21,8 @@ function TasksGui:destroy()
   if window and window.valid() then
     self.refs.window.destroy()
   end
+
+  self.player_table.guis.tasks = nil
 end
 
 function TasksGui:open()
@@ -38,7 +38,8 @@ function TasksGui:open()
 end
 
 function TasksGui:close()
-  if self.state.pinning then
+  if self.state.ignore_close then
+    self.state.ignore_close = false
     return
   end
 
@@ -76,44 +77,30 @@ function TasksGui:dispatch(msg, e)
   end
 end
 
+--- @param task Task
+function TasksGui:add_task(task)
+  gui.add(self.refs.scroll_pane, {
+    type = "flow",
+    name = task.id,
+    style_mods = { vertical_align = "center" },
+    { type = "button", style = "mini_button_aligned_to_text_vertically_when_centered", caption = "v" },
+    {
+      type = "checkbox",
+      caption = task.title,
+      state = task.completed,
+      actions = {
+        on_checked_state_changed = { gui = "tasks", action = "toggle_task_completed", task_id = task.id },
+      },
+    },
+  })
+end
+
+--- @param task_id number
 function TasksGui:delete_task(task_id)
   --- @type LuaGuiElement
   local row = self.refs.scroll_pane[tostring(task_id)]
   if row then
     row.destroy()
-  end
-end
-
-function TasksGui:update_tasks()
-  -- TEMPORARY: Destroy and recreate it all
-
-  local scroll_pane = self.refs.scroll_pane
-  scroll_pane.clear()
-
-  -- TODO: We will have to preserve the ordering of tasks per-player
-  for _, task in pairs(global.tasks) do
-    gui.add(scroll_pane, {
-      type = "flow",
-      name = task.id,
-      style_mods = { vertical_align = "center" },
-      { type = "button", style = "mini_button_aligned_to_text_vertically_when_centered", caption = "v" },
-      {
-        type = "checkbox",
-        caption = task.title,
-        state = task.completed,
-        actions = {
-          on_checked_state_changed = { gui = "tasks", action = "toggle_task_completed", task_id = task.id },
-        },
-      },
-      {
-        type = "sprite-button",
-        style = "tool_button_red",
-        sprite = "utility/trash",
-        actions = {
-          on_click = { gui = "tasks", action = "delete_task", task_id = task.id },
-        },
-      },
-    })
   end
 end
 
@@ -161,12 +148,12 @@ function index.new(player, player_table)
         {
           type = "frame",
           style = "subheader_frame",
-          { type = "textfield", ref = { "title_textfield" } },
-          { type = "textfield", ref = { "description_textfield" } },
+          { type = "empty-widget", style = "flib_horizontal_pusher" },
           {
-            type = "button",
-            style = "confirm_button",
-            caption = "Create",
+            type = "sprite-button",
+            -- FIXME: This inherits the sound and tooltip from item_and_count_select_confirm!?
+            style = "flib_tool_button_light_green",
+            sprite = "utility/add",
             actions = {
               on_click = { gui = "tasks", action = "create_task" },
             },
@@ -191,8 +178,8 @@ function index.new(player, player_table)
     refs = refs,
     --- @class TasksGuiState
     state = {
+      ignore_close = false,
       pinned = false,
-      pinning = false,
       visible = false,
     },
   }

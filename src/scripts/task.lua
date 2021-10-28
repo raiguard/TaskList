@@ -8,7 +8,7 @@ function Task:delete()
   global.tasks[self.id] = nil
 
   for player_index in pairs(global.players) do
-    local Gui = util.get_tasks_gui(player_index)
+    local Gui = util.get_gui(player_index, "tasks")
     if Gui then
       Gui:delete_task(self.id)
     end
@@ -41,6 +41,14 @@ function task.new(title, description, deadline, play_notification)
   setmetatable(self, { __index = Task })
 
   global.tasks[id] = self
+
+  -- TODO: This is code smell
+  for player_index in pairs(global.players) do
+    local TasksGui = util.get_gui(player_index, "tasks")
+    if TasksGui then
+      TasksGui:add_task(self)
+    end
+  end
 
   return self
 end

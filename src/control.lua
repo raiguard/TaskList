@@ -34,6 +34,7 @@ local gui = require("__flib__.gui")
 local migration = require("__flib__.migration")
 
 local migrations = require("scripts.migrations")
+local new_task_gui = require("scripts.gui.new-task.index")
 local player_data = require("scripts.player-data")
 local task = require("scripts.task")
 local tasks_gui = require("scripts.gui.tasks.index")
@@ -60,6 +61,9 @@ event.on_load(function()
 
   for _, player_table in pairs(global.players) do
     tasks_gui.load(player_table.guis.tasks)
+    if player_table.guis.new_task then
+      new_task_gui.load(player_table.guis.new_task)
+    end
   end
 end)
 
@@ -74,11 +78,9 @@ end)
 gui.hook_events(function(e)
   local msg = gui.read_action(e)
   if msg then
-    if msg.gui == "tasks" then
-      local Gui = util.get_tasks_gui(e.player_index)
-      if Gui then
-        Gui:dispatch(msg, e)
-      end
+    local Gui = util.get_gui(e.player_index, msg.gui)
+    if Gui then
+      Gui:dispatch(msg, e)
     end
   end
 end)

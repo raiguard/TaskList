@@ -1,4 +1,6 @@
+local new_task_gui = require("scripts.gui.new-task.index")
 local task = require("scripts.task")
+local util = require("scripts.util")
 
 local actions = {}
 
@@ -29,9 +31,8 @@ function actions.pin(Gui)
   toggle_fab(Gui.refs.pin_button, "flib_pin", Gui.state.pinned)
 
   if Gui.state.pinned then
-    Gui.state.pinning = true
+    Gui.state.ignore_close = true
     Gui.player.opened = nil
-    Gui.state.pinning = false
   else
     Gui.player.opened = Gui.refs.window
     Gui.refs.window.force_auto_center()
@@ -40,12 +41,26 @@ end
 
 --- @param Gui TasksGui
 function actions.create_task(Gui)
-  local refs = Gui.refs
-
-  task.new(refs.title_textfield.text, refs.description_textfield.text)
-
-  Gui:update_tasks()
+  if not util.get_gui(Gui.player.index, "new_task") then
+    local pinned = Gui.state.pinned
+    if not pinned then
+      Gui.state.ignore_close = true
+    end
+    new_task_gui.new(Gui.player, Gui.player_table, Gui)
+  end
 end
+
+-- TODO: Tasks will be deleted from their edit GUI
+-- --- @param Gui TasksGui
+-- --- @param msg table
+-- function actions.delete_task(Gui, msg)
+--   local task_id = msg.task_id
+
+--   local task = global.tasks[task_id]
+--   if task then
+--     task:delete()
+--   end
+-- end
 
 --- @param Gui TasksGui
 --- @param msg table
@@ -57,17 +72,6 @@ function actions.toggle_task_completed(Gui, msg, e)
   if task then
     task.completed = not task.completed
     e.element.state = task.completed
-  end
-end
-
---- @param Gui TasksGui
---- @param msg table
-function actions.delete_task(Gui, msg)
-  local task_id = msg.task_id
-
-  local task = global.tasks[task_id]
-  if task then
-    task:delete()
   end
 end
 
