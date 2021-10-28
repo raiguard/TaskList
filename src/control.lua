@@ -27,7 +27,7 @@ local event = require("__flib__.event")
 local gui = require("__flib__.gui")
 local migration = require("__flib__.migration")
 
-local main_gui = require("scripts.gui.index")
+local main_gui = require("scripts.gui.main.index")
 local migrations = require("scripts.migrations")
 local player_data = require("scripts.player-data")
 local task = require("scripts.task")

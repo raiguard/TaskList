@@ -1,4 +1,4 @@
-local main_gui = require("scripts.gui.index")
+local main_gui = require("scripts.gui.main.index")
 
 local player_data = {}
 
