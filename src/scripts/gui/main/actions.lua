@@ -47,4 +47,17 @@ function actions.create_task(Gui)
   Gui:update_tasks()
 end
 
+--- @param Gui MainGui
+--- @param msg table
+--- @param e on_gui_checked_state_changed
+function actions.toggle_task_completed(Gui, msg, e)
+  local task_id = msg.task_id
+
+  local task = global.tasks[task_id]
+  if task then
+    task.completed = not task.completed
+    e.element.state = task.completed
+  end
+end
+
 return actions

@@ -84,7 +84,20 @@ function MainGui:update_tasks()
 
   -- TODO: We will have to preserve the ordering of tasks per-player
   for _, task in pairs(global.tasks) do
-    scroll_pane.add({ type = "checkbox", caption = task.title, state = task.completed })
+    gui.add(scroll_pane, {
+      type = "flow",
+      name = task.id,
+      style_mods = { vertical_align = "center" },
+      { type = "button", style = "mini_button_aligned_to_text_vertically_when_centered", caption = "v" },
+      {
+        type = "checkbox",
+        caption = task.title,
+        state = task.completed,
+        actions = {
+          on_checked_state_changed = { gui = "main", action = "toggle_task_completed", task_id = task.id },
+        },
+      },
+    })
   end
 end
 
