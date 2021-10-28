@@ -13,6 +13,7 @@
   - "Private" and "public" tasks
     - Private is visible only to you, public is visible to your force
   - An infinite amount of subtask nesting
+  - Import and export TODOs
 
   DESIGN NOTES:
   - Each task will have an entirely unique ID
@@ -27,6 +28,7 @@
     - Subtasks are only displayed by their titles in the tasks list
   - Any task can be opened in a new GUI to view its details, including subtasks
   - Investigate PRing `swap_children()` and `move_child()` functions to the LuaGuiElement API
+  - Import and export will use the standard method
 ]]
 
 local event = require("__flib__.event")
