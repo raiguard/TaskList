@@ -12,6 +12,7 @@
     - Consider using the bottom-right of the screen for this
   - "Private" and "public" tasks
     - Private is visible only to you, public is visible to your force
+  - An infinite amount of subtask nesting
 
   DESIGN NOTES:
   - Each task will have an entirely unique ID
@@ -21,6 +22,11 @@
   - Changing task ownership is facilitated simply by manipulating these IDs
   - However, this poses a problem of reverse lookup - we will have to keep a table of task -> locations as well
   - Each task only has one owner?
+  - A task can have infinite subtasks
+    - Subtasks are just pointers to other tasks, so they support the full feature suite, including more subtasks
+    - Subtasks are only displayed by their titles in the main list
+  - Any task can be opened in a new GUI to view its details, including subtasks
+  - Investigate PRing `swap_children()` and `move_child()` functions to the LuaGuiElement API
 ]]
 
 local event = require("__flib__.event")

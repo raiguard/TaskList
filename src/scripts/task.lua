@@ -13,12 +13,15 @@ function task.new(title, description, deadline, play_notification)
 
   --- @type Task
   local self = {
-    id = id,
-    title = title,
-    description = description,
     completed = false,
     deadline = deadline,
+    description = description,
+    id = id,
+    owner = nil, --- @type LuaPlayer|nil
     play_notification = play_notification,
+    private = false,
+    subtasks = {}, --- @type number[]
+    title = title,
   }
 
   setmetatable(self, { __index = Task })
@@ -28,6 +31,7 @@ function task.new(title, description, deadline, play_notification)
   return self
 end
 
+--- @param Task Task
 function task.load(Task)
   setmetatable(Task, { __index = Task })
 end
