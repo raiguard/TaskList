@@ -10,6 +10,15 @@
     - Maybe projects?
   - Current task must be easily visible in some way
     - Consider using the bottom-right of the screen for this
+
+  DESIGN NOTES:
+  - Each task will have an entirely unique ID
+    - Store the next ID in the root of `global`
+  - Tasks will be stored in a one-dimensional table keyed by task ID
+  - Player `tasks` tables will simply be lists of task IDs
+  - Changing task ownership is facilitated simply by manipulating these IDs
+  - However, this poses a problem of reverse lookup - we will have to keep a table of task -> locations as well
+  - Each task only has one owner?
 ]]
 
 local event = require("__flib__.event")
@@ -18,10 +27,13 @@ local migration = require("__flib__.migration")
 
 local migrations = require("scripts.migrations")
 local player_data = require("scripts.player-data")
+local task = require("scripts.task")
 
 -- BOOTSTRAP
 
 event.on_init(function()
+  global.next_task_id = 1
+  global.tasks = {}
   global.players = {}
 
   for _, player in pairs(game.players) do
@@ -29,6 +41,12 @@ event.on_init(function()
   end
 
   migrations.generic()
+end)
+
+event.on_load(function()
+  for _, Task in pairs(global.tasks) do
+    task.load(Task)
+  end
 end)
 
 event.on_configuration_changed(function(e)

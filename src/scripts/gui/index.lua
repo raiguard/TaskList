@@ -9,6 +9,9 @@ local templates = require("templates")
 --- @field window LuaGuiElement
 --- @field titlebar_flow LuaGuiElement
 --- @field pin_button LuaGuiElement
+--- @field title_textfield LuaGuiElement
+--- @field description_textfield LuaGuiElement
+--- @field scroll_pane LuaGuiElement
 
 --- @class MainGui
 local MainGui = {}
@@ -73,6 +76,18 @@ function MainGui:dispatch(msg, e)
   end
 end
 
+function MainGui:update_tasks()
+  -- TEMPORARY: Destroy and recreate it all
+
+  local scroll_pane = self.refs.scroll_pane
+  scroll_pane.clear()
+
+  -- TODO: We will have to preserve the ordering of tasks per-player
+  for _, task in pairs(global.tasks) do
+    scroll_pane.add({ type = "checkbox", caption = task.title, state = task.completed })
+  end
+end
+
 -- BOOTSTRAP
 
 local index = {}
@@ -110,10 +125,25 @@ function index.new(player, player_table)
       {
         type = "frame",
         style = "inside_shallow_frame",
+        direction = "vertical",
+        {
+          type = "frame",
+          style = "subheader_frame",
+          { type = "textfield", ref = { "title_textfield" } },
+          { type = "textfield", ref = { "description_textfield" } },
+          {
+            type = "button",
+            style = "confirm_button",
+            caption = "Create",
+            actions = {
+              on_click = { gui = "main", action = "create_task" },
+            },
+          },
+        },
         {
           type = "scroll-pane",
           style = "flib_naked_scroll_pane",
-          { type = "empty-widget", style_mods = { size = { 300, 300 } } },
+          ref = { "scroll_pane" },
         },
       },
     },

@@ -1,3 +1,5 @@
+local task = require("scripts.task")
+
 local actions = {}
 
 local function toggle_fab(elem, sprite, state)
@@ -34,6 +36,15 @@ function actions.pin(Gui)
     Gui.player.opened = Gui.refs.window
     Gui.refs.window.force_auto_center()
   end
+end
+
+--- @param Gui MainGui
+function actions.create_task(Gui)
+  local refs = Gui.refs
+
+  task.new(refs.title_textfield.text, refs.description_textfield.text)
+
+  Gui:update_tasks()
 end
 
 return actions
