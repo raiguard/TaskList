@@ -25,6 +25,7 @@ local event = require("__flib__.event")
 local gui = require("__flib__.gui")
 local migration = require("__flib__.migration")
 
+local main_gui = require("scripts.gui.index")
 local migrations = require("scripts.migrations")
 local player_data = require("scripts.player-data")
 local task = require("scripts.task")
@@ -47,6 +48,10 @@ event.on_load(function()
   for _, Task in pairs(global.tasks) do
     task.load(Task)
   end
+
+  for _, player_table in pairs(global.players) do
+    main_gui.load(player_table.guis.main)
+  end
 end)
 
 event.on_configuration_changed(function(e)
@@ -61,14 +66,9 @@ gui.hook_events(function(e)
   local msg = gui.read_action(e)
   if msg then
     if msg.gui == "main" then
-      -- TODO: Make this a util function
-      -- Phobos would be really nice here...
-      local player_table = global.players[e.player_index]
-      if player_table then
-        local Gui = player_table.guis.main
-        if Gui then
-          Gui:dispatch(msg, e)
-        end
+      local Gui = main_gui.get(e.player_index)
+      if Gui then
+        Gui:dispatch(msg, e)
       end
     end
   end

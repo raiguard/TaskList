@@ -170,4 +170,22 @@ function index.new(player, player_table)
   player_table.guis.main = self
 end
 
+--- @param Gui MainGui
+function index.load(Gui)
+  setmetatable(Gui, { __index = MainGui })
+end
+
+--- Safely retrieves the GUI reference, checking for validity of the window.
+--- @param player_index number
+--- @return MainGui
+function index.get(player_index)
+  local player_table = global.players[player_index]
+  if player_table then
+    local Gui = player_table.guis.main
+    if Gui and Gui.refs.window.valid() then
+      return Gui
+    end
+  end
+end
+
 return index
