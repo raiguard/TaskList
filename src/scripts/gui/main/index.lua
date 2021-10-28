@@ -182,7 +182,7 @@ function index.get(player_index)
   local player_table = global.players[player_index]
   if player_table then
     local Gui = player_table.guis.main
-    if Gui and Gui.refs.window.valid() then
+    if Gui and Gui.refs.window.valid then
       return Gui
     end
   end
