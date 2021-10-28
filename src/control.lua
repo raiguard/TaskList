@@ -10,6 +10,8 @@
     - Maybe projects?
   - Current task must be easily visible in some way
     - Consider using the bottom-right of the screen for this
+  - "Private" and "public" tasks
+    - Private is visible only to you, public is visible to your force
 
   DESIGN NOTES:
   - Each task will have an entirely unique ID
