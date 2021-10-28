@@ -11,6 +11,11 @@ local function toggle_fab(elem, sprite, state)
 end
 
 --- @param Gui MainGui
+function actions.recenter(Gui)
+  Gui.refs.window.force_auto_center()
+end
+
+--- @param Gui MainGui
 function actions.close(Gui)
   Gui:close()
 end
