@@ -98,7 +98,7 @@ function index.new(player, player_table)
           on_click = { gui = "main", transform = "handle_titlebar_click" },
         },
         { type = "label", style = "frame_title", caption = { "gui.tlst-tasks" }, ignored_by_interaction = true },
-        { type = "empty-widget", style = "flib_horizontal_pusher", ignored_by_interaction = true },
+        { type = "empty-widget", style = "flib_titlebar_drag_handle", ignored_by_interaction = true },
         templates.frame_action_button(
           "flib_pin",
           { "gui.flib-keep-open" },
@@ -106,6 +106,15 @@ function index.new(player, player_table)
           { "pin_button" }
         ),
         templates.frame_action_button("utility/close", { "gui.close-instruction" }, { gui = "main", action = "close" }),
+      },
+      {
+        type = "frame",
+        style = "inside_shallow_frame",
+        {
+          type = "scroll-pane",
+          style = "flib_naked_scroll_pane",
+          { type = "empty-widget", style_mods = { size = { 300, 300 } } },
+        },
       },
     },
   })
