@@ -53,14 +53,14 @@ function index.new(player, player_table, Parent)
       direction = "vertical",
       ref = { "window" },
       actions = {
-        on_closed = { gui = "tasks", action = "close" },
+        on_closed = { gui = "new_task", action = "close" },
       },
       {
         type = "flow",
         style = "flib_titlebar_flow",
         ref = { "titlebar_flow" },
         actions = {
-          on_click = { gui = "tasks", transform = "handle_titlebar_click" },
+          on_click = { gui = "new_task", transform = "handle_titlebar_click" },
         },
         { type = "label", style = "frame_title", caption = { "gui.tlst-new-task" }, ignored_by_interaction = true },
         { type = "empty-widget", style = "flib_dialog_titlebar_drag_handle", ignored_by_interaction = true },
