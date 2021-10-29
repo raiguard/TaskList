@@ -39,3 +39,17 @@ styles.tlst_inside_shallow_frame_with_spacing = {
     vertical_spacing = 8,
   },
 }
+
+styles.tlst_description_frame = {
+  type = "frame_style",
+  padding = 0,
+  graphical_set = {
+    base = {
+      position = { 85, 0 },
+      corner_size = 8,
+      center = { position = { 42, 8 }, width = 1, height = 1 },
+      draw_type = "outer",
+    },
+    shadow = default_inner_shadow,
+  },
+}

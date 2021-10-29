@@ -75,4 +75,18 @@ function actions.toggle_task_completed(Gui, msg, e)
   end
 end
 
+--- @param Gui TasksGui
+--- @param e on_gui_click
+function actions.expand_task(Gui, _, e)
+  local elem = e.element
+  local details_flow = elem.parent.parent.details_flow
+
+  details_flow.visible = not details_flow.visible
+  if details_flow.visible then
+    elem.sprite = "tlst_arrow_down"
+  else
+    elem.sprite = "tlst_arrow_right"
+  end
+end
+
 return actions

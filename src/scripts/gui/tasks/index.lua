@@ -77,38 +77,69 @@ function TasksGui:dispatch(msg, e)
   end
 end
 
---- @param task Task
-function TasksGui:add_task(task, add_to_top)
+--- @param Task Task
+function TasksGui:add_task(Task, add_to_top)
   gui.add(self.refs.scroll_pane, {
     type = "flow",
-    name = task.id,
-    style_mods = { vertical_align = "center" },
-    index = add_to_top and 1 or nil,
+    direction = "vertical",
     {
-      type = "sprite-button",
-      style = "mini_button_aligned_to_text_vertically_when_centered",
-      -- style_mods = { left_margin = 4 },
-      sprite = "tlst_arrow_right",
-    },
-    {
-      type = "checkbox",
-      caption = task.title,
-      state = task.completed,
-      actions = {
-        on_checked_state_changed = { gui = "tasks", action = "toggle_task_completed", task_id = task.id },
+      type = "flow",
+      name = Task.id,
+      style_mods = { vertical_align = "center" },
+      index = add_to_top and 1 or nil,
+      {
+        type = "sprite-button",
+        style = "mini_button_aligned_to_text_vertically_when_centered",
+        sprite = "tlst_arrow_right",
+        actions = {
+          on_click = { gui = "tasks", action = "expand_task", task_id = Task.id },
+        },
+      },
+      {
+        type = "checkbox",
+        caption = Task.title,
+        state = Task.completed,
+        actions = {
+          on_checked_state_changed = { gui = "tasks", action = "toggle_task_completed", task_id = Task.id },
+        },
+      },
+      { type = "empty-widget", style = "flib_horizontal_pusher" },
+      Task.assignee and { type = "label", style_mods = { right_margin = 8 }, caption = Task.assignee.name } or {},
+      {
+        type = "sprite-button",
+        style = "mini_button_aligned_to_text_vertically_when_centered",
+        sprite = "tlst_arrow_up",
+      },
+      {
+        type = "sprite-button",
+        style = "mini_button_aligned_to_text_vertically_when_centered",
+        sprite = "tlst_arrow_down",
       },
     },
-    { type = "empty-widget", style = "flib_horizontal_pusher" },
-    task.assignee and { type = "label", style_mods = { right_margin = 8 }, caption = task.assignee.name } or {},
     {
-      type = "sprite-button",
-      style = "mini_button_aligned_to_text_vertically_when_centered",
-      sprite = "tlst_arrow_up",
-    },
-    {
-      type = "sprite-button",
-      style = "mini_button_aligned_to_text_vertically_when_centered",
-      sprite = "tlst_arrow_down",
+      type = "flow",
+      name = "details_flow",
+      style_mods = { left_margin = 20 },
+      direction = "vertical",
+      visible = false,
+      {
+        type = "frame",
+        style = "tlst_description_frame",
+        style_mods = { horizontally_stretchable = true, maximal_height = 200 },
+        visible = #Task.description > 0,
+        {
+          type = "scroll-pane",
+          style = "flib_naked_scroll_pane",
+          -- FIXME: This width has to be hardcoded because stretching it breaks the label
+          style_mods = { padding = 6, width = 432 },
+          {
+            type = "label",
+            style = "label_with_left_padding",
+            style_mods = { single_line = false },
+            caption = Task.description,
+          },
+        },
+      },
     },
   })
 end
