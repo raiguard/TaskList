@@ -91,12 +91,14 @@ function index.new(player, player_table, Parent)
         type = "frame",
         style = "tlst_inside_shallow_frame_with_spacing",
         direction = "vertical",
+        { type = "label", caption = { "gui.tlst-name" } },
         {
           type = "textfield",
           style = "flib_widthless_textfield",
           style_mods = { horizontally_stretchable = true },
           ref = { "title_textfield" },
         },
+        { type = "label", caption = { "gui.tlst-description" } },
         {
           type = "text-box",
           style_mods = { height = 150, width = 300 },
