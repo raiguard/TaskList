@@ -8,6 +8,11 @@ function actions.close(Gui)
 end
 
 --- @param Gui NewTaskGui
+function actions.recenter(Gui)
+  Gui.refs.window.force_auto_center()
+end
+
+--- @param Gui NewTaskGui
 function actions.confirm(Gui)
   local refs = Gui.refs
 
