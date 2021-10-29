@@ -1,5 +1,32 @@
 data:extend({
   { type = "custom-input", name = "tlst-toggle-gui", key_sequence = "CONTROL + T", action = "lua" },
+  {
+    type = "sprite",
+    name = "tlst_arrow_up",
+    filename = "__TaskList__/graphics/tool-icons.png",
+    position = { 0, 0 },
+    size = 32,
+    mipmap_count = 2,
+    flags = { "icon" },
+  },
+  {
+    type = "sprite",
+    name = "tlst_arrow_down",
+    filename = "__TaskList__/graphics/tool-icons.png",
+    position = { 0, 32 },
+    size = 32,
+    mipmap_count = 2,
+    flags = { "icon" },
+  },
+  {
+    type = "sprite",
+    name = "tlst_arrow_right",
+    filename = "__TaskList__/graphics/tool-icons.png",
+    position = { 0, 64 },
+    size = 32,
+    mipmap_count = 2,
+    flags = { "icon" },
+  },
 })
 
 local styles = data.raw["gui-style"]["default"]

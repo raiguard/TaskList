@@ -84,11 +84,12 @@ function TasksGui:add_task(task, add_to_top)
     name = task.id,
     style_mods = { vertical_align = "center" },
     index = add_to_top and 1 or nil,
-    -- {
-    --   type = "button",
-    --   style = "mini_button_aligned_to_text_vertically_when_centered",
-    --   caption = "v",
-    -- },
+    {
+      type = "sprite-button",
+      style = "mini_button_aligned_to_text_vertically_when_centered",
+      -- style_mods = { left_margin = 4 },
+      sprite = "tlst_arrow_right",
+    },
     {
       type = "checkbox",
       caption = task.title,
@@ -96,6 +97,18 @@ function TasksGui:add_task(task, add_to_top)
       actions = {
         on_checked_state_changed = { gui = "tasks", action = "toggle_task_completed", task_id = task.id },
       },
+    },
+    { type = "empty-widget", style = "flib_horizontal_pusher" },
+    task.assignee and { type = "label", style_mods = { right_margin = 8 }, caption = task.assignee.name } or {},
+    {
+      type = "sprite-button",
+      style = "mini_button_aligned_to_text_vertically_when_centered",
+      sprite = "tlst_arrow_up",
+    },
+    {
+      type = "sprite-button",
+      style = "mini_button_aligned_to_text_vertically_when_centered",
+      sprite = "tlst_arrow_down",
     },
   })
 end
@@ -120,6 +133,7 @@ function index.new(player, player_table)
   local refs = gui.build(player.gui.screen, {
     {
       type = "frame",
+      style_mods = { width = 500 },
       direction = "vertical",
       ref = { "window" },
       visible = false,
@@ -153,6 +167,13 @@ function index.new(player, player_table)
         {
           type = "frame",
           style = "subheader_frame",
+          {
+            type = "checkbox",
+            style_mods = { left_margin = 8 },
+            caption = { "gui.tlst-show-completed" },
+            state = false,
+            ref = { "show_completed_checkbox" },
+          },
           { type = "empty-widget", style = "flib_horizontal_pusher" },
           {
             type = "sprite-button",
