@@ -10,6 +10,7 @@ local actions = require("actions")
 --- @field footer_drag_handle LuaGuiElement
 --- @field title_textfield LuaGuiElement
 --- @field description_textfield LuaGuiElement
+--- @field private_checkbox LuaGuiElement
 
 --- @class NewTaskGui
 local NewTaskGui = {}
@@ -70,6 +71,12 @@ function index.new(player, player_table, Parent)
         direction = "vertical",
         { type = "textfield", ref = { "title_textfield" } },
         { type = "textfield", ref = { "description_textfield" } },
+        {
+          type = "checkbox",
+          caption = { "gui.tlst-private" },
+          state = false,
+          ref = { "private_checkbox" },
+        },
       },
       {
         type = "flow",

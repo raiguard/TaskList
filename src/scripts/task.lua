@@ -19,21 +19,19 @@ local task = {}
 
 --- @param title string
 --- @param description string
---- @param deadline number
---- @param play_notification boolean
-function task.new(title, description, deadline, play_notification)
+--- @param owner LuaForce|LuaPlayer
+function task.new(title, description, owner)
   local id = global.next_task_id
   global.next_task_id = id + 1
 
   --- @type Task
   local self = {
     completed = false,
-    deadline = deadline,
+    -- deadline = deadline,
     description = description,
     id = id,
-    owner = nil, --- @type LuaPlayer|nil
-    play_notification = play_notification,
-    private = false,
+    owner = owner,
+    -- play_notification = play_notification,
     subtasks = {}, --- @type number[]
     title = title,
   }
