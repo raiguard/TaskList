@@ -151,9 +151,9 @@ function index.new(player, player_table)
           { type = "empty-widget", style = "flib_horizontal_pusher" },
           {
             type = "sprite-button",
-            -- FIXME: This inherits the sound and tooltip from item_and_count_select_confirm!?
             style = "flib_tool_button_light_green",
             sprite = "utility/add",
+            tooltip = { "gui.tlst-new-task" },
             actions = {
               on_click = { gui = "tasks", action = "create_task" },
             },
