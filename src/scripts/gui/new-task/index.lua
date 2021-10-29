@@ -8,12 +8,12 @@ local actions = require("actions")
 --- @class NewTaskGuiRefs
 --- @field window LuaGuiElement
 --- @field titlebar_flow LuaGuiElement
---- @field footer_drag_handle LuaGuiElement
 --- @field title_textfield LuaGuiElement
 --- @field description_textfield LuaGuiElement
+--- @field add_to_top_checkbox LuaGuiElement
 --- @field private_checkbox LuaGuiElement
 --- @field assignee_dropdown LuaGuiElement
---- @field add_to_top_checkbox LuaGuiElement
+--- @field footer_drag_handle LuaGuiElement
 
 --- @class NewTaskGui
 local NewTaskGui = {}
