@@ -27,11 +27,9 @@ function task.new(title, description, owner)
   --- @type Task
   local self = {
     completed = false,
-    -- deadline = deadline,
     description = description,
     id = id,
     owner = owner,
-    -- play_notification = play_notification,
     subtasks = {}, --- @type number[]
     title = title,
   }
@@ -40,9 +38,18 @@ function task.new(title, description, owner)
 
   global.tasks[id] = self
 
-  -- TODO: This is code smell
-  for player_index in pairs(global.players) do
-    local TasksGui = util.get_gui(player_index, "tasks")
+  -- TODO: This is the logic place to put this, but it feels like code smell
+  if owner.object_name == "LuaForce" then
+    for player_index in pairs(global.players) do
+      if player.force == owner then
+        local TasksGui = util.get_gui(player_index, "tasks")
+        if TasksGui then
+          TasksGui:add_task(self)
+        end
+      end
+    end
+  else
+    local TasksGui = util.get_gui(owner.index, "tasks")
     if TasksGui then
       TasksGui:add_task(self)
     end
