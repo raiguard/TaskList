@@ -5,6 +5,7 @@ local player_data = {}
 --- Initializes the player's `global` table.
 --- @param player LuaPlayer
 function player_data.init(player)
+  --- @class PlayerTable
   global.players[player.index] = {
     flags = {},
     guis = {},

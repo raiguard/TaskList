@@ -8,7 +8,3 @@ global = {
   --- @type table<number, Task>
   tasks = {},
 }
-
---- @class PlayerTable
---- @field flags table<string, boolean>
---- @field guis table
