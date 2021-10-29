@@ -119,26 +119,32 @@ function TasksGui:add_task(Task, add_to_top)
     {
       type = "flow",
       name = "details_flow",
-      style_mods = { left_margin = 20 },
-      direction = "vertical",
+      -- style_mods = { left_margin = 20 },
+      -- direction = "vertical",
       visible = false,
+      { type = "button", style = "mini_button_aligned_to_text_vertically_when_centered" },
       {
-        type = "frame",
-        style = "tlst_description_frame",
-        style_mods = { horizontally_stretchable = true, maximal_height = 200 },
-        visible = #Task.description > 0,
+        type = "flow",
+        direction = "vertical",
         {
-          type = "scroll-pane",
-          style = "flib_naked_scroll_pane",
-          -- FIXME: This width has to be hardcoded because stretching it breaks the label
-          style_mods = { padding = 6, width = 432 },
+          type = "frame",
+          style = "tlst_description_frame",
+          style_mods = { horizontally_stretchable = true, maximal_height = 200 },
+          visible = #Task.description > 0,
           {
-            type = "label",
-            style = "label_with_left_padding",
-            style_mods = { single_line = false },
-            caption = Task.description,
+            type = "scroll-pane",
+            style = "flib_naked_scroll_pane",
+            -- FIXME: This width has to be hardcoded because stretching it breaks the label
+            style_mods = { padding = 6, width = 432 },
+            {
+              type = "label",
+              style = "label_with_left_padding",
+              style_mods = { single_line = false },
+              caption = Task.description,
+            },
           },
         },
+        { type = "checkbox", caption = "Subtasks will go here", state = false },
       },
     },
   })
