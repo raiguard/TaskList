@@ -45,6 +45,7 @@ function actions.create_task(Gui)
     local pinned = Gui.state.pinned
     if not pinned then
       Gui.state.ignore_close = true
+      Gui.player.opened = nil
     end
     new_task_gui.new(Gui.player, Gui.player_table, Gui)
   end
@@ -73,6 +74,10 @@ function actions.toggle_task_completed(Gui, msg, e)
     task.completed = not task.completed
     e.element.state = task.completed
   end
+end
+
+function actions.debug(Gui)
+  game.print("tasks opened")
 end
 
 return actions
