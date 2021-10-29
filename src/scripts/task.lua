@@ -20,12 +20,15 @@ local task = {}
 --- @param title string
 --- @param description string
 --- @param owner LuaForce|LuaPlayer
-function task.new(title, description, owner)
+--- @param assignee LuaPlayer|nil
+function task.new(title, description, owner, assignee)
   local id = global.next_task_id
   global.next_task_id = id + 1
 
+  --- If `owner` is a `LuaPlayer`, then `assignee` will always be the same `LuaPlayer`.
   --- @type Task
   local self = {
+    assignee = assignee,
     completed = false,
     description = description,
     id = id,
@@ -38,9 +41,9 @@ function task.new(title, description, owner)
 
   global.tasks[id] = self
 
-  -- TODO: This is the logic place to put this, but it feels like code smell
+  -- TODO: This is the logical place to put this, but it feels like code smell
   if owner.object_name == "LuaForce" then
-    for player_index in pairs(global.players) do
+    for player_index, player in pairs(game.players) do
       if player.force == owner then
         local TasksGui = util.get_gui(player_index, "tasks")
         if TasksGui then

@@ -18,7 +18,7 @@ TasksGui.actions = actions
 
 function TasksGui:destroy()
   local window = self.refs.window
-  if window and window.valid() then
+  if window and window.valid then
     self.refs.window.destroy()
   end
 

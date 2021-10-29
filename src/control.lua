@@ -102,3 +102,8 @@ event.on_player_created(function(e)
   player_data.init(player)
   player_data.refresh(player, global.players[e.player_index])
 end)
+
+event.on_player_removed(function(e)
+  -- TODO: Remove all private player tasks
+  global.players[e.player_index] = nil
+end)
