@@ -16,8 +16,4 @@ function actions.confirm(Gui)
   Gui:destroy()
 end
 
-function actions.debug(Gui)
-  game.print("new task opened")
-end
-
 return actions

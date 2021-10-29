@@ -115,12 +115,10 @@ function index.new(player, player_table)
   local refs = gui.build(player.gui.screen, {
     {
       type = "frame",
-      name = "tasks_window",
       direction = "vertical",
       ref = { "window" },
       visible = false,
       actions = {
-        on_opened = { gui = "tasks", action = "debug" },
         on_closed = { gui = "tasks", action = "close" },
       },
       {
