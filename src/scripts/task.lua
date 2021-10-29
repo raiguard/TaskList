@@ -21,7 +21,8 @@ local task = {}
 --- @param description string
 --- @param owner LuaForce|LuaPlayer
 --- @param assignee LuaPlayer|nil
-function task.new(title, description, owner, assignee)
+--- @param add_to_top boolean
+function task.new(title, description, owner, assignee, add_to_top)
   local id = global.next_task_id
   global.next_task_id = id + 1
 
@@ -47,7 +48,7 @@ function task.new(title, description, owner, assignee)
       if player.force == owner then
         local TasksGui = util.get_gui(player_index, "tasks")
         if TasksGui then
-          TasksGui:add_task(self)
+          TasksGui:add_task(self, add_to_top)
         end
       end
     end

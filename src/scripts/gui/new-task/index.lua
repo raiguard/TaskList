@@ -13,6 +13,7 @@ local actions = require("actions")
 --- @field description_textfield LuaGuiElement
 --- @field private_checkbox LuaGuiElement
 --- @field assignee_dropdown LuaGuiElement
+--- @field add_to_top_checkbox LuaGuiElement
 
 --- @class NewTaskGui
 local NewTaskGui = {}
@@ -105,12 +106,17 @@ function index.new(player, player_table, Parent)
           ref = { "description_textfield" },
         },
         {
-          type = "checkbox",
-          caption = { "gui.tlst-private" },
-          state = false,
-          ref = { "private_checkbox" },
-          actions = {
-            on_checked_state_changed = { gui = "new_task", action = "update_assignee_dropdown" },
+          type = "flow",
+          { type = "checkbox", caption = { "gui.tlst-add-to-top" }, state = false, ref = { "add_to_top_checkbox" } },
+          { type = "empty-widget", style = "flib_horizontal_pusher" },
+          {
+            type = "checkbox",
+            caption = { "gui.tlst-private" },
+            state = false,
+            ref = { "private_checkbox" },
+            actions = {
+              on_checked_state_changed = { gui = "new_task", action = "update_assignee_dropdown" },
+            },
           },
         },
         {
@@ -137,7 +143,12 @@ function index.new(player, player_table, Parent)
             on_click = { gui = "new_task", action = "close" },
           },
         },
-        { type = "empty-widget", style = "flib_dialog_footer_drag_handle", ref = { "footer_drag_handle" } },
+        {
+          type = "empty-widget",
+          style = "flib_dialog_footer_drag_handle",
+          ref = { "footer_drag_handle" },
+          actions = { on_click = { gui = "new_task", transform = "handle_titlebar_click" } },
+        },
         {
           type = "button",
           style = "confirm_button",

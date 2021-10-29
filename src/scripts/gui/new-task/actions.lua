@@ -39,7 +39,7 @@ function actions.confirm(Gui)
     assignee = game.players[assignee_dropdown.items[selected_index]]
   end
 
-  task.new(refs.title_textfield.text, refs.description_textfield.text, owner, assignee)
+  task.new(refs.title_textfield.text, refs.description_textfield.text, owner, assignee, refs.add_to_top_checkbox.state)
 
   Gui:destroy()
 end

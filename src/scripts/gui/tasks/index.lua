@@ -78,12 +78,17 @@ function TasksGui:dispatch(msg, e)
 end
 
 --- @param task Task
-function TasksGui:add_task(task)
+function TasksGui:add_task(task, add_to_top)
   gui.add(self.refs.scroll_pane, {
     type = "flow",
     name = task.id,
     style_mods = { vertical_align = "center" },
-    { type = "button", style = "mini_button_aligned_to_text_vertically_when_centered", caption = "v" },
+    index = add_to_top and 1 or nil,
+    -- {
+    --   type = "button",
+    --   style = "mini_button_aligned_to_text_vertically_when_centered",
+    --   caption = "v",
+    -- },
     {
       type = "checkbox",
       caption = task.title,
