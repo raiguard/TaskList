@@ -87,10 +87,12 @@ gui.hook_events(function(e)
   end
 end)
 
-event.register("tlst-toggle-gui", function(e)
-  local player_table = global.players[e.player_index]
-  if player_table and player_table.guis.tasks then
-    player_table.guis.tasks:toggle()
+event.register({ "tlst-toggle-gui", defines.events.on_lua_shortcut }, function(e)
+  if (e.input_name or e.prototype_name) == "tlst-toggle-gui" then
+    local player_table = global.players[e.player_index]
+    if player_table and player_table.guis.tasks then
+      player_table.guis.tasks:toggle()
+    end
   end
 end)
 

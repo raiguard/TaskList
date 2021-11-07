@@ -34,7 +34,7 @@ function TasksGui:open()
     self.player.opened = self.refs.window
   end
 
-  -- self.player.set_shortcut_toggled("tlst-toggle-gui", true)
+  self.player.set_shortcut_toggled("tlst-toggle-gui", true)
 end
 
 function TasksGui:close()
@@ -50,7 +50,7 @@ function TasksGui:close()
     self.player.opened = nil
   end
 
-  -- self.player.set_shortcut_toggled("tlst-toggle-gui", false)
+  self.player.set_shortcut_toggled("tlst-toggle-gui", false)
 end
 
 function TasksGui:toggle()

@@ -1,5 +1,16 @@
+local data_util = require("__flib__.data-util")
+
 data:extend({
   { type = "custom-input", name = "tlst-toggle-gui", key_sequence = "CONTROL + T", action = "lua" },
+  {
+    type = "shortcut",
+    name = "tlst-toggle-gui",
+    localised_name = { "mod-name.TaskList" },
+    icon = { filename = data_util.empty_image, size = 1, scale = 16 },
+    toggleable = true,
+    associated_control_input = "tlst-toggle-gui",
+    action = "lua",
+  },
   {
     type = "sprite",
     name = "tlst_arrow_up",
