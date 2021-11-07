@@ -48,7 +48,7 @@ function task.new(title, description, owner, assignee, add_to_top)
       if player.force == owner then
         local TasksGui = util.get_gui(player_index, "tasks")
         if TasksGui then
-          TasksGui:add_task(self, add_to_top)
+          TasksGui:add_task(self, add_to_top and 1 or nil)
         end
       end
     end

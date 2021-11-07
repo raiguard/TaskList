@@ -81,6 +81,14 @@ function actions.expand_task(Gui, _, e)
   local elem = e.element
   local details_flow = elem.parent.parent.details_flow
 
+  -- TEMPORARY:
+  if e.control or e.shift then
+    local our_index = elem.parent.parent.get_index_in_parent()
+    local delta = e.shift and 1 or -1
+    elem.parent.parent.parent.swap_children(our_index + delta, our_index)
+    return
+  end
+
   details_flow.visible = not details_flow.visible
   if details_flow.visible then
     elem.sprite = "tlst_arrow_down"

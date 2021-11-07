@@ -78,23 +78,16 @@ function TasksGui:dispatch(msg, e)
 end
 
 --- @param Task Task
-function TasksGui:add_task(Task, add_to_top)
+--- @param index number
+function TasksGui:add_task(Task, index)
   gui.add(self.refs.scroll_pane, {
     type = "flow",
+    name = Task.id,
     direction = "vertical",
+    index = index or nil,
     {
       type = "flow",
-      name = Task.id,
       style_mods = { vertical_align = "center" },
-      index = add_to_top and 1 or nil,
-      {
-        type = "sprite-button",
-        style = "mini_button_aligned_to_text_vertically_when_centered",
-        sprite = "tlst_arrow_right",
-        actions = {
-          on_click = { gui = "tasks", action = "expand_task", task_id = Task.id },
-        },
-      },
       {
         type = "checkbox",
         caption = Task.title,
@@ -108,43 +101,43 @@ function TasksGui:add_task(Task, add_to_top)
       {
         type = "sprite-button",
         style = "mini_button_aligned_to_text_vertically_when_centered",
-        sprite = "tlst_arrow_up",
-      },
-      {
-        type = "sprite-button",
-        style = "mini_button_aligned_to_text_vertically_when_centered",
-        sprite = "tlst_arrow_down",
+        sprite = "tlst_arrow_right",
+        actions = {
+          on_click = { gui = "tasks", action = "expand_task", task_id = Task.id },
+        },
       },
     },
     {
       type = "flow",
       name = "details_flow",
-      -- style_mods = { left_margin = 20 },
-      -- direction = "vertical",
+      style_mods = { left_margin = 20 },
       visible = false,
-      { type = "button", style = "mini_button_aligned_to_text_vertically_when_centered" },
       {
         type = "flow",
         direction = "vertical",
         {
           type = "frame",
           style = "tlst_description_frame",
-          style_mods = { horizontally_stretchable = true, maximal_height = 200 },
+          style_mods = { horizontally_stretchable = true },
           visible = #Task.description > 0,
           {
-            type = "scroll-pane",
-            style = "flib_naked_scroll_pane",
-            -- FIXME: This width has to be hardcoded because stretching it breaks the label
-            style_mods = { padding = 6, width = 432 },
-            {
-              type = "label",
-              style = "label_with_left_padding",
-              style_mods = { single_line = false },
-              caption = Task.description,
-            },
+            type = "label",
+            style = "label_with_left_padding",
+            style_mods = { single_line = false },
+            caption = Task.description,
           },
         },
         { type = "checkbox", caption = "Subtasks will go here", state = false },
+      },
+      {
+        type = "flow",
+        direction = "vertical",
+        { type = "button", style = "mini_button_aligned_to_text_vertically_when_centered" },
+        {
+          type = "sprite-button",
+          style = "mini_button_aligned_to_text_vertically_when_centered",
+          sprite = "utility/add",
+        },
       },
     },
   })
