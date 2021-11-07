@@ -73,3 +73,13 @@ styles.tlst_red_dialog_button = {
   hovered_graphical_set = styles.red_button.hovered_graphical_set,
   clicked_graphical_set = styles.red_button.clicked_graphical_set,
 }
+
+styles.tlst_tasks_scroll_pane = {
+  type = "scroll_pane_style",
+  parent = "flib_naked_scroll_pane",
+  top_padding = 2,
+  vertical_flow_style = {
+    type = "vertical_flow_style",
+    vertical_spacing = 0,
+  },
+}

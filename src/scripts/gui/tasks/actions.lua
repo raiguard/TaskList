@@ -39,6 +39,16 @@ function actions.pin(Gui)
 end
 
 --- @param Gui TasksGui
+--- @param e on_gui_checked_state_changed
+function actions.toggle_show_completed(Gui, _, e)
+  local state = Gui.state
+  state.show_completed = not state.show_completed
+  e.element.state = state.show_completed
+
+  Gui:update_show_completed()
+end
+
+--- @param Gui TasksGui
 function actions.edit_task(Gui, msg)
   if not util.get_gui(Gui.player.index, "edit_task") then
     local pinned = Gui.state.pinned
@@ -68,10 +78,13 @@ end
 function actions.toggle_task_completed(Gui, msg, e)
   local task_id = msg.task_id
 
-  local task = global.tasks[task_id]
-  if task then
-    task.completed = not task.completed
-    e.element.state = task.completed
+  local Task = global.tasks[task_id]
+  if Task then
+    Gui:delete_task(Task)
+
+    Task.completed = not Task.completed
+
+    Gui:add_task(Task)
   end
 end
 

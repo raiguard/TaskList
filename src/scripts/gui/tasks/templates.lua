@@ -1,5 +1,18 @@
 local templates = {}
 
+--- @param name string
+--- @param visible boolean|nil
+function templates.checkboxes_flow(name, visible)
+  return {
+    type = "flow",
+    direction = "vertical",
+    ref = { name .. "_flow" },
+    { type = "flow", name = "incompleted", direction = "vertical" },
+    { type = "flow", name = "completed", direction = "vertical", visible = false },
+    visible = visible,
+  }
+end
+
 --- @param sprite string
 --- @param tooltip LocalisedString|nil
 --- @param action table|nil

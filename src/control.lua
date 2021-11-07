@@ -25,6 +25,13 @@
     - Subtasks are just pointers to other tasks, so they support the full feature suite, including more subtasks
     - Subtasks may have a different assignee from their parent
   - Import and export will use the standard method
+  - Each owner (force, player, or task) will have a `tasks` array containing the tasks to show
+    - Task IDs or actual references?
+    - This will determine the order in each owner's list
+    - Subtasks are also stored in the same manner, but are in a `subtasks` table instead
+  - When a task is completed, it is added to its owners `completed_tasks` array at the front
+    - Completed tasks will be listed after active tasks, in the order that they were completed
+    - Store completion time?
 ]]
 
 local event = require("__flib__.event")

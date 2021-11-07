@@ -83,6 +83,9 @@ end
 --- @param index number
 function TasksGui:add_task(Task, index)
   local flow = Task.owner.object_name == "LuaForce" and self.refs.force_flow or self.refs.private_flow
+  --- @type LuaGuiElement
+  local flow = Task.completed and flow.completed or flow.incompleted
+
   gui.add(flow, {
     type = "flow",
     name = Task.id,
@@ -161,8 +164,10 @@ end
 
 --- @param Task Task
 function TasksGui:update_task(Task)
-  --- @type LuaGuiElement
   local flow = Task.owner.object_name == "LuaForce" and self.refs.force_flow or self.refs.private_flow
+  --- @type LuaGuiElement
+  local flow = Task.completed and flow.completed or flow.incompleted
+
   local row = flow[tostring(Task.id)]
   if row then
     local assignee_name = Task.assignee and Task.assignee.name or nil
@@ -183,12 +188,22 @@ end
 
 --- @param Task Task
 function TasksGui:delete_task(Task)
-  --- @type LuaGuiElement
   local flow = Task.owner.object_name == "LuaForce" and self.refs.force_flow or self.refs.private_flow
+  --- @type LuaGuiElement
+  local flow = Task.completed and flow.completed or flow.incompleted
+
   local row = flow[tostring(Task.id)]
   if row then
     row.destroy()
   end
+end
+
+function TasksGui:update_show_completed()
+  local show_completed = self.state.show_completed
+
+  -- TODO: Subtasks
+  self.refs.force_flow.completed.visible = show_completed ---@diagnostic disable-line
+  self.refs.private_flow.completed.visible = show_completed --- @diagnostic disable-line
 end
 
 -- BOOTSTRAP
@@ -241,7 +256,9 @@ function index.new(player, player_table)
             style_mods = { left_margin = 8 },
             caption = { "gui.tlst-show-completed" },
             state = false,
-            ref = { "show_completed_checkbox" },
+            actions = {
+              on_checked_state_changed = { gui = "tasks", action = "toggle_show_completed" },
+            },
           },
           { type = "empty-widget", style = "flib_horizontal_pusher" },
           {
@@ -268,8 +285,8 @@ function index.new(player, player_table)
           type = "scroll-pane",
           style = "flib_naked_scroll_pane",
           ref = { "scroll_pane" },
-          { type = "flow", direction = "vertical", ref = { "force_flow" } },
-          { type = "flow", direction = "vertical", ref = { "private_flow" }, visible = false },
+          templates.checkboxes_flow("force"),
+          templates.checkboxes_flow("private", false),
         },
       },
     },
@@ -287,6 +304,7 @@ function index.new(player, player_table)
     state = {
       ignore_close = false,
       pinned = false,
+      show_completed = false,
       visible = false,
     },
   }
