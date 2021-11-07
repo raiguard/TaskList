@@ -65,3 +65,11 @@ styles.tlst_description_frame = {
     shadow = default_inner_shadow,
   },
 }
+
+styles.tlst_red_dialog_button = {
+  type = "button_style",
+  parent = "dialog_button",
+  default_graphical_set = styles.red_button.default_graphical_set,
+  hovered_graphical_set = styles.red_button.hovered_graphical_set,
+  clicked_graphical_set = styles.red_button.clicked_graphical_set,
+}

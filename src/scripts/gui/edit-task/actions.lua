@@ -39,7 +39,26 @@ function actions.confirm(Gui)
     assignee = game.players[assignee_dropdown.items[selected_index]]
   end
 
-  task.new(refs.title_textfield.text, refs.description_textfield.text, owner, assignee, refs.add_to_top_checkbox.state)
+  local Task = Gui.state.Task
+  if Task then
+    Task:update(refs.title_textfield.text, refs.description_textfield.text, assignee)
+  else
+    task.new(
+      refs.title_textfield.text,
+      refs.description_textfield.text,
+      owner,
+      assignee,
+      refs.add_to_top_checkbox.state
+    )
+  end
+
+  Gui:destroy()
+end
+
+--- @param Gui EditTaskGui
+function actions.delete(Gui)
+  local Task = Gui.state.Task
+  Task:delete()
 
   Gui:destroy()
 end

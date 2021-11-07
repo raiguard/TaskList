@@ -13,7 +13,7 @@ local actions = require("actions")
 --- @field add_to_top_checkbox LuaGuiElement
 --- @field private_checkbox LuaGuiElement
 --- @field assignee_dropdown LuaGuiElement
---- @field footer_drag_handle LuaGuiElement
+--- @field footer_flow LuaGuiElement
 
 --- @class EditTaskGui
 local EditTaskGui = {}
@@ -55,9 +55,12 @@ local index = {}
 --- @param player LuaPlayer
 --- @param player_table PlayerTable
 --- @param Parent TasksGui
-function index.new(player, player_table, Parent)
+--- @param Task Task
+function index.new(player, player_table, Parent, Task)
   local players = { { "gui.tlst-unassigned" } }
   local force = player.force
+  local assignee_index = Task and Task.assignee and Task.assignee.index or 0
+  local assignee_selection_index = 1
   local player_selection_index = 0
 
   for player_index, other_player in pairs(game.players) do
@@ -66,13 +69,26 @@ function index.new(player, player_table, Parent)
       if player_index == player.index then
         player_selection_index = #players
       end
+      if assignee_index == player_index then
+        assignee_selection_index = #players
+      end
     end
   end
+
+  local title_caption
+  if Task then
+    title_caption = { "gui.tlst-edit-task" }
+  else
+    title_caption = { "gui.tlst-new-task" }
+  end
+
+  Task = Task or {}
 
   --- @type EditTaskGuiRefs
   local refs = gui.build(player.gui.screen, {
     {
       type = "frame",
+      -- style_mods = { width = 430 },
       direction = "vertical",
       ref = { "window" },
       actions = {
@@ -85,7 +101,7 @@ function index.new(player, player_table, Parent)
         actions = {
           on_click = { gui = "edit_task", transform = "handle_titlebar_click" },
         },
-        { type = "label", style = "frame_title", caption = { "gui.tlst-edit-task" }, ignored_by_interaction = true },
+        { type = "label", style = "frame_title", caption = title_caption, ignored_by_interaction = true },
         { type = "empty-widget", style = "flib_dialog_titlebar_drag_handle", ignored_by_interaction = true },
       },
       {
@@ -97,16 +113,19 @@ function index.new(player, player_table, Parent)
           type = "textfield",
           style = "flib_widthless_textfield",
           style_mods = { horizontally_stretchable = true },
+          text = Task.title,
           ref = { "title_textfield" },
         },
         { type = "label", caption = { "gui.tlst-description" } },
         {
           type = "text-box",
-          style_mods = { height = 150, width = 300 },
+          style_mods = { height = 200, width = 400 },
+          text = Task.description,
           ref = { "description_textfield" },
         },
         {
           type = "flow",
+          visible = not Task.title,
           { type = "checkbox", caption = { "gui.tlst-add-to-top" }, state = false, ref = { "add_to_top_checkbox" } },
           { type = "empty-widget", style = "flib_horizontal_pusher" },
           {
@@ -127,7 +146,8 @@ function index.new(player, player_table, Parent)
           {
             type = "drop-down",
             items = players,
-            selected_index = 1,
+            selected_index = assignee_selection_index,
+            enabled = not Task.owner or Task.owner.object_name == "LuaForce",
             ref = { "assignee_dropdown" },
           },
         },
@@ -135,6 +155,8 @@ function index.new(player, player_table, Parent)
       {
         type = "flow",
         style = "dialog_buttons_horizontal_flow",
+        actions = { on_click = { gui = "edit_task", transform = "handle_titlebar_click" } },
+        ref = { "footer_flow" },
         {
           type = "button",
           style = "back_button",
@@ -143,12 +165,20 @@ function index.new(player, player_table, Parent)
             on_click = { gui = "edit_task", action = "close" },
           },
         },
-        {
+        { type = "empty-widget", style = "flib_dialog_footer_drag_handle", ignored_by_interaction = true },
+        Task.title and {
+          type = "button",
+          style = "tlst_red_dialog_button",
+          caption = { "gui.delete" },
+          actions = {
+            on_click = { gui = "edit_task", action = "delete" },
+          },
+        } or {},
+        Task.title and {
           type = "empty-widget",
           style = "flib_dialog_footer_drag_handle",
-          ref = { "footer_drag_handle" },
-          actions = { on_click = { gui = "edit_task", transform = "handle_titlebar_click" } },
-        },
+          ignored_by_interaction = true,
+        } or {},
         {
           type = "button",
           style = "confirm_button",
@@ -163,7 +193,7 @@ function index.new(player, player_table, Parent)
 
   refs.window.force_auto_center()
   refs.titlebar_flow.drag_target = refs.window
-  refs.footer_drag_handle.drag_target = refs.window
+  refs.footer_flow.drag_target = refs.window
 
   if not Parent.state.pinned then
     player.opened = refs.window
@@ -177,6 +207,8 @@ function index.new(player, player_table, Parent)
     refs = refs,
     state = {
       player_selection_index = player_selection_index,
+      --- @type Task|nil
+      Task = Task.title and Task or nil,
     },
   }
 

@@ -3,6 +3,23 @@ local util = require("scripts.util")
 --- @class Task
 local Task = {}
 
+--- Update the task info and refresh all GUIs
+--- @param title string
+--- @param description string
+--- @param assignee LuaPlayer|nil
+function Task:update(title, description, assignee)
+  self.title = title
+  self.description = description
+  self.assignee = assignee
+
+  for player_index in pairs(global.players) do
+    local Gui = util.get_gui(player_index, "tasks")
+    if Gui then
+      Gui:update_task(self)
+    end
+  end
+end
+
 --- Delete the task and remove it from all GUIs.
 function Task:delete()
   global.tasks[self.id] = nil

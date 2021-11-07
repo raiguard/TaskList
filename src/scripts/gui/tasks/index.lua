@@ -99,7 +99,6 @@ function TasksGui:add_task(Task, index)
       },
       {
         type = "label",
-        name = "assignee_label",
         style = "info_label",
         style_mods = { right_margin = 8 },
         caption = Task.assignee and Task.assignee.name or nil,
@@ -155,6 +154,26 @@ function TasksGui:add_task(Task, index)
       },
     },
   })
+end
+
+--- @param Task Task
+function TasksGui:update_task(Task)
+  --- @type LuaGuiElement
+  local row = self.refs.scroll_pane[tostring(Task.id)]
+  if row then
+    local assignee_name = Task.assignee and Task.assignee.name or nil
+    gui.update(row, {
+      {
+        { elem_mods = { caption = Task.title } },
+        { elem_mods = { caption = assignee_name, visible = assignee_name and true or false } },
+      },
+      {
+        {
+          { elem_mods = { caption = Task.description } },
+        },
+      },
+    })
+  end
 end
 
 --- @param task_id number
@@ -225,7 +244,7 @@ function index.new(player, player_table)
             sprite = "utility/add",
             tooltip = { "gui.tlst-edit-task" },
             actions = {
-              on_click = { gui = "tasks", action = "create_task" },
+              on_click = { gui = "tasks", action = "edit_task" },
             },
           },
         },
@@ -233,6 +252,7 @@ function index.new(player, player_table)
           type = "scroll-pane",
           style = "flib_naked_scroll_pane",
           ref = { "scroll_pane" },
+          -- TODO: Separate flows for private and public tasks
         },
       },
     },
