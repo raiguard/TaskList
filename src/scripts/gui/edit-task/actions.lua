@@ -1,4 +1,5 @@
 local task = require("scripts.task")
+local util = require("scripts.util")
 
 local actions = {}
 
@@ -28,6 +29,12 @@ end
 --- @param Gui EditTaskGui
 function actions.confirm(Gui)
   local refs = Gui.refs
+
+  local title = refs.title_textfield.text
+  if #title == 0 then
+    util.error_text(Gui.player, { "message.tlst-task-must-have-title" })
+    return
+  end
 
   local is_private = refs.private_checkbox.state
   local owner = is_private and Gui.player or Gui.player.force

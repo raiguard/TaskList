@@ -1,5 +1,13 @@
 local util = {}
 
+--- Create a local flying text with an error sound.
+--- @param player LuaPlayer
+--- @param text LocalisedString
+function util.error_text(player, text)
+  player.create_local_flying_text({ create_at_cursor = true, text = text })
+  player.play_sound({ path = "utility/cannot_build" })
+end
+
 --- Safely retrieve the GUI for the given player.
 --- @param player_index number
 --- @param gui_name string
