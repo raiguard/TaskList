@@ -84,7 +84,7 @@ function actions.toggle_task_completed(Gui, msg, e)
 
     Task.completed = not Task.completed
 
-    Gui:add_task(Task)
+    Gui:add_task(Task, Task.completed and 1 or nil)
   end
 end
 
