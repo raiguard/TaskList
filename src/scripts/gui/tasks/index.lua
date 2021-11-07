@@ -173,6 +173,7 @@ function TasksGui:update_task(Task)
       },
       {
         {
+          elem_mods = { visible = #Task.description > 0 },
           { elem_mods = { caption = Task.description } },
         },
       },
