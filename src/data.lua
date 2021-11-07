@@ -53,7 +53,8 @@ styles.tlst_inside_shallow_frame_with_spacing = {
 
 styles.tlst_description_frame = {
   type = "frame_style",
-  padding = 0,
+  padding = 6,
+  top_padding = 4,
   graphical_set = {
     base = {
       position = { 85, 0 },
