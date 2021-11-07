@@ -108,7 +108,7 @@ function index.new(player, player_table, Parent, Task)
         type = "frame",
         style = "tlst_inside_shallow_frame_with_spacing",
         direction = "vertical",
-        { type = "label", caption = { "gui.tlst-name" } },
+        { type = "label", caption = { "gui.tlst-title" } },
         {
           type = "textfield",
           style = "flib_widthless_textfield",
