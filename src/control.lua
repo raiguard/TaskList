@@ -36,7 +36,7 @@ local gui = require("__flib__.gui")
 local migration = require("__flib__.migration")
 
 local migrations = require("scripts.migrations")
-local new_task_gui = require("scripts.gui.new-task.index")
+local edit_task_gui = require("scripts.gui.edit-task.index")
 local player_data = require("scripts.player-data")
 local task = require("scripts.task")
 local tasks_gui = require("scripts.gui.tasks.index")
@@ -63,8 +63,8 @@ event.on_load(function()
 
   for _, player_table in pairs(global.players) do
     tasks_gui.load(player_table.guis.tasks)
-    if player_table.guis.new_task then
-      new_task_gui.load(player_table.guis.new_task)
+    if player_table.guis.edit_task then
+      edit_task_gui.load(player_table.guis.edit_task)
     end
   end
 end)

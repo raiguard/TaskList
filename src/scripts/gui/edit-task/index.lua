@@ -5,7 +5,7 @@ local actions = require("actions")
 
 -- GUI
 
---- @class NewTaskGuiRefs
+--- @class EditTaskGuiRefs
 --- @field window LuaGuiElement
 --- @field titlebar_flow LuaGuiElement
 --- @field title_textfield LuaGuiElement
@@ -15,24 +15,24 @@ local actions = require("actions")
 --- @field assignee_dropdown LuaGuiElement
 --- @field footer_drag_handle LuaGuiElement
 
---- @class NewTaskGui
-local NewTaskGui = {}
+--- @class EditTaskGui
+local EditTaskGui = {}
 
-NewTaskGui.actions = actions
+EditTaskGui.actions = actions
 
-function NewTaskGui:destroy()
+function EditTaskGui:destroy()
   local window = self.refs.window
   if window and window.valid then
     self.refs.window.destroy()
   end
-  self.player_table.guis.new_task = nil
+  self.player_table.guis.edit_task = nil
 
   if not self.Parent.state.pinned then
     self.player.opened = self.Parent.refs.window
   end
 end
 
-function NewTaskGui:dispatch(msg, e)
+function EditTaskGui:dispatch(msg, e)
   local transform = msg.transform
   if transform then
     if transform == "handle_titlebar_click" and e.button == defines.mouse_button_type.middle then
@@ -69,23 +69,23 @@ function index.new(player, player_table, Parent)
     end
   end
 
-  --- @type NewTaskGuiRefs
+  --- @type EditTaskGuiRefs
   local refs = gui.build(player.gui.screen, {
     {
       type = "frame",
       direction = "vertical",
       ref = { "window" },
       actions = {
-        on_closed = { gui = "new_task", action = "close" },
+        on_closed = { gui = "edit_task", action = "close" },
       },
       {
         type = "flow",
         style = "flib_titlebar_flow",
         ref = { "titlebar_flow" },
         actions = {
-          on_click = { gui = "new_task", transform = "handle_titlebar_click" },
+          on_click = { gui = "edit_task", transform = "handle_titlebar_click" },
         },
-        { type = "label", style = "frame_title", caption = { "gui.tlst-new-task" }, ignored_by_interaction = true },
+        { type = "label", style = "frame_title", caption = { "gui.tlst-edit-task" }, ignored_by_interaction = true },
         { type = "empty-widget", style = "flib_dialog_titlebar_drag_handle", ignored_by_interaction = true },
       },
       {
@@ -115,7 +115,7 @@ function index.new(player, player_table, Parent)
             state = false,
             ref = { "private_checkbox" },
             actions = {
-              on_checked_state_changed = { gui = "new_task", action = "update_assignee_dropdown" },
+              on_checked_state_changed = { gui = "edit_task", action = "update_assignee_dropdown" },
             },
           },
         },
@@ -140,21 +140,21 @@ function index.new(player, player_table, Parent)
           style = "back_button",
           caption = { "gui.cancel" },
           actions = {
-            on_click = { gui = "new_task", action = "close" },
+            on_click = { gui = "edit_task", action = "close" },
           },
         },
         {
           type = "empty-widget",
           style = "flib_dialog_footer_drag_handle",
           ref = { "footer_drag_handle" },
-          actions = { on_click = { gui = "new_task", transform = "handle_titlebar_click" } },
+          actions = { on_click = { gui = "edit_task", transform = "handle_titlebar_click" } },
         },
         {
           type = "button",
           style = "confirm_button",
           caption = { "gui.confirm" },
           actions = {
-            on_click = { gui = "new_task", action = "confirm" },
+            on_click = { gui = "edit_task", action = "confirm" },
           },
         },
       },
@@ -169,7 +169,7 @@ function index.new(player, player_table, Parent)
     player.opened = refs.window
   end
 
-  --- @type NewTaskGui
+  --- @type EditTaskGui
   local self = {
     Parent = Parent,
     player = player,
@@ -180,14 +180,14 @@ function index.new(player, player_table, Parent)
     },
   }
 
-  setmetatable(self, { __index = NewTaskGui })
+  setmetatable(self, { __index = EditTaskGui })
 
-  player_table.guis.new_task = self
+  player_table.guis.edit_task = self
 end
 
---- @param Gui NewTaskGui
+--- @param Gui EditTaskGui
 function index.load(Gui)
-  setmetatable(Gui, { __index = NewTaskGui })
+  setmetatable(Gui, { __index = EditTaskGui })
 end
 
 return index

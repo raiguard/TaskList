@@ -1,4 +1,4 @@
-local new_task_gui = require("scripts.gui.new-task.index")
+local edit_task_gui = require("scripts.gui.edit-task.index")
 local task = require("scripts.task")
 local util = require("scripts.util")
 
@@ -41,12 +41,12 @@ end
 
 --- @param Gui TasksGui
 function actions.create_task(Gui)
-  if not util.get_gui(Gui.player.index, "new_task") then
+  if not util.get_gui(Gui.player.index, "edit_task") then
     local pinned = Gui.state.pinned
     if not pinned then
       Gui.state.ignore_close = true
     end
-    new_task_gui.new(Gui.player, Gui.player_table, Gui)
+    edit_task_gui.new(Gui.player, Gui.player_table, Gui)
   end
 end
 

@@ -2,17 +2,17 @@ local task = require("scripts.task")
 
 local actions = {}
 
---- @param Gui NewTaskGui
+--- @param Gui EditTaskGui
 function actions.close(Gui)
   Gui:destroy()
 end
 
---- @param Gui NewTaskGui
+--- @param Gui EditTaskGui
 function actions.recenter(Gui)
   Gui.refs.window.force_auto_center()
 end
 
---- @param Gui NewTaskGui
+--- @param Gui EditTaskGui
 function actions.update_assignee_dropdown(Gui)
   local dropdown = Gui.refs.assignee_dropdown
 
@@ -25,7 +25,7 @@ function actions.update_assignee_dropdown(Gui)
   end
 end
 
---- @param Gui NewTaskGui
+--- @param Gui EditTaskGui
 function actions.confirm(Gui)
   local refs = Gui.refs
 
