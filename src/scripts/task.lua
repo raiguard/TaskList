@@ -27,7 +27,7 @@ function Task:delete()
   for player_index in pairs(global.players) do
     local Gui = util.get_gui(player_index, "tasks")
     if Gui then
-      Gui:delete_task(self.id)
+      Gui:delete_task(self)
     end
   end
 end

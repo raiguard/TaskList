@@ -19,15 +19,11 @@
   - Each task will have an entirely unique ID
     - Store the next ID in the root of `global`
   - Tasks will be stored in a one-dimensional table keyed by task ID
-  - Player `tasks` tables will simply be lists of task IDs
-  - Changing task ownership is facilitated simply by manipulating these IDs
-  - However, this poses a problem of reverse lookup - we will have to keep a table of task -> locations as well
-  - Each task only has one owner?
+  - Tasks can be owned by the force, or by the player
+    - Player tasks will be shown separately from force tasks
   - A task can have infinite subtasks
     - Subtasks are just pointers to other tasks, so they support the full feature suite, including more subtasks
-    - Subtasks are only displayed by their titles in the tasks list
-  - Any task can be opened in a new GUI to view its details, including subtasks
-  - Investigate PRing `swap_children()` and `move_child()` functions to the LuaGuiElement API
+    - Subtasks may have a different assignee from their parent
   - Import and export will use the standard method
 ]]
 

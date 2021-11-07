@@ -1,5 +1,4 @@
 local edit_task_gui = require("scripts.gui.edit-task.index")
-local task = require("scripts.task")
 local util = require("scripts.util")
 
 local actions = {}
@@ -96,6 +95,15 @@ function actions.expand_task(Gui, _, e)
   else
     elem.sprite = "tlst_arrow_right"
   end
+end
+
+--- @param Gui TasksGui
+--- @param e on_gui_switch_state_changed
+function actions.toggle_tasks_mode(Gui, _, e)
+  local visible = e.element.switch_state == "left" and "force" or "private"
+
+  Gui.refs.force_flow.visible = visible == "force"
+  Gui.refs.private_flow.visible = visible == "private"
 end
 
 return actions

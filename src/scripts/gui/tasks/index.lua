@@ -10,6 +10,8 @@ local templates = require("templates")
 --- @field titlebar_flow LuaGuiElement
 --- @field pin_button LuaGuiElement
 --- @field scroll_pane LuaGuiElement
+--- @field force_flow LuaGuiElement
+--- @field private_flow LuaGuiElement
 
 --- @class TasksGui
 local TasksGui = {}
@@ -80,7 +82,8 @@ end
 --- @param Task Task
 --- @param index number
 function TasksGui:add_task(Task, index)
-  gui.add(self.refs.scroll_pane, {
+  local flow = Task.owner.object_name == "LuaForce" and self.refs.force_flow or self.refs.private_flow
+  gui.add(flow, {
     type = "flow",
     name = Task.id,
     direction = "vertical",
@@ -159,7 +162,8 @@ end
 --- @param Task Task
 function TasksGui:update_task(Task)
   --- @type LuaGuiElement
-  local row = self.refs.scroll_pane[tostring(Task.id)]
+  local flow = Task.owner.object_name == "LuaForce" and self.refs.force_flow or self.refs.private_flow
+  local row = flow[tostring(Task.id)]
   if row then
     local assignee_name = Task.assignee and Task.assignee.name or nil
     gui.update(row, {
@@ -176,10 +180,11 @@ function TasksGui:update_task(Task)
   end
 end
 
---- @param task_id number
-function TasksGui:delete_task(task_id)
+--- @param Task Task
+function TasksGui:delete_task(Task)
   --- @type LuaGuiElement
-  local row = self.refs.scroll_pane[tostring(task_id)]
+  local flow = Task.owner.object_name == "LuaForce" and self.refs.force_flow or self.refs.private_flow
+  local row = flow[tostring(Task.id)]
   if row then
     row.destroy()
   end
@@ -239,6 +244,16 @@ function index.new(player, player_table)
           },
           { type = "empty-widget", style = "flib_horizontal_pusher" },
           {
+            type = "switch",
+            left_label_caption = { "gui.tlst-force" },
+            right_label_caption = { "gui.tlst-private" },
+            switch_state = "left",
+            actions = {
+              on_switch_state_changed = { gui = "tasks", action = "toggle_tasks_mode" },
+            },
+          },
+          { type = "empty-widget", style_mods = { width = 20 } },
+          {
             type = "sprite-button",
             style = "flib_tool_button_light_green",
             sprite = "utility/add",
@@ -252,7 +267,8 @@ function index.new(player, player_table)
           type = "scroll-pane",
           style = "flib_naked_scroll_pane",
           ref = { "scroll_pane" },
-          -- TODO: Separate flows for private and public tasks
+          { type = "flow", direction = "vertical", ref = { "force_flow" } },
+          { type = "flow", direction = "vertical", ref = { "private_flow" }, visible = false },
         },
       },
     },
