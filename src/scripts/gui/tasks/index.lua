@@ -275,7 +275,7 @@ function index.new(player, player_table)
             type = "sprite-button",
             style = "flib_tool_button_light_green",
             sprite = "utility/add",
-            tooltip = { "gui.tlst-edit-task" },
+            tooltip = { "gui.tlst-new-task" },
             actions = {
               on_click = { gui = "tasks", action = "edit_task" },
             },

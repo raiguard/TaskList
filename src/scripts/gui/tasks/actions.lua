@@ -60,18 +60,6 @@ function actions.edit_task(Gui, msg)
   end
 end
 
--- TODO: Tasks will be deleted from their edit GUI
--- --- @param Gui TasksGui
--- --- @param msg table
--- function actions.delete_task(Gui, msg)
---   local task_id = msg.task_id
-
---   local task = global.tasks[task_id]
---   if task then
---     task:delete()
---   end
--- end
-
 --- @param Gui TasksGui
 --- @param msg table
 --- @param e on_gui_checked_state_changed
