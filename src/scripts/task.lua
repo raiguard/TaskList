@@ -51,6 +51,23 @@ function Task:toggle_completed()
   end)
 end
 
+--- @param delta number
+function Task:move(delta)
+  local tasks_table = self.owner_table[self.completed and "completed_tasks" or "tasks"]
+  local index = table.find(tasks_table, self.id)
+  if index then
+    if index + delta > 0 and index + delta <= #tasks_table then
+      tasks_table[index] = tasks_table[index + delta]
+      tasks_table[index + delta] = self.id
+
+      self:update_guis(function(Gui)
+        Gui:move_task(self, delta)
+      end)
+    end
+  end
+end
+
+--- @param callback fun(Gui: TasksGui)
 function Task:update_guis(callback)
   local players = {}
   if self.owner.object_name == "LuaForce" then

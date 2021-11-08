@@ -103,4 +103,17 @@ function actions.toggle_tasks_mode(Gui, _, e)
   Gui.refs.private_flow.visible = visible == "private"
 end
 
+--- @param Gui TasksGui
+--- @param msg table
+--- @param e on_gui_click
+function actions.move_task(Gui, msg, e)
+  local delta = msg.delta
+  local task_id = msg.task_id
+
+  local Task = global.tasks[task_id]
+  if Task then
+    Task:move(delta)
+  end
+end
+
 return actions

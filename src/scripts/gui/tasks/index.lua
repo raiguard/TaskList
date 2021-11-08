@@ -68,6 +68,16 @@ function TasksGui:dispatch(msg, e)
   if transform then
     if transform == "handle_titlebar_click" and e.button == defines.mouse_button_type.middle then
       msg.action = "recenter"
+    elseif transform == "handle_expand_click" then
+      if e.shift then
+        msg.action = "move_task"
+        msg.delta = -1
+      elseif e.control then
+        msg.action = "move_task"
+        msg.delta = 1
+      else
+        msg.action = "expand_task"
+      end
     end
   end
 
@@ -126,9 +136,9 @@ function TasksGui:add_task(Task, index, completed)
         type = "sprite-button",
         style = "mini_button_aligned_to_text_vertically_when_centered",
         sprite = "tlst_arrow_right",
-        tooltip = { "gui.tlst-toggle-details" },
+        tooltip = { "gui.tlst-expand-tooltip" },
         actions = {
-          on_click = { gui = "tasks", action = "expand_task", task_id = Task.id },
+          on_click = { gui = "tasks", transform = "handle_expand_click", task_id = Task.id },
         },
       },
     },
@@ -201,6 +211,18 @@ function TasksGui:delete_task(Task, completed)
   local row = flow[tostring(Task.id)]
   if row then
     row.destroy()
+  end
+end
+
+--- @param Task Task
+--- @param delta number
+function TasksGui:move_task(Task, delta)
+  local flow = Task.owner.object_name == "LuaForce" and self.refs.force_flow or self.refs.private_flow
+  --- @type LuaGuiElement
+  local flow = Task.completed and flow.completed or flow.incompleted
+  local row = flow[tostring(Task.id)]
+  if row then
+    flow.swap_children(row.get_index_in_parent(), row.get_index_in_parent() + delta)
   end
 end
 
