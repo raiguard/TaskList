@@ -81,10 +81,13 @@ end
 
 --- @param Task Task
 --- @param index number
-function TasksGui:add_task(Task, index)
+function TasksGui:add_task(Task, index, completed)
+  if completed == nil then
+    completed = Task.completed
+  end
   local flow = Task.owner.object_name == "LuaForce" and self.refs.force_flow or self.refs.private_flow
   --- @type LuaGuiElement
-  local flow = Task.completed and flow.completed or flow.incompleted
+  local flow = completed and flow.completed or flow.incompleted
 
   gui.add(flow, {
     type = "flow",
@@ -98,7 +101,7 @@ function TasksGui:add_task(Task, index)
         type = "checkbox",
         style_mods = { horizontally_stretchable = true, horizontally_squashable = true },
         caption = Task.title,
-        state = Task.completed,
+        state = completed,
         actions = {
           on_checked_state_changed = { gui = "tasks", action = "toggle_task_completed", task_id = Task.id },
         },
@@ -187,10 +190,13 @@ function TasksGui:update_task(Task)
 end
 
 --- @param Task Task
-function TasksGui:delete_task(Task)
+function TasksGui:delete_task(Task, completed)
+  if completed == nil then
+    completed = Task.completed
+  end
   local flow = Task.owner.object_name == "LuaForce" and self.refs.force_flow or self.refs.private_flow
   --- @type LuaGuiElement
-  local flow = Task.completed and flow.completed or flow.incompleted
+  local flow = completed and flow.completed or flow.incompleted
 
   local row = flow[tostring(Task.id)]
   if row then
@@ -201,7 +207,6 @@ end
 function TasksGui:update_show_completed()
   local show_completed = self.state.show_completed
 
-  -- TODO: Subtasks
   self.refs.force_flow.completed.visible = show_completed ---@diagnostic disable-line
   self.refs.private_flow.completed.visible = show_completed --- @diagnostic disable-line
 end

@@ -1,3 +1,5 @@
+local table = require("__flib__.table")
+
 local util = {}
 
 --- Create a local flying text with an error sound.
@@ -20,6 +22,10 @@ function util.get_gui(player_index, gui_name)
       return Gui
     end
   end
+end
+
+function util.remove_task(source, task_id)
+  table.remove(source, table.find(source, task_id))
 end
 
 return util

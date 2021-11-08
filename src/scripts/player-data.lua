@@ -7,8 +7,10 @@ local player_data = {}
 function player_data.init(player)
   --- @class PlayerTable
   global.players[player.index] = {
+    completed_tasks = {},
     flags = {},
     guis = {},
+    tasks = {},
   }
 end
 

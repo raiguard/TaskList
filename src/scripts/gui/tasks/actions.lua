@@ -68,11 +68,7 @@ function actions.toggle_task_completed(Gui, msg, e)
 
   local Task = global.tasks[task_id]
   if Task then
-    Gui:delete_task(Task)
-
-    Task.completed = not Task.completed
-
-    Gui:add_task(Task, Task.completed and 1 or nil)
+    Task:toggle_completed()
   end
 end
 

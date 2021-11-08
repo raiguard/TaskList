@@ -1,3 +1,5 @@
+local table = require("__flib__.table")
+
 local util = require("scripts.util")
 
 --- @class Task
@@ -12,22 +14,59 @@ function Task:update(title, description, assignee)
   self.description = description
   self.assignee = assignee
 
-  for player_index in pairs(global.players) do
-    local Gui = util.get_gui(player_index, "tasks")
-    if Gui then
-      Gui:update_task(self)
-    end
-  end
+  self:update_guis(function(Gui)
+    Gui:update_task(self)
+  end)
 end
 
 --- Delete the task and remove it from all GUIs.
 function Task:delete()
   global.tasks[self.id] = nil
 
-  for player_index in pairs(global.players) do
+  local owner_table = self.owner_table
+  local tasks_table = owner_table[self.completed and "completed_tasks" or "tasks"]
+  table.remove(tasks_table, table.find(tasks_table, self.id))
+
+  self:update_guis(function(Gui)
+    Gui:delete_task(self)
+  end)
+end
+
+function Task:toggle_completed()
+  local owner_table = self.owner_table
+
+  self.completed = not self.completed
+
+  if self.completed then
+    util.remove_task(owner_table.tasks, self.id)
+    table.insert(owner_table.completed_tasks, 1, self.id)
+  else
+    util.remove_task(owner_table.completed_tasks, self.id)
+    table.insert(owner_table.tasks, self.id)
+  end
+
+  self:update_guis(function(Gui)
+    Gui:delete_task(self, not self.completed)
+    Gui:add_task(self, self.completed and 1 or nil)
+  end)
+end
+
+function Task:update_guis(callback)
+  local players = {}
+  if self.owner.object_name == "LuaForce" then
+    for player_index, player in pairs(game.players) do
+      if player.force.index == self.owner.index then
+        table.insert(players, player_index)
+      end
+    end
+  else
+    players = { self.owner.index }
+  end
+
+  for _, player_index in pairs(players) do
     local Gui = util.get_gui(player_index, "tasks")
     if Gui then
-      Gui:delete_task(self)
+      callback(Gui)
     end
   end
 end
@@ -43,6 +82,8 @@ function task.new(title, description, owner, assignee, add_to_top)
   local id = global.next_task_id
   global.next_task_id = id + 1
 
+  local owner_table = owner.object_name == "LuaForce" and global.forces[owner.index] or global.players[owner.index]
+
   --- If `owner` is a `LuaPlayer`, then `assignee` will always be the same `LuaPlayer`.
   --- @type Task
   local self = {
@@ -50,38 +91,29 @@ function task.new(title, description, owner, assignee, add_to_top)
     completed = false,
     description = description,
     id = id,
+    object_name = "Task",
     owner = owner,
+    owner_table = owner_table,
     subtasks = {}, --- @type number[]
     title = title,
   }
 
-  setmetatable(self, { __index = Task })
+  table.insert(owner_table.tasks, self.id)
+
+  task.load(self)
 
   global.tasks[id] = self
 
-  -- TODO: This is the logical place to put this, but it feels like code smell
-  if owner.object_name == "LuaForce" then
-    for player_index, player in pairs(game.players) do
-      if player.force == owner then
-        local TasksGui = util.get_gui(player_index, "tasks")
-        if TasksGui then
-          TasksGui:add_task(self, add_to_top and 1 or nil)
-        end
-      end
-    end
-  else
-    local TasksGui = util.get_gui(owner.index, "tasks")
-    if TasksGui then
-      TasksGui:add_task(self)
-    end
-  end
+  self:update_guis(function(Gui)
+    Gui:add_task(self, add_to_top and 1 or nil)
+  end)
 
   return self
 end
 
---- @param Task Task
-function task.load(Task)
-  setmetatable(Task, { __index = Task })
+--- @param self Task
+function task.load(self)
+  setmetatable(self, { __index = Task })
 end
 
 return task
