@@ -317,6 +317,22 @@ function index.new(player, player_table)
   setmetatable(self, { __index = TasksGui })
 
   player_table.guis.tasks = self
+
+  -- Add existing tasks
+  local force_table = global.forces[player.force.index]
+  for _, tasks in pairs({
+    force_table.completed_tasks,
+    force_table.tasks,
+    player_table.completed_tasks,
+    player_table.tasks,
+  }) do
+    for _, task_id in pairs(tasks) do
+      local Task = global.tasks[task_id]
+      if Task then
+        self:add_task(Task)
+      end
+    end
+  end
 end
 
 --- @param Gui TasksGui
