@@ -179,6 +179,7 @@ function index.new(player, player_table, options)
             {
               type = "checkbox",
               caption = { "gui.tlst-private" },
+              tooltip = { "gui.tlst-private-description" },
               state = owner and owner.object_name == "LuaPlayer" or false,
               enabled = not ParentTask,
               ref = { "private_checkbox" },

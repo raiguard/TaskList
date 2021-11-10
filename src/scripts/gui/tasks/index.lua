@@ -196,20 +196,20 @@ function TasksGui:add_task(Task, index, completed)
         direction = "vertical",
         { type = "flow", name = "incompleted", direction = "vertical", visible = false },
         { type = "flow", name = "completed", direction = "vertical", visible = false },
-      },
-      {
-        type = "flow",
-        style_mods = { padding = 0, margin = 0, horizontal_spacing = 8 },
         {
-          type = "sprite-button",
-          style = "mini_button_aligned_to_text_vertically",
-          sprite = "utility/add",
-          tooltip = { "gui.tlst-add-subtask" },
-          actions = {
-            on_click = { gui = "tasks", action = "edit_task", parent_task_id = Task.id },
+          type = "flow",
+          style_mods = { padding = 0, margin = 0, horizontal_spacing = 8 },
+          {
+            type = "sprite-button",
+            style = "mini_button_aligned_to_text_vertically",
+            sprite = "utility/add",
+            tooltip = { "gui.tlst-add-subtask" },
+            actions = {
+              on_click = { gui = "tasks", action = "edit_task", parent_task_id = Task.id },
+            },
           },
+          { type = "label", caption = { "gui.tlst-add-subtask" } },
         },
-        { type = "label", caption = { "gui.tlst-add-subtask" } },
       },
     },
   })
@@ -370,7 +370,9 @@ function index.new(player, player_table)
           {
             type = "switch",
             left_label_caption = { "gui.tlst-force" },
+            left_label_tooltip = { "gui.tlst-force-switch-description" },
             right_label_caption = { "gui.tlst-private" },
+            right_label_tooltip = { "gui.tlst-private-switch-description" },
             switch_state = "left",
             ref = { "visibility_switch" },
             actions = {
