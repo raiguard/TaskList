@@ -89,13 +89,37 @@ function TasksGui:dispatch(msg, e)
   end
 end
 
+--- Get the parent flow for the given task
+--- @param Task Task
+function TasksGui:get_parent_flow(Task)
+  local route = {}
+
+  local owner = Task.owner
+  while owner.object_name == "Task" do
+    table.insert(route, 1, owner)
+    owner = owner.owner
+  end
+
+  -- At this point, the owner will be a LuaForce or LuaPlayer
+  local flow = owner.object_name == "LuaForce" and self.refs.force_flow or self.refs.private_flow
+  for _, owner in pairs(route) do
+    local subflow = owner.completed and flow.completed or flow.incompleted
+    local row = subflow[tostring(owner.id)]
+    if row then
+      flow = row.details_flow.subtasks_flow
+    end
+  end
+
+  return flow
+end
+
 --- @param Task Task
 --- @param index number
 function TasksGui:add_task(Task, index, completed)
   if completed == nil then
     completed = Task.completed
   end
-  local flow = Task.owner.object_name == "LuaForce" and self.refs.force_flow or self.refs.private_flow
+  local flow = self:get_parent_flow(Task)
   --- @type LuaGuiElement
   local flow = completed and flow.completed or flow.incompleted
 
@@ -162,12 +186,22 @@ function TasksGui:add_task(Task, index, completed)
       },
       {
         type = "flow",
+        name = "subtasks_flow",
+        direction = "vertical",
+        { type = "flow", name = "incompleted", direction = "vertical" },
+        { type = "flow", name = "completed", direction = "vertical" },
+      },
+      {
+        type = "flow",
         style_mods = { padding = 0, margin = 0, horizontal_spacing = 8 },
         {
           type = "sprite-button",
           style = "mini_button_aligned_to_text_vertically",
           sprite = "utility/add",
           tooltip = { "gui.tlst-add-subtask" },
+          actions = {
+            on_click = { gui = "tasks", action = "edit_task", parent_task_id = Task.id },
+          },
         },
         { type = "label", caption = { "gui.tlst-add-subtask" } },
       },
@@ -177,7 +211,7 @@ end
 
 --- @param Task Task
 function TasksGui:update_task(Task)
-  local flow = Task.owner.object_name == "LuaForce" and self.refs.force_flow or self.refs.private_flow
+  local flow = self:get_parent_flow(Task)
   --- @type LuaGuiElement
   local flow = Task.completed and flow.completed or flow.incompleted
 
@@ -204,7 +238,7 @@ function TasksGui:delete_task(Task, completed)
   if completed == nil then
     completed = Task.completed
   end
-  local flow = Task.owner.object_name == "LuaForce" and self.refs.force_flow or self.refs.private_flow
+  local flow = self:get_parent_flow(Task)
   --- @type LuaGuiElement
   local flow = completed and flow.completed or flow.incompleted
 
@@ -217,7 +251,7 @@ end
 --- @param Task Task
 --- @param delta number
 function TasksGui:move_task(Task, delta)
-  local flow = Task.owner.object_name == "LuaForce" and self.refs.force_flow or self.refs.private_flow
+  local flow = self:get_parent_flow(Task)
   --- @type LuaGuiElement
   local flow = Task.completed and flow.completed or flow.incompleted
   local row = flow[tostring(Task.id)]

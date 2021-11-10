@@ -70,14 +70,21 @@ end
 --- @param callback fun(Gui: TasksGui)
 function Task:update_guis(callback)
   local players = {}
-  if self.owner.object_name == "LuaForce" then
+
+  -- Get ultimate owner
+  local owner = self.owner
+  while owner.object_name == "Task" do
+    owner = owner.owner
+  end
+
+  if owner.object_name == "LuaForce" then
     for player_index, player in pairs(game.players) do
-      if player.force.index == self.owner.index then
+      if player.force.index == owner.index then
         table.insert(players, player_index)
       end
     end
   else
-    players = { self.owner.index }
+    players = { owner.index }
   end
 
   for _, player_index in pairs(players) do
@@ -92,26 +99,35 @@ local task = {}
 
 --- @param title string
 --- @param description string
---- @param owner LuaForce|LuaPlayer
+--- @param owner LuaForce|LuaPlayer|Task
 --- @param assignee LuaPlayer|nil
 --- @param add_to_top boolean
 function task.new(title, description, owner, assignee, add_to_top)
   local id = global.next_task_id
   global.next_task_id = id + 1
 
-  local owner_table = owner.object_name == "LuaForce" and global.forces[owner.index] or global.players[owner.index]
+  local owner_table
+
+  if owner.object_name == "Task" then
+    owner_table = owner
+  elseif owner.object_name == "LuaForce" then
+    owner_table = global.forces[owner.index]
+  else
+    owner_table = global.players[owner.index]
+  end
 
   --- If `owner` is a `LuaPlayer`, then `assignee` will always be the same `LuaPlayer`.
   --- @type Task
   local self = {
     assignee = assignee,
     completed = false,
+    completed_tasks = {},
     description = description,
     id = id,
     object_name = "Task",
     owner = owner,
     owner_table = owner_table,
-    subtasks = {}, --- @type number[]
+    tasks = {}, --- @type number[]
     title = title,
   }
 

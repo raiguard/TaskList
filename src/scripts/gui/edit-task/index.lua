@@ -27,8 +27,8 @@ function EditTaskGui:destroy()
   end
   self.player_table.guis.edit_task = nil
 
-  if not self.Parent.state.pinned then
-    self.player.opened = self.Parent.refs.window
+  if not self.parent.state.pinned then
+    self.player.opened = self.parent.refs.window
   end
 end
 
@@ -52,11 +52,20 @@ end
 
 local index = {}
 
+--- @class NewTaskOptions
+--- @field parent_gui LuaGuiElement|nil
+--- @field task Task|nil
+--- @field parent_task Task|nil
+
 --- @param player LuaPlayer
 --- @param player_table PlayerTable
---- @param Parent TasksGui
---- @param Task Task
-function index.new(player, player_table, Parent, Task)
+--- @param options NewTaskOptions
+function index.new(player, player_table, options)
+  options = options or {}
+  local Task = options.task
+  local Parent = options.parent_gui
+  local ParentTask = options.parent_task
+
   local players = { { "gui.tlst-unassigned" } }
   local force = player.force
   local assignee_index = Task and Task.assignee and Task.assignee.index or 0
@@ -106,49 +115,66 @@ function index.new(player, player_table, Parent, Task)
       },
       {
         type = "frame",
-        style = "tlst_inside_shallow_frame_with_spacing",
+        style = "inside_shallow_frame",
         direction = "vertical",
-        { type = "label", caption = { "gui.tlst-title" } },
         {
-          type = "textfield",
-          style = "flib_widthless_textfield",
+          type = "frame",
+          style = "subheader_frame",
           style_mods = { horizontally_stretchable = true },
-          text = Task.title,
-          ref = { "title_textfield" },
-        },
-        { type = "label", caption = { "gui.tlst-description" } },
-        {
-          type = "text-box",
-          style_mods = { height = 200, width = 400 },
-          text = Task.description,
-          ref = { "description_textfield" },
-        },
-        {
-          type = "flow",
-          visible = not Task.title,
-          { type = "checkbox", caption = { "gui.tlst-add-to-top" }, state = false, ref = { "add_to_top_checkbox" } },
-          { type = "empty-widget", style = "flib_horizontal_pusher" },
+          visible = ParentTask and true or false,
           {
-            type = "checkbox",
-            caption = { "gui.tlst-private" },
-            state = false,
-            ref = { "private_checkbox" },
-            actions = {
-              on_checked_state_changed = { gui = "edit_task", action = "update_assignee_dropdown" },
-            },
+            type = "label",
+            style = "bold_label",
+            style_mods = { left_margin = 8 },
+            caption = ParentTask and { "gui.tlst-subtask-of", ParentTask.title } or nil,
           },
         },
         {
           type = "flow",
-          style_mods = { vertical_align = "center" },
-          { type = "label", caption = { "gui.tlst-assignee" } },
-          { type = "empty-widget", style = "flib_horizontal_pusher" },
+          style_mods = { padding = 12, vertical_spacing = 8 },
+          direction = "vertical",
+          { type = "label", caption = { "gui.tlst-title" } },
           {
-            type = "drop-down",
-            items = players,
-            selected_index = assignee_selection_index,
-            enabled = not Task.owner or Task.owner.object_name == "LuaForce",
-            ref = { "assignee_dropdown" },
+            type = "textfield",
+            style = "flib_widthless_textfield",
+            style_mods = { horizontally_stretchable = true },
+            text = Task.title,
+            ref = { "title_textfield" },
+          },
+          { type = "label", caption = { "gui.tlst-description" } },
+          {
+            type = "text-box",
+            style_mods = { height = 200, width = 400 },
+            text = Task.description,
+            ref = { "description_textfield" },
+          },
+          {
+            type = "flow",
+            visible = not Task.title,
+            { type = "checkbox", caption = { "gui.tlst-add-to-top" }, state = false, ref = { "add_to_top_checkbox" } },
+            { type = "empty-widget", style = "flib_horizontal_pusher" },
+            {
+              type = "checkbox",
+              caption = { "gui.tlst-private" },
+              state = false,
+              ref = { "private_checkbox" },
+              actions = {
+                on_checked_state_changed = { gui = "edit_task", action = "update_assignee_dropdown" },
+              },
+            },
+          },
+          {
+            type = "flow",
+            style_mods = { vertical_align = "center" },
+            { type = "label", caption = { "gui.tlst-assignee" } },
+            { type = "empty-widget", style = "flib_horizontal_pusher" },
+            {
+              type = "drop-down",
+              items = players,
+              selected_index = assignee_selection_index,
+              enabled = not Task.owner or Task.owner.object_name == "LuaForce",
+              ref = { "assignee_dropdown" },
+            },
           },
         },
       },
@@ -201,14 +227,15 @@ function index.new(player, player_table, Parent, Task)
 
   --- @type EditTaskGui
   local self = {
-    Parent = Parent,
+    parent = Parent,
     player = player,
     player_table = player_table,
     refs = refs,
     state = {
       player_selection_index = player_selection_index,
       --- @type Task|nil
-      Task = Task.title and Task or nil,
+      task = Task.title and Task or nil,
+      parent_task = ParentTask,
     },
   }
 

@@ -36,9 +36,6 @@ function actions.confirm(Gui)
     return
   end
 
-  local is_private = refs.private_checkbox.state
-  local owner = is_private and Gui.player or Gui.player.force
-
   local assignee
   local assignee_dropdown = refs.assignee_dropdown
   local selected_index = assignee_dropdown.selected_index
@@ -46,10 +43,16 @@ function actions.confirm(Gui)
     assignee = game.players[assignee_dropdown.items[selected_index]]
   end
 
-  local Task = Gui.state.Task
+  local Task = Gui.state.task
   if Task then
     Task:update(refs.title_textfield.text, refs.description_textfield.text, assignee)
   else
+    local owner = Gui.state.parent_task
+    if not owner then
+      local is_private = refs.private_checkbox.state
+      owner = is_private and Gui.player or Gui.player.force
+    end
+
     task.new(
       refs.title_textfield.text,
       refs.description_textfield.text,
@@ -64,7 +67,7 @@ end
 
 --- @param Gui EditTaskGui
 function actions.delete(Gui)
-  local Task = Gui.state.Task
+  local Task = Gui.state.task
   Task:delete()
 
   Gui:destroy()

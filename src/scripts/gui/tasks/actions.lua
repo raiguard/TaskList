@@ -56,7 +56,8 @@ function actions.edit_task(Gui, msg)
       Gui.state.ignore_close = true
     end
     local Task = msg.task_id and global.tasks[msg.task_id] or nil
-    edit_task_gui.new(Gui.player, Gui.player_table, Gui, Task)
+    local ParentTask = msg.parent_task_id and global.tasks[msg.parent_task_id] or nil
+    edit_task_gui.new(Gui.player, Gui.player_table, { parent_gui = Gui, task = Task, parent_task = ParentTask })
   end
 end
 

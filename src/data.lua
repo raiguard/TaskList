@@ -42,15 +42,6 @@ data:extend({
 
 local styles = data.raw["gui-style"]["default"]
 
-styles.tlst_inside_shallow_frame_with_spacing = {
-  type = "frame_style",
-  parent = "inside_shallow_frame_with_padding",
-  vertical_flow_style = {
-    type = "vertical_flow_style",
-    vertical_spacing = 8,
-  },
-}
-
 styles.tlst_description_frame = {
   type = "frame_style",
   padding = 6,
