@@ -48,8 +48,8 @@ local util = require("scripts.util")
 event.on_init(function()
   global.forces = {}
   global.next_task_id = 1
-  global.tasks = {}
   global.players = {}
+  global.tasks = {}
 
   for _, force in pairs(game.forces) do
     global.forces[force.index] = {
