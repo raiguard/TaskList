@@ -218,6 +218,16 @@ function TasksGui:add_task(Task, index, completed)
   else
     flow.visible = false
   end
+
+  -- Add subtasks
+  for _, subtasks in pairs({ Task.completed_tasks, Task.tasks }) do
+    for _, subtask_id in pairs(subtasks) do
+      local subtask = global.tasks[subtask_id]
+      if subtask then
+        self:add_task(subtask)
+      end
+    end
+  end
 end
 
 --- @param Task Task
