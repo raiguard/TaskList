@@ -131,7 +131,11 @@ function task.new(title, description, owner, assignee, add_to_top)
     title = title,
   }
 
-  table.insert(owner_table.tasks, self.id)
+  if add_to_top then
+    table.insert(owner_table.tasks, 1, self.id)
+  else
+    table.insert(owner_table.tasks, self.id)
+  end
 
   task.load(self)
 
