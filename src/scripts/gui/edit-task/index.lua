@@ -157,6 +157,9 @@ function index.new(player, player_table, options)
             style_mods = { horizontally_stretchable = true },
             text = Task.title,
             ref = { "title_textfield" },
+            actions = {
+              on_confirmed = { gui = "edit_task", action = "confirm" },
+            },
           },
           { type = "label", caption = { "gui.tlst-description" } },
           {
@@ -164,6 +167,9 @@ function index.new(player, player_table, options)
             style_mods = { height = 200, width = 400 },
             text = Task.description,
             ref = { "description_textfield" },
+            actions = {
+              on_confirmed = { gui = "edit_task", action = "confirm" },
+            },
           },
           {
             type = "flow",
