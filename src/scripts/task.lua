@@ -21,6 +21,15 @@ end
 
 --- Delete the task and remove it from all GUIs.
 function Task:delete()
+  for _, subtasks in pairs({ self.completed_tasks, self.tasks }) do
+    for _, task_id in pairs(subtasks) do
+      local subtask = global.tasks[task_id]
+      if subtask then
+        subtask:delete()
+      end
+    end
+  end
+
   global.tasks[self.id] = nil
 
   local owner_table = self.owner_table
