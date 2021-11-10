@@ -153,7 +153,12 @@ function TasksGui:add_task(Task, index, completed)
         sprite = "utility/rename_icon_small_black",
         tooltip = { "gui.tlst-edit-task" },
         actions = {
-          on_click = { gui = "tasks", action = "edit_task", task_id = Task.id },
+          on_click = {
+            gui = "tasks",
+            action = "edit_task",
+            task_id = Task.id,
+            parent_task_id = Task.owner.object_name == "Task" and Task.owner.id or nil,
+          },
         },
       },
       {

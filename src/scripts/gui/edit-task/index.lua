@@ -68,9 +68,34 @@ function index.new(player, player_table, options)
 
   local players = { { "gui.tlst-unassigned" } }
   local force = player.force
-  local assignee_index = Task and Task.assignee and Task.assignee.index or 0
   local assignee_selection_index = 1
   local player_selection_index = 0
+
+  local title_caption
+  if Task then
+    title_caption = { "gui.tlst-edit-task" }
+  else
+    title_caption = { "gui.tlst-new-task" }
+  end
+
+  Task = Task or {}
+
+  local assignable = true
+  local owner = Task.owner or ParentTask or {}
+  local assignee_index = 0
+  while owner.object_name == "Task" do
+    owner = owner.owner
+  end
+  if owner.object_name == "LuaPlayer" then
+    assignable = false
+    assignee_index = ParentTask and ParentTask.assignee.index or 0
+  else
+    assignee_index = Task.assignee and Task.assignee.index or 0
+  end
+
+  if assignable and not assignee_index and owner.assignee then
+    assignee_index = owner.assignee.index
+  end
 
   for player_index, other_player in pairs(game.players) do
     if other_player.force == force then
@@ -83,15 +108,6 @@ function index.new(player, player_table, options)
       end
     end
   end
-
-  local title_caption
-  if Task then
-    title_caption = { "gui.tlst-edit-task" }
-  else
-    title_caption = { "gui.tlst-new-task" }
-  end
-
-  Task = Task or {}
 
   --- @type EditTaskGuiRefs
   local refs = gui.build(player.gui.screen, {
@@ -156,7 +172,8 @@ function index.new(player, player_table, options)
             {
               type = "checkbox",
               caption = { "gui.tlst-private" },
-              state = false,
+              state = owner and owner.object_name == "LuaPlayer" or false,
+              enabled = not ParentTask,
               ref = { "private_checkbox" },
               actions = {
                 on_checked_state_changed = { gui = "edit_task", action = "update_assignee_dropdown" },
@@ -172,7 +189,7 @@ function index.new(player, player_table, options)
               type = "drop-down",
               items = players,
               selected_index = assignee_selection_index,
-              enabled = not Task.owner or Task.owner.object_name == "LuaForce",
+              enabled = assignable,
               ref = { "assignee_dropdown" },
             },
           },
