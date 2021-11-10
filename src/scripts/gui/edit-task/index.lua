@@ -265,6 +265,9 @@ function index.new(player, player_table, options)
     self.refs.private_checkbox.state = true
     self.actions.update_assignee_dropdown(self)
   end
+
+  self.refs.title_textfield.select_all()
+  self.refs.title_textfield.focus()
 end
 
 --- @param Gui EditTaskGui
