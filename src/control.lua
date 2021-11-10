@@ -95,6 +95,15 @@ gui.hook_events(function(e)
   end
 end)
 
+event.register("tlst-linked-confirm-gui", function(e)
+  --- @type EditTaskGui
+  local EditTaskGui = util.get_gui(e.player_index, "edit_task")
+  if EditTaskGui then
+    EditTaskGui:dispatch({ action = "confirm" })
+    game.get_player(e.player_index).play_sound({ path = "utility/confirm" })
+  end
+end)
+
 event.register({ "tlst-toggle-gui", defines.events.on_lua_shortcut }, function(e)
   if (e.input_name or e.prototype_name) == "tlst-toggle-gui" then
     local player_table = global.players[e.player_index]

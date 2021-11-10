@@ -2,6 +2,7 @@ local data_util = require("__flib__.data-util")
 
 data:extend({
   { type = "custom-input", name = "tlst-toggle-gui", key_sequence = "CONTROL + T", action = "lua" },
+  { type = "custom-input", name = "tlst-linked-confirm-gui", key_sequence = "", linked_game_control = "confirm-gui" },
   {
     type = "shortcut",
     name = "tlst-toggle-gui",
