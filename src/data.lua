@@ -1,13 +1,13 @@
-local data_util = require("__flib__.data-util")
-
 data:extend({
   { type = "custom-input", name = "tlst-toggle-gui", key_sequence = "CONTROL + T", action = "lua" },
   { type = "custom-input", name = "tlst-linked-confirm-gui", key_sequence = "", linked_game_control = "confirm-gui" },
   {
     type = "shortcut",
     name = "tlst-toggle-gui",
-    localised_name = { "mod-name.TaskList" },
-    icon = { filename = data_util.empty_image, size = 1, scale = 16 },
+    icon = { filename = "__TaskList__/graphics/shortcut-dark-x32.png", size = 32, mipmap_count = 2 },
+    small_icon = { filename = "__TaskList__/graphics/shortcut-dark-x24.png", size = 24, mipmap_count = 2 },
+    disabled_icon = { filename = "__TaskList__/graphics/shortcut-light-x32.png", size = 32, mipmap_count = 2 },
+    disabled_small_icon = { filename = "__TaskList__/graphics/shortcut-light-x24.png", size = 24, mipmap_count = 2 },
     toggleable = true,
     associated_control_input = "tlst-toggle-gui",
     action = "lua",
