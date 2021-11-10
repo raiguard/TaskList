@@ -28,7 +28,7 @@ function EditTaskGui:destroy()
   self.player_table.guis.edit_task = nil
 
   if not self.parent.state.pinned then
-    self.player.opened = self.parent.refs.window
+    self.player.opened = self.parent.refs.window --- @diagnostic disable-line
   end
 end
 
@@ -56,6 +56,7 @@ local index = {}
 --- @field parent_gui LuaGuiElement|nil
 --- @field task Task|nil
 --- @field parent_task Task|nil
+--- @field set_private boolean
 
 --- @param player LuaPlayer
 --- @param player_table PlayerTable
@@ -259,6 +260,11 @@ function index.new(player, player_table, options)
   setmetatable(self, { __index = EditTaskGui })
 
   player_table.guis.edit_task = self
+
+  if options.set_private then
+    self.refs.private_checkbox.state = true
+    self.actions.update_assignee_dropdown(self)
+  end
 end
 
 --- @param Gui EditTaskGui

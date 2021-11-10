@@ -9,6 +9,7 @@ local templates = require("templates")
 --- @field window LuaGuiElement
 --- @field titlebar_flow LuaGuiElement
 --- @field pin_button LuaGuiElement
+--- @field visibility_switch LuaGuiElement
 --- @field scroll_pane LuaGuiElement
 --- @field force_flow LuaGuiElement
 --- @field private_flow LuaGuiElement
@@ -371,6 +372,7 @@ function index.new(player, player_table)
             left_label_caption = { "gui.tlst-force" },
             right_label_caption = { "gui.tlst-private" },
             switch_state = "left",
+            ref = { "visibility_switch" },
             actions = {
               on_switch_state_changed = { gui = "tasks", action = "toggle_tasks_mode" },
             },
