@@ -7,7 +7,7 @@ function templates.checkboxes_flow(name, visible)
     type = "flow",
     direction = "vertical",
     ref = { name .. "_flow" },
-    { type = "flow", name = "incompleted", direction = "vertical" },
+    { type = "flow", name = "incompleted", direction = "vertical", visible = false },
     { type = "flow", name = "completed", direction = "vertical", visible = false },
     visible = visible,
   }

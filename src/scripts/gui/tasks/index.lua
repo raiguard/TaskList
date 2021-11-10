@@ -193,7 +193,7 @@ function TasksGui:add_task(Task, index, completed)
         type = "flow",
         name = "subtasks_flow",
         direction = "vertical",
-        { type = "flow", name = "incompleted", direction = "vertical" },
+        { type = "flow", name = "incompleted", direction = "vertical", visible = false },
         { type = "flow", name = "completed", direction = "vertical", visible = false },
       },
       {
@@ -212,6 +212,12 @@ function TasksGui:add_task(Task, index, completed)
       },
     },
   })
+
+  if #flow.children > 0 and (not completed or self.state.show_completed) then
+    flow.visible = true
+  else
+    flow.visible = false
+  end
 end
 
 --- @param Task Task
@@ -250,6 +256,12 @@ function TasksGui:delete_task(Task, completed)
   local row = flow[tostring(Task.id)]
   if row then
     row.destroy()
+  end
+
+  if #flow.children > 0 and (not completed or self.state.show_completed) then
+    flow.visible = true
+  else
+    flow.visible = false
   end
 end
 
