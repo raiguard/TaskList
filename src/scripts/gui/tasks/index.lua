@@ -189,16 +189,10 @@ function TasksGui:add_task(Task, index, completed)
       direction = "vertical",
       visible = false,
       {
-        type = "frame",
-        style = "tlst_description_frame",
-        style_mods = { horizontally_stretchable = true },
+        type = "label",
+        style_mods = { font_color = constants.description_color, left_margin = 2, single_line = false },
+        caption = Task.description,
         visible = #Task.description > 0,
-        {
-          type = "label",
-          style = "label_with_left_padding",
-          style_mods = { single_line = false },
-          caption = Task.description,
-        },
       },
       {
         type = "flow",
@@ -263,10 +257,7 @@ function TasksGui:update_task(Task)
         },
       },
       {
-        {
-          elem_mods = { visible = #Task.description > 0 },
-          { elem_mods = { caption = Task.description } },
-        },
+        { elem_mods = { caption = Task.description, visible = #Task.description > 0 } },
       },
     })
   end
