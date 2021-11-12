@@ -126,7 +126,7 @@ function index.new(player, player_table, options)
   local refs = gui.build(player.gui.screen, {
     {
       type = "frame",
-      -- style_mods = { width = 430 },
+      style_mods = { width = 448 },
       direction = "vertical",
       ref = { "window" },
       actions = {
