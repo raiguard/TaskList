@@ -185,12 +185,12 @@ function TasksGui:add_task(Task, index, completed)
     {
       type = "flow",
       name = "details_flow",
-      style_mods = { left_margin = 20 },
+      style_mods = { left_margin = 22 },
       direction = "vertical",
       visible = false,
       {
         type = "label",
-        style_mods = { font_color = constants.description_color, left_margin = 2, single_line = false },
+        style_mods = { font_color = constants.description_color, single_line = false },
         caption = Task.description,
         visible = #Task.description > 0,
       },
