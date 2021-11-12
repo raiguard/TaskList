@@ -216,7 +216,11 @@ function index.new(player, player_table, options)
           {
             type = "flow",
             style_mods = { vertical_align = "center" },
-            { type = "label", caption = { "gui.tlst-status" } },
+            {
+              type = "label",
+              caption = { "", { "gui.tlst-status" }, " [img=info]" },
+              tooltip = { "gui.tlst-status-description" },
+            },
             { type = "empty-widget", style = "flib_horizontal_pusher" },
             {
               type = "drop-down",
