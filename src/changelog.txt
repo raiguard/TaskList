@@ -2,7 +2,7 @@
 Version: 0.2.0
 Date: ????
   Features:
-    - Added task status, which can be one of `not started`, `in progress (low priority)` and `in progress (high priority)`
+    - Added task status, which can be one of `not started`, `in progress (high priority)`, `in progress (low priority)` and `paused`
       - Status can be adjusted in the edit task dialog, or by clicking the status icon in the tasks GUI
   Bugfixes:
     - Fixed edit task GUI when the parent task has a very long name
