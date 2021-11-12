@@ -1,3 +1,5 @@
+local constants = require("constants")
+
 local edit_task_gui = require("scripts.gui.edit-task.index")
 local util = require("scripts.util")
 
@@ -57,16 +59,12 @@ function actions.edit_task(Gui, msg)
     end
     local Task = msg.task_id and global.tasks[msg.task_id] or nil
     local ParentTask = msg.parent_task_id and global.tasks[msg.parent_task_id] or nil
-    edit_task_gui.new(
-      Gui.player,
-      Gui.player_table,
-      {
-        parent_gui = Gui,
-        task = Task,
-        parent_task = ParentTask,
-        set_private = not Task and not ParentTask and Gui.refs.visibility_switch.switch_state == "right",
-      }
-    )
+    edit_task_gui.new(Gui.player, Gui.player_table, {
+      parent_gui = Gui,
+      task = Task,
+      parent_task = ParentTask,
+      set_private = not Task and not ParentTask and Gui.refs.visibility_switch.switch_state == "right",
+    })
   end
 end
 
@@ -123,6 +121,21 @@ function actions.move_task(Gui, msg, e)
   local Task = global.tasks[task_id]
   if Task then
     Task:move(delta)
+  end
+end
+
+--- @param Gui TasksGui
+--- @param msg table
+function actions.cycle_task_status(Gui, msg)
+  local Task = global.tasks[msg.task_id]
+  if Task then
+    local current = Task.status
+    local next = next(constants.task_status, current) or next(constants.task_status)
+    Task.status = next
+
+    Task:update_guis(function(Gui)
+      Gui:update_task(Task)
+    end)
   end
 end
 

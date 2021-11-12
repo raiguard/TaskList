@@ -1,6 +1,8 @@
 local gui = require("__flib__.gui")
 local table = require("__flib__.table")
 
+local constants = require("constants")
+
 local actions = require("actions")
 
 -- GUI
@@ -13,6 +15,7 @@ local actions = require("actions")
 --- @field add_to_top_checkbox LuaGuiElement
 --- @field private_checkbox LuaGuiElement
 --- @field assignee_dropdown LuaGuiElement
+--- @field status_dropdown LuaGuiElement
 --- @field footer_flow LuaGuiElement
 
 --- @class EditTaskGui
@@ -110,6 +113,15 @@ function index.new(player, player_table, options)
     end
   end
 
+  local status_items = {}
+  local selected_status_index = 1
+  for status_name, status_info in pairs(constants.task_status) do
+    if status_name == Task.status then
+      selected_status_index = status_info.index
+    end
+    table.insert(status_items, { "", "[img=flib_indicator_" .. status_info.color .. "]  ", status_info.label })
+  end
+
   --- @type EditTaskGuiRefs
   local refs = gui.build(player.gui.screen, {
     {
@@ -199,6 +211,18 @@ function index.new(player, player_table, options)
               selected_index = assignee_selection_index,
               enabled = assignable,
               ref = { "assignee_dropdown" },
+            },
+          },
+          {
+            type = "flow",
+            style_mods = { vertical_align = "center" },
+            { type = "label", caption = { "gui.tlst-status" } },
+            { type = "empty-widget", style = "flib_horizontal_pusher" },
+            {
+              type = "drop-down",
+              items = status_items,
+              selected_index = selected_status_index,
+              ref = { "status_dropdown" },
             },
           },
         },

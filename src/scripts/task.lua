@@ -9,10 +9,12 @@ local Task = {}
 --- @param title string
 --- @param description string
 --- @param assignee LuaPlayer|nil
-function Task:update(title, description, assignee)
+--- @param status string
+function Task:update(title, description, assignee, status)
   self.title = title
   self.description = description
   self.assignee = assignee
+  self.status = status
 
   self:update_guis(function(Gui)
     Gui:update_task(self)
@@ -110,8 +112,9 @@ local task = {}
 --- @param description string
 --- @param owner LuaForce|LuaPlayer|Task
 --- @param assignee LuaPlayer|nil
+--- @param status string
 --- @param add_to_top boolean
-function task.new(title, description, owner, assignee, add_to_top)
+function task.new(title, description, owner, assignee, status, add_to_top)
   local id = global.next_task_id
   global.next_task_id = id + 1
 
@@ -136,6 +139,7 @@ function task.new(title, description, owner, assignee, add_to_top)
     object_name = "Task",
     owner = owner,
     owner_table = owner_table,
+    status = status,
     tasks = {}, --- @type number[]
     title = title,
   }

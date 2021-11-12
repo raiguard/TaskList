@@ -8,6 +8,12 @@ function migrations.generic()
   end
 end
 
-migrations.versions = {}
+migrations.versions = {
+  ["0.2.0"] = function()
+    for _, task in pairs(global.tasks) do
+      task.status = "not_started"
+    end
+  end,
+}
 
 return migrations

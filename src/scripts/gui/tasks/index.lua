@@ -1,5 +1,7 @@
 local gui = require("__flib__.gui")
 
+local constants = require("constants")
+
 local actions = require("actions")
 local templates = require("templates")
 
@@ -144,9 +146,17 @@ function TasksGui:add_task(Task, index, completed)
       {
         type = "label",
         style = "info_label",
-        style_mods = { right_margin = 8 },
         caption = Task.assignee and Task.assignee.name or nil,
         visible = Task.assignee and true or false,
+      },
+      {
+        type = "sprite",
+        style = "flib_indicator",
+        sprite = "flib_indicator_" .. constants.task_status[Task.status].color,
+        tooltip = constants.task_status[Task.status].label,
+        actions = {
+          on_click = { gui = "tasks", action = "cycle_task_status", task_id = Task.id },
+        },
       },
       {
         type = "sprite-button",
@@ -239,11 +249,18 @@ function TasksGui:update_task(Task)
 
   local row = flow[tostring(Task.id)]
   if row then
+    local status_info = constants.task_status[Task.status]
     local assignee_name = Task.assignee and Task.assignee.name or nil
     gui.update(row, {
       {
         { elem_mods = { caption = Task.title } },
         { elem_mods = { caption = assignee_name, visible = assignee_name and true or false } },
+        {
+          elem_mods = {
+            sprite = "flib_indicator_" .. status_info.color,
+            tooltip = status_info.label,
+          },
+        },
       },
       {
         {

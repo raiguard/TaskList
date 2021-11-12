@@ -1,3 +1,5 @@
+local constants = require("constants")
+
 local task = require("scripts.task")
 local util = require("scripts.util")
 
@@ -43,9 +45,17 @@ function actions.confirm(Gui)
     assignee = game.players[assignee_dropdown.items[selected_index]]
   end
 
+  local status_index = refs.status_dropdown.selected_index
+  local status
+  for status_name, status_info in pairs(constants.task_status) do
+    if status_info.index == status_index then
+      status = status_name
+    end
+  end
+
   local Task = Gui.state.task
   if Task then
-    Task:update(refs.title_textfield.text, refs.description_textfield.text, assignee)
+    Task:update(refs.title_textfield.text, refs.description_textfield.text, assignee, status)
   else
     local owner = Gui.state.parent_task
     if not owner then
@@ -58,6 +68,7 @@ function actions.confirm(Gui)
       refs.description_textfield.text,
       owner,
       assignee,
+      status,
       refs.add_to_top_checkbox.state
     )
   end
