@@ -30,7 +30,7 @@ function EditTaskGui:destroy()
   end
   self.player_table.guis.edit_task = nil
 
-  if not self.parent.state.pinned then
+  if self.parent and not self.parent.state.pinned then
     self.player.opened = self.parent.refs.window --- @diagnostic disable-line
   end
 end
@@ -274,7 +274,8 @@ function index.new(player, player_table, options)
   refs.titlebar_flow.drag_target = refs.window
   refs.footer_flow.drag_target = refs.window
 
-  if not Parent.state.pinned then
+  if Parent and not Parent.state.pinned then
+    Parent.state.ignore_close = true
     player.opened = refs.window
   end
 

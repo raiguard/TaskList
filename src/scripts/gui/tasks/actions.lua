@@ -53,10 +53,6 @@ end
 --- @param Gui TasksGui
 function actions.edit_task(Gui, msg)
   if not util.get_gui(Gui.player.index, "edit_task") then
-    local pinned = Gui.state.pinned
-    if not pinned then
-      Gui.state.ignore_close = true
-    end
     local Task = msg.task_id and global.tasks[msg.task_id] or nil
     local ParentTask = msg.parent_task_id and global.tasks[msg.parent_task_id] or nil
     edit_task_gui.new(Gui.player, Gui.player_table, {
