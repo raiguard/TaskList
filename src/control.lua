@@ -141,6 +141,16 @@ event.on_player_created(function(e)
 end)
 
 event.on_player_removed(function(e)
-  -- TODO: Remove all private player tasks
+  -- Remove all player tasks
+  local player_table = global.players[e.player_index]
+  for _, task_ids in pairs({ player_table.completed_tasks, player_table.tasks }) do
+    for _, task_id in pairs(task_ids) do
+      local Task = global.tasks[task_id]
+      if Task then
+        Task:delete()
+      end
+    end
+  end
+
   global.players[e.player_index] = nil
 end)
