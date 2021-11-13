@@ -104,6 +104,22 @@ event.register("tlst-linked-confirm-gui", function(e)
   end
 end)
 
+--- @param player_index number
+local function toggle_new_task(player_index)
+  local EditTaskGui = util.get_gui(player_index, "edit_task")
+  if EditTaskGui then
+    EditTaskGui:destroy()
+  else
+    local player = game.get_player(player_index)
+    local player_table = global.players[player_index]
+    edit_task_gui.new(player, player_table, { standalone = true })
+  end
+end
+
+event.register("tlst-new-task", function(e)
+  toggle_new_task(e.player_index)
+end)
+
 event.register({ "tlst-toggle-gui", defines.events.on_lua_shortcut }, function(e)
   if (e.input_name or e.prototype_name) == "tlst-toggle-gui" then
     local player_table = global.players[e.player_index]
@@ -111,14 +127,7 @@ event.register({ "tlst-toggle-gui", defines.events.on_lua_shortcut }, function(e
       player_table.guis.tasks:toggle()
     end
   elseif e.prototype_name == "tlst-new-task" then
-    local EditTaskGui = util.get_gui(e.player_index, "edit_task")
-    if EditTaskGui then
-      EditTaskGui:destroy()
-    else
-      local player = game.get_player(e.player_index)
-      local player_table = global.players[e.player_index]
-      edit_task_gui.new(player, player_table, { standalone = true })
-    end
+    toggle_new_task(e.player_index)
   end
 end)
 
