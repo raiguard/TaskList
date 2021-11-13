@@ -60,6 +60,7 @@ local index = {}
 --- @field task Task|nil
 --- @field parent_task Task|nil
 --- @field set_private boolean
+--- @field standalone boolean
 
 --- @param player LuaPlayer
 --- @param player_table PlayerTable
@@ -276,6 +277,8 @@ function index.new(player, player_table, options)
 
   if Parent and not Parent.state.pinned then
     Parent.state.ignore_close = true
+    player.opened = refs.window
+  elseif options.standalone then
     player.opened = refs.window
   end
 

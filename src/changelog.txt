@@ -4,6 +4,8 @@ Date: ????
   Features:
     - Added task status, which can be one of `not started`, `in progress`, `paused` and `blocked`
       - Status can be adjusted in the edit task dialog, or by clicking the status icon in the tasks GUI
+    - Added shortcut and hotkey to create a new task
+      - Hotkey is not bound by default
   Changes:
     - Description are a lot less disruptive now
   Bugfixes:

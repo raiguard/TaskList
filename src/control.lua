@@ -110,6 +110,13 @@ event.register({ "tlst-toggle-gui", defines.events.on_lua_shortcut }, function(e
     if player_table and player_table.guis.tasks then
       player_table.guis.tasks:toggle()
     end
+  elseif e.prototype_name == "tlst-new-task" then
+    local EditTaskGui = util.get_gui(e.player_index, "edit_task")
+    if not EditTaskGui then
+      local player = game.get_player(e.player_index)
+      local player_table = global.players[e.player_index]
+      edit_task_gui.new(player, player_table, { standalone = true })
+    end
   end
 end)
 
