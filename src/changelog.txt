@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.0
-Date: ????
+Date: 2021-11-13
   Features:
     - Added task status, which can be one of `not started`, `in progress`, `paused` and `blocked`
       - Status can be adjusted in the edit task dialog, or by clicking the status icon in the tasks GUI
