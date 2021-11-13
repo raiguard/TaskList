@@ -7,9 +7,9 @@ Date: ????
     - Added shortcut and hotkey to create a new task
       - Hotkey is not bound by default
   Changes:
-    - Description are a lot less disruptive now
+    - Descriptions are a lot less disruptive now
   Bugfixes:
-    - Fixed edit task GUI when the parent task has a very long name
+    - Fixed edit task GUI width when the parent task has a very long name
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.0
 Date: 2021-11-11
