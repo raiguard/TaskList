@@ -33,6 +33,10 @@ function EditTaskGui:destroy()
   if self.parent and not self.parent.state.pinned then
     self.player.opened = self.parent.refs.window --- @diagnostic disable-line
   end
+
+  if self.state.standalone then
+    self.player.set_shortcut_toggled("tlst-new-task", false)
+  end
 end
 
 function EditTaskGui:dispatch(msg, e)
@@ -280,6 +284,7 @@ function index.new(player, player_table, options)
     player.opened = refs.window
   elseif options.standalone then
     player.opened = refs.window
+    player.set_shortcut_toggled("tlst-new-task", true)
   end
 
   --- @type EditTaskGui
@@ -289,10 +294,11 @@ function index.new(player, player_table, options)
     player_table = player_table,
     refs = refs,
     state = {
+      parent_task = ParentTask,
       player_selection_index = player_selection_index,
+      standalone = options.standalone,
       --- @type Task|nil
       task = Task.title and Task or nil,
-      parent_task = ParentTask,
     },
   }
 
