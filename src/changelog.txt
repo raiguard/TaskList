@@ -1,9 +1,11 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.1
 Date: ????
+  Changes:
+    - Updated Russian locale (#4) (credit to Astorin)
   Bugfixes:
     - Fixed player tasks being left behind if a player was removed
-    - Fixed the edit description textbox not wrapping
+    - Fixed the edit description textbox not wrapping (#5)
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.0
 Date: 2021-11-13
