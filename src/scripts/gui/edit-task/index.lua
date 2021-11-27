@@ -183,6 +183,7 @@ function index.new(player, player_table, options)
             type = "text-box",
             style_mods = { height = 200, width = 400 },
             text = Task.description,
+            elem_mods = { word_wrap = true },
             ref = { "description_textfield" },
             actions = {
               on_confirmed = { gui = "edit_task", action = "confirm" },
@@ -191,7 +192,12 @@ function index.new(player, player_table, options)
           {
             type = "flow",
             visible = not Task.title,
-            { type = "checkbox", caption = { "gui.tlst-add-to-top" }, state = false, ref = { "add_to_top_checkbox" } },
+            {
+              type = "checkbox",
+              caption = { "gui.tlst-add-to-top" },
+              state = false,
+              ref = { "add_to_top_checkbox" },
+            },
             { type = "empty-widget", style = "flib_horizontal_pusher" },
             {
               type = "checkbox",

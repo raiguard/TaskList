@@ -3,6 +3,7 @@ Version: 0.2.1
 Date: ????
   Bugfixes:
     - Fixed player tasks being left behind if a player was removed
+    - Fixed the edit description textbox not wrapping
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.0
 Date: 2021-11-13
