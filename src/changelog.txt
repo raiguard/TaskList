@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.1
-Date: ????
+Date: 2021-11-27
   Changes:
     - Updated Russian locale (#4) (credit to Astorin)
   Bugfixes:
