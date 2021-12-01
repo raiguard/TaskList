@@ -50,7 +50,7 @@ function EditTaskGui:dispatch(msg, e)
   if msg.action then
     local handler = self.actions[msg.action]
     if handler then
-      handler(self, msg, e)
+      handler(self, msg or {}, e or {})
     end
   end
 end

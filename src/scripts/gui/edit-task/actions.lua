@@ -29,7 +29,8 @@ function actions.update_assignee_dropdown(Gui)
 end
 
 --- @param Gui EditTaskGui
-function actions.confirm(Gui)
+--- @param e on_gui_confirmed|CustomInputEvent
+function actions.confirm(Gui, _, e)
   local refs = Gui.refs
 
   local title = refs.title_textfield.text
@@ -73,7 +74,9 @@ function actions.confirm(Gui)
     )
   end
 
-  Gui:destroy()
+  if e.name == defines.events.on_gui_confirmed then
+    Gui:destroy()
+  end
 end
 
 --- @param Gui EditTaskGui
