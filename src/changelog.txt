@@ -1,12 +1,13 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.3
 Date: ????
-  Changes:
+  Bugfixes:
+    - Fixed the edit task GUI not closing if you click the confirm button
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.2
 Date: 2021-12-01
   Bugfixes:
-    - Fixed that the tasks GUI would close if you used E to confirm the new task GUI
+    - Fixed that the tasks GUI would close if you used E to confirm the edit task GUI
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.1
 Date: 2021-11-27

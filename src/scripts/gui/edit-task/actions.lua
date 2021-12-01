@@ -74,7 +74,7 @@ function actions.confirm(Gui, _, e)
     )
   end
 
-  if e.name == defines.events.on_gui_confirmed then
+  if e.name == defines.events.on_gui_confirmed or e.name == defines.events.on_gui_click then
     Gui:destroy()
   end
 end
