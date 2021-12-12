@@ -300,6 +300,7 @@ function index.new(player, player_table, options)
     player_table = player_table,
     refs = refs,
     state = {
+      just_confirmed = false,
       parent_task = ParentTask,
       player_selection_index = player_selection_index,
       standalone = options.standalone,

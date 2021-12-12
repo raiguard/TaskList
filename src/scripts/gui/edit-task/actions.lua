@@ -7,7 +7,12 @@ local actions = {}
 
 --- @param Gui EditTaskGui
 function actions.close(Gui)
-  Gui:destroy()
+  if Gui.state.just_confirmed then
+    Gui.state.just_confirmed = false
+    Gui.player.opened = Gui.refs.window
+  else
+    Gui:destroy()
+  end
 end
 
 --- @param Gui EditTaskGui
@@ -32,10 +37,14 @@ end
 --- @param e on_gui_confirmed|CustomInputEvent
 function actions.confirm(Gui, _, e)
   local refs = Gui.refs
+  local clicked = e.name == defines.events.on_gui_confirmed or e.name == defines.events.on_gui_click
 
   local title = refs.title_textfield.text
   if #title == 0 then
     util.error_text(Gui.player, { "message.tlst-task-must-have-title" })
+    if not clicked then
+      Gui.state.just_confirmed = true
+    end
     return
   end
 
@@ -74,7 +83,7 @@ function actions.confirm(Gui, _, e)
     )
   end
 
-  if e.name == defines.events.on_gui_confirmed or e.name == defines.events.on_gui_click then
+  if clicked then
     Gui:destroy()
   end
 end
