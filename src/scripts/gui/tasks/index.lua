@@ -2,10 +2,10 @@ local gui = require("__flib__.gui")
 
 local constants = require("constants")
 
+local templates = require("scripts.gui.templates")
 local util = require("scripts.util")
 
 local actions = require("actions")
-local templates = require("templates")
 
 -- GUI
 
@@ -74,14 +74,18 @@ function TasksGui:dispatch(msg, e)
     if transform == "handle_titlebar_click" and e.button == defines.mouse_button_type.middle then
       msg.action = "recenter"
     elseif transform == "handle_expand_click" then
-      if e.shift then
-        msg.action = "move_task"
-        msg.delta = -1
-      elseif e.control then
-        msg.action = "move_task"
-        msg.delta = 1
+      if e.button == defines.mouse_button_type.middle then
+        msg.action = "open_task_gui"
       else
-        msg.action = "expand_task"
+        if e.shift then
+          msg.action = "move_task"
+          msg.delta = -1
+        elseif e.control then
+          msg.action = "move_task"
+          msg.delta = 1
+        else
+          msg.action = "expand_task"
+        end
       end
     end
   end

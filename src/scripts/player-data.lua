@@ -9,7 +9,10 @@ function player_data.init(player)
   global.players[player.index] = {
     completed_tasks = {},
     flags = {},
-    guis = {},
+    guis = {
+      --- @type table<number, TaskGui>
+      task = {},
+    },
     tasks = {},
   }
 end

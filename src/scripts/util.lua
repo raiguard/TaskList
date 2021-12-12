@@ -13,11 +13,17 @@ end
 --- Safely retrieve the GUI for the given player.
 --- @param player_index number
 --- @param gui_name string
+--- @param gui_id number
 --- @return TasksGui
-function util.get_gui(player_index, gui_name)
+function util.get_gui(player_index, gui_name, gui_id)
   local player_table = global.players[player_index]
   if player_table then
-    local Gui = player_table.guis[gui_name]
+    local Gui
+    if gui_id then
+      Gui = player_table.guis[gui_name][gui_id]
+    else
+      Gui = player_table.guis[gui_name]
+    end
     if Gui and Gui.refs.window.valid then
       return Gui
     end

@@ -75,6 +75,7 @@ function templates.task_item(Task, index, completed)
         style = "mini_button_aligned_to_text_vertically_when_centered",
         sprite = "utility/rename_icon_small_black",
         tooltip = { "gui.tlst-edit-task" },
+        mouse_button_filter = { "left", "middle" },
         actions = {
           on_click = {
             gui = "tasks",
@@ -89,6 +90,7 @@ function templates.task_item(Task, index, completed)
         style = "mini_button_aligned_to_text_vertically_when_centered",
         sprite = "tlst_arrow_right",
         tooltip = { "gui.tlst-expand-tooltip" },
+        mouse_button_filter = { "left", "middle" },
         actions = {
           on_click = { gui = "tasks", transform = "handle_expand_click", task_id = Task.id },
         },

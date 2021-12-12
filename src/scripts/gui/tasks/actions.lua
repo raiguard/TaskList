@@ -1,6 +1,7 @@
 local constants = require("constants")
 
 local edit_task_gui = require("scripts.gui.edit-task.index")
+local task_gui = require("scripts.gui.task.index")
 local util = require("scripts.util")
 
 local actions = {}
@@ -132,6 +133,19 @@ function actions.cycle_task_status(Gui, msg)
     Task:update_guis(function(Gui)
       Gui:update_task(Task)
     end)
+  end
+end
+
+--- @param Gui TasksGui
+--- @param msg table
+function actions.open_task_gui(Gui, msg)
+  local Task = global.tasks[msg.task_id]
+  if Task then
+    local TaskGui = Gui.player_table.guis.task[msg.task_id]
+    if not TaskGui then
+      TaskGui = task_gui.new(Gui.player, Gui.player_table, Task)
+    end
+    -- TODO:
   end
 end
 

@@ -59,7 +59,9 @@ local styles = data.raw["gui-style"]["default"]
 
 styles.tlst_description_frame = {
   type = "frame_style",
-  padding = 6,
+  bottom_padding = 6,
+  left_padding = 8,
+  right_padding = 8,
   top_padding = 4,
   graphical_set = {
     base = {
