@@ -2,6 +2,8 @@ local gui = require("__flib__.gui")
 
 local constants = require("constants")
 
+local util = require("scripts.util")
+
 local actions = require("actions")
 local templates = require("templates")
 
@@ -206,28 +208,11 @@ function TasksGui:move_task(Task, delta)
   end
 end
 
-local function recursive_show_completed(flow, to_state)
-  for _, row in pairs(flow.incompleted.children) do
-    recursive_show_completed(row.details_flow.subtasks_flow, to_state)
-  end
-
-  local completed_flow = flow.completed
-  if to_state and #completed_flow.children > 0 then
-    completed_flow.visible = true
-
-    for _, row in pairs(completed_flow.children) do
-      recursive_show_completed(row.details_flow.subtasks_flow, to_state)
-    end
-  else
-    completed_flow.visible = false
-  end
-end
-
 function TasksGui:update_show_completed()
   local show_completed = self.state.show_completed
 
-  recursive_show_completed(self.refs.force_flow, show_completed)
-  recursive_show_completed(self.refs.private_flow, show_completed)
+  util.recursive_show_completed(self.refs.force_flow, show_completed)
+  util.recursive_show_completed(self.refs.private_flow, show_completed)
 end
 
 -- BOOTSTRAP
