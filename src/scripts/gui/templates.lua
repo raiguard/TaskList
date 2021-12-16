@@ -35,9 +35,10 @@ function templates.frame_action_button(sprite, tooltip, action, ref)
 end
 
 --- @param Task Task
+--- @param gui_ident string|GuiIdent
 --- @param index number|nil
 --- @param completed boolean
-function templates.task_item(Task, index, completed)
+function templates.task_item(Task, gui_ident, index, completed)
   return {
     type = "flow",
     name = Task.id,
@@ -52,7 +53,7 @@ function templates.task_item(Task, index, completed)
         caption = Task.title,
         state = completed,
         actions = {
-          on_checked_state_changed = { gui = "tasks", action = "toggle_task_completed", task_id = Task.id },
+          on_checked_state_changed = { gui = gui_ident, action = "toggle_task_completed", task_id = Task.id },
         },
       },
       {
@@ -67,7 +68,7 @@ function templates.task_item(Task, index, completed)
         sprite = "flib_indicator_" .. constants.task_status[Task.status].color,
         tooltip = constants.task_status[Task.status].label,
         actions = {
-          on_click = { gui = "tasks", action = "cycle_task_status", task_id = Task.id },
+          on_click = { gui = gui_ident, action = "cycle_task_status", task_id = Task.id },
         },
       },
       {
@@ -78,7 +79,7 @@ function templates.task_item(Task, index, completed)
         mouse_button_filter = { "left", "middle" },
         actions = {
           on_click = {
-            gui = "tasks",
+            gui = gui_ident,
             action = "edit_task",
             task_id = Task.id,
             parent_task_id = Task.owner.object_name == "Task" and Task.owner.id or nil,
@@ -92,7 +93,7 @@ function templates.task_item(Task, index, completed)
         tooltip = { "gui.tlst-expand-tooltip" },
         mouse_button_filter = { "left", "middle" },
         actions = {
-          on_click = { gui = "tasks", transform = "handle_expand_click", task_id = Task.id },
+          on_click = { gui = gui_ident, transform = "handle_expand_click", task_id = Task.id },
         },
       },
     },
@@ -123,7 +124,7 @@ function templates.task_item(Task, index, completed)
             sprite = "utility/add",
             tooltip = { "gui.tlst-add-subtask" },
             actions = {
-              on_click = { gui = "tasks", action = "edit_task", parent_task_id = Task.id },
+              on_click = { gui = gui_ident, action = "edit_task", parent_task_id = Task.id },
             },
           },
           { type = "label", caption = { "gui.tlst-add-subtask" } },

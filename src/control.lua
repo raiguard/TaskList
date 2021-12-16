@@ -88,7 +88,7 @@ end)
 gui.hook_events(function(e)
   local msg = gui.read_action(e)
   if msg then
-    local Gui = util.get_gui(e.player_index, msg.gui, msg.gui_id)
+    local Gui = util.get_gui(e.player_index, msg.gui)
     if Gui then
       Gui:dispatch(msg, e)
     end

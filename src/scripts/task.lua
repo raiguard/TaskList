@@ -83,8 +83,10 @@ function Task:update_guis(callback)
   local players = {}
 
   -- Get ultimate owner
+  local path = {}
   local owner = self.owner
   while owner.object_name == "Task" do
+    table.insert(path, 1, owner.id)
     owner = owner.owner
   end
 
@@ -102,6 +104,14 @@ function Task:update_guis(callback)
     local Gui = util.get_gui(player_index, "tasks")
     if Gui then
       callback(Gui)
+    end
+
+    -- Call on all task detail GUIs
+    for _, task_id in pairs(path) do
+      local Gui = util.get_gui(player_index, { name = "task", id = task_id })
+      if Gui then
+        callback(Gui)
+      end
     end
   end
 end

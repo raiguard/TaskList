@@ -132,7 +132,7 @@ function TasksGui:add_task(Task, index, completed)
   --- @type LuaGuiElement
   local flow = completed and flow.completed or flow.incompleted
 
-  gui.add(flow, templates.task_item(Task, index, completed))
+  gui.add(flow, templates.task_item(Task, "tasks", index, completed))
 
   if #flow.children > 0 and (not completed or self.state.show_completed) then
     flow.visible = true

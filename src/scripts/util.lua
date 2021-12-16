@@ -10,19 +10,22 @@ function util.error_text(player, text)
   player.play_sound({ path = "utility/cannot_build" })
 end
 
+--- @class GuiIdent
+--- @field name string
+--- @field id string|number
+
 --- Safely retrieve the GUI for the given player.
 --- @param player_index number
---- @param gui_name string
---- @param gui_id number
+--- @param gui_ident string|GuiIdent
 --- @return TasksGui
-function util.get_gui(player_index, gui_name, gui_id)
+function util.get_gui(player_index, gui_ident)
   local player_table = global.players[player_index]
   if player_table then
     local Gui
-    if gui_id then
-      Gui = player_table.guis[gui_name][gui_id]
+    if type(gui_ident) == "table" then
+      Gui = player_table.guis[gui_ident.name][gui_ident.id]
     else
-      Gui = player_table.guis[gui_name]
+      Gui = player_table.guis[gui_ident]
     end
     if Gui and Gui.refs.window.valid then
       return Gui
