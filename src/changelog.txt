@@ -4,6 +4,7 @@ Date: ????
   Compatibility:
     - [Editor Extensions] The testing lab force will be ignored in favor of the player's "actual" force
   Bugfixes:
+    - Fixed a crash when another mod deletes the tasks GUI (#9)
     - Fixed that rejected confirm with E was still closing the edit task GUI
     - Fixed the mod not accounting for forces created after the start of a game
 ---------------------------------------------------------------------------------------------------

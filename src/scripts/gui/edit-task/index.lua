@@ -132,6 +132,7 @@ function index.new(player, player_table, options)
   local refs = gui.build(player.gui.screen, {
     {
       type = "frame",
+      name = "tlst_edit_task_window",
       style_mods = { width = 448 },
       direction = "vertical",
       ref = { "window" },
