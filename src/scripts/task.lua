@@ -90,7 +90,7 @@ function Task:update_guis(callback)
 
   if owner.object_name == "LuaForce" then
     for player_index, player in pairs(game.players) do
-      if player.force.index == owner.index then
+      if util.get_force(player).index == owner.index then
         table.insert(players, player_index)
       end
     end

@@ -1,6 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.4
 Date: ????
+  Compatibility:
+    - [Editor Extensions] The testing lab force will be ignored in favor of the player's "actual" force
   Bugfixes:
     - Fixed that rejected confirm with E was still closing the edit task GUI
 ---------------------------------------------------------------------------------------------------

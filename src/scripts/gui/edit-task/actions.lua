@@ -70,7 +70,7 @@ function actions.confirm(Gui, _, e)
     local owner = Gui.state.parent_task
     if not owner then
       local is_private = refs.private_checkbox.state
-      owner = is_private and Gui.player or Gui.player.force
+      owner = is_private and Gui.player or util.get_force(Gui.player)
     end
 
     task.new(

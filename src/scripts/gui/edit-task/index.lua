@@ -2,6 +2,7 @@ local gui = require("__flib__.gui")
 local table = require("__flib__.table")
 
 local constants = require("constants")
+local util = require("scripts.util")
 
 local actions = require("actions")
 
@@ -76,7 +77,7 @@ function index.new(player, player_table, options)
   local ParentTask = options.parent_task
 
   local players = { { "gui.tlst-unassigned" } }
-  local force = player.force
+  local force = util.get_force(player)
   local assignee_selection_index = 1
   local player_selection_index = 0
 
@@ -107,7 +108,7 @@ function index.new(player, player_table, options)
   end
 
   for player_index, other_player in pairs(game.players) do
-    if other_player.force == force then
+    if util.get_force(other_player) == force then
       table.insert(players, other_player.name)
       if player_index == player.index then
         player_selection_index = #players

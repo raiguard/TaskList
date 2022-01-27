@@ -326,7 +326,7 @@ function index.new(player, player_table)
   player_table.guis.tasks = self
 
   -- Add existing tasks
-  local force_table = global.forces[player.force.index]
+  local force_table = global.forces[util.get_force(player).index]
   for _, tasks in pairs({
     force_table.completed_tasks,
     force_table.tasks,

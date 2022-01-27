@@ -10,6 +10,21 @@ function util.error_text(player, text)
   player.play_sound({ path = "utility/cannot_build" })
 end
 
+--- Get the force for the player, accounting for Editor Extensions.
+--- @param player LuaPlayer
+--- @return LuaForce
+function util.get_force(player)
+  local interface = remote.interfaces["EditorExtensions"]
+  if interface and interface.get_player_proper_force then
+    return remote.call("EditorExtensions", "get_player_proper_force", player)
+  end
+  return player.force
+end
+
+--- @class GuiIdent
+--- @field name string
+--- @field id string|number
+
 --- Safely retrieve the GUI for the given player.
 --- @param player_index number
 --- @param gui_name string
