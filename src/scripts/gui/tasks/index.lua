@@ -249,7 +249,7 @@ function index.new(player, player_table)
           { gui = "tasks", action = "pin" },
           { "pin_button" }
         ),
-        templates.frame_action_button("utility/close", { "gui.close-instruction" }, {
+        templates.frame_action_button("utility/close", { "gui.close" }, {
           gui = "tasks",
           action = "close",
         }),
@@ -288,7 +288,7 @@ function index.new(player, player_table)
             type = "sprite-button",
             style = "flib_tool_button_light_green",
             sprite = "utility/add",
-            tooltip = { "gui.tlst-new-task" },
+            tooltip = { "gui.tlst-new-task-instruction" },
             actions = {
               on_click = { gui = "tasks", action = "edit_task" },
             },

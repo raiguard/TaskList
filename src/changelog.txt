@@ -1,6 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.4
 Date: ????
+  Features:
+    - Pressing `E` with the tasks GUI open will open the new task window (#10)
   Compatibility:
     - [Editor Extensions] The testing lab force will be ignored in favor of the player's "actual" force
   Bugfixes:

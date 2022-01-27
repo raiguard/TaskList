@@ -112,6 +112,12 @@ event.register("tlst-linked-confirm-gui", function(e)
   if EditTaskGui then
     EditTaskGui:dispatch({ action = "confirm" })
     game.get_player(e.player_index).play_sound({ path = "utility/confirm" })
+  else
+    --- @type TasksGui
+    local TasksGui = util.get_gui(e.player_index, "tasks")
+    if TasksGui and TasksGui.state.visible and not TasksGui.state.pinned then
+      TasksGui:dispatch({ action = "edit_task", confirmed = true })
+    end
   end
 end)
 

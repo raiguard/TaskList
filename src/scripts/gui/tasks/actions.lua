@@ -56,10 +56,11 @@ function actions.edit_task(Gui, msg)
     local Task = msg.task_id and global.tasks[msg.task_id] or nil
     local ParentTask = msg.parent_task_id and global.tasks[msg.parent_task_id] or nil
     edit_task_gui.new(Gui.player, Gui.player_table, {
+      ignore_close = msg.confirmed,
       parent_gui = Gui,
-      task = Task,
       parent_task = ParentTask,
       set_private = not Task and not ParentTask and Gui.refs.visibility_switch.switch_state == "right",
+      task = Task,
     })
   end
 end

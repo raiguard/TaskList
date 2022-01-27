@@ -66,6 +66,7 @@ local index = {}
 --- @field parent_task Task|nil
 --- @field set_private boolean
 --- @field standalone boolean
+--- @field ignore_close boolean
 
 --- @param player LuaPlayer
 --- @param player_table PlayerTable
@@ -302,7 +303,7 @@ function index.new(player, player_table, options)
     player_table = player_table,
     refs = refs,
     state = {
-      just_confirmed = false,
+      just_confirmed = options.ignore_close and true or false,
       parent_task = ParentTask,
       player_selection_index = player_selection_index,
       standalone = options.standalone,
