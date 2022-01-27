@@ -14,6 +14,17 @@ migrations.versions = {
       task.status = "not_started"
     end
   end,
+  ["0.2.4"] = function()
+    -- Create data tables for any forces that were missed
+    for _, force in pairs(game.forces) do
+      if not global.forces[force.index] then
+        global.forces[force.index] = {
+          completed_tasks = {},
+          tasks = {},
+        }
+      end
+    end
+  end,
 }
 
 return migrations

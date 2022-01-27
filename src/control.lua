@@ -43,6 +43,14 @@ local task = require("scripts.task")
 local tasks_gui = require("scripts.gui.tasks.index")
 local util = require("scripts.util")
 
+--- @param force LuaForce
+local function init_force(force)
+  global.forces[force.index] = {
+    completed_tasks = {},
+    tasks = {},
+  }
+end
+
 -- BOOTSTRAP
 
 event.on_init(function()
@@ -52,10 +60,7 @@ event.on_init(function()
   global.tasks = {}
 
   for _, force in pairs(game.forces) do
-    global.forces[force.index] = {
-      completed_tasks = {},
-      tasks = {},
-    }
+    init_force(force)
   end
   for _, player in pairs(game.players) do
     player_data.init(player)
@@ -81,6 +86,12 @@ event.on_configuration_changed(function(e)
   if migration.on_config_changed(e, migrations.versions) then
     migrations.generic()
   end
+end)
+
+-- FORCE
+
+event.on_force_created(function(e)
+  init_force(e.force)
 end)
 
 -- INTERACTION
