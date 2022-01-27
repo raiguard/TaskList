@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.3.0
-Date: ????
+Date: 2022-01-27
   Features:
     - Pressing `E` with the tasks GUI open will open the new task window (#10)
   Compatibility:
