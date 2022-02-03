@@ -1,7 +1,10 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.3.1
 Date: ????
+  Features:
+    - Added a setting to disable `E` to create new task
   Changes:
+    - Opening the new task window with `E` is disabled by default
 ---------------------------------------------------------------------------------------------------
 Version: 0.3.0
 Date: 2022-01-27

@@ -14,6 +14,7 @@ local templates = require("templates")
 --- @field titlebar_flow LuaGuiElement
 --- @field pin_button LuaGuiElement
 --- @field visibility_switch LuaGuiElement
+--- @field new_task_button LuaGuiElement
 --- @field scroll_pane LuaGuiElement
 --- @field force_flow LuaGuiElement
 --- @field private_flow LuaGuiElement
@@ -222,6 +223,7 @@ local index = {}
 --- @param player LuaPlayer
 --- @param player_table PlayerTable
 function index.new(player, player_table)
+  local new_task_on_confirm = player.mod_settings["tlst-new-task-on-confirm"].value
   --- @type TasksGuiRefs
   local refs = gui.build(player.gui.screen, {
     {
@@ -288,7 +290,8 @@ function index.new(player, player_table)
             type = "sprite-button",
             style = "flib_tool_button_light_green",
             sprite = "utility/add",
-            tooltip = { "gui.tlst-new-task-instruction" },
+            tooltip = new_task_on_confirm and { "gui.tlst-new-task-instruction" } or { "gui.tlst-new-task" },
+            ref = { "new_task_button" },
             actions = {
               on_click = { gui = "tasks", action = "edit_task" },
             },

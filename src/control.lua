@@ -107,12 +107,13 @@ gui.hook_events(function(e)
 end)
 
 event.register("tlst-linked-confirm-gui", function(e)
+  local player = game.get_player(e.player_index)
   --- @type EditTaskGui
   local EditTaskGui = util.get_gui(e.player_index, "edit_task")
   if EditTaskGui then
     EditTaskGui:dispatch({ action = "confirm" })
-    game.get_player(e.player_index).play_sound({ path = "utility/confirm" })
-  else
+    player.play_sound({ path = "utility/confirm" })
+  elseif player.mod_settings["tlst-new-task-on-confirm"].value then
     --- @type TasksGui
     local TasksGui = util.get_gui(e.player_index, "tasks")
     if TasksGui and TasksGui.state.visible and not TasksGui.state.pinned then
@@ -174,4 +175,18 @@ event.on_player_removed(function(e)
   end
 
   global.players[e.player_index] = nil
+end)
+
+event.on_runtime_mod_setting_changed(function(e)
+  if e.setting == "tlst-new-task-on-confirm" then
+    local TasksGui = util.get_gui(e.player_index, "tasks")
+    if TasksGui then
+      local player = game.get_player(e.player_index)
+      local tooltip = { "gui.tlst-new-task" }
+      if player.mod_settings[e.setting].value then
+        tooltip[1] = tooltip[1] .. "-instruction"
+      end
+      TasksGui.refs.new_task_button.tooltip = tooltip
+    end
+  end
 end)
