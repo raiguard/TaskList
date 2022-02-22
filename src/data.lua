@@ -83,9 +83,22 @@ styles.tlst_red_dialog_button = {
 styles.tlst_tasks_scroll_pane = {
   type = "scroll_pane_style",
   parent = "flib_naked_scroll_pane",
-  top_padding = 2,
+  top_padding = 8,
+  bottom_padding = 8,
   vertical_flow_style = {
     type = "vertical_flow_style",
-    vertical_spacing = 0,
   },
+}
+
+styles.tlst_task_item_flow = {
+  type = "horizontal_flow_style",
+  height = 24,
+  vertical_align = "center",
+}
+
+styles.tlst_new_task_label = {
+  type = "label_style",
+  font = "default-semibold",
+  font_color = { 128, 206, 240 },
+  hovered_font_color = { 154, 250, 255 },
 }

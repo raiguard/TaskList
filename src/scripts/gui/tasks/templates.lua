@@ -45,7 +45,7 @@ function templates.task_item(Task, index, completed)
     index = index or nil,
     {
       type = "flow",
-      style_mods = { vertical_align = "center" },
+      style = "tlst_task_item_flow",
       {
         type = "checkbox",
         style_mods = { horizontally_stretchable = true, horizontally_squashable = true },
@@ -114,17 +114,18 @@ function templates.task_item(Task, index, completed)
         { type = "flow", name = "completed", direction = "vertical", visible = false },
         {
           type = "flow",
-          style_mods = { padding = 0, margin = 0, horizontal_spacing = 8 },
+          style = "tlst_task_item_flow",
           {
-            type = "sprite-button",
-            style = "mini_button_aligned_to_text_vertically",
-            sprite = "utility/add",
-            tooltip = { "gui.tlst-add-subtask" },
+            type = "label",
+            style = "tlst_new_task_label",
+            caption = { "gui.tlst-add-subtask" },
             actions = {
               on_click = { gui = "tasks", action = "edit_task", parent_task_id = Task.id },
             },
           },
-          { type = "label", caption = { "gui.tlst-add-subtask" } },
+          actions = {
+            on_click = { gui = "tasks", action = "edit_task", parent_task_id = Task.id },
+          },
         },
       },
     },

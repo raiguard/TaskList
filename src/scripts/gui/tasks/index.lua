@@ -299,7 +299,7 @@ function index.new(player, player_table)
         },
         {
           type = "scroll-pane",
-          style = "flib_naked_scroll_pane",
+          style = "tlst_tasks_scroll_pane",
           ref = { "scroll_pane" },
           templates.checkboxes_flow("force"),
           templates.checkboxes_flow("private", false),
@@ -331,12 +331,14 @@ function index.new(player, player_table)
 
   -- Add existing tasks
   local force_table = global.forces[util.get_force(player).index]
-  for _, tasks in pairs({
-    force_table.completed_tasks,
-    force_table.tasks,
-    player_table.completed_tasks,
-    player_table.tasks,
-  }) do
+  for _, tasks in
+    pairs({
+      force_table.completed_tasks,
+      force_table.tasks,
+      player_table.completed_tasks,
+      player_table.tasks,
+    })
+  do
     for _, task_id in pairs(tasks) do
       local Task = global.tasks[task_id]
       if Task then
