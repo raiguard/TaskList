@@ -204,7 +204,7 @@ function index.new(player, player_table, options)
             { type = "empty-widget", style = "flib_horizontal_pusher" },
             {
               type = "checkbox",
-              caption = { "gui.tlst-private" },
+              caption = { "", { "gui.tlst-private" }, " [img=info]" },
               tooltip = { "gui.tlst-private-description" },
               state = owner and owner.object_name == "LuaPlayer" or false,
               enabled = not ParentTask,
