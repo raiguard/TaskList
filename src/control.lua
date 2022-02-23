@@ -36,6 +36,7 @@ local event = require("__flib__.event")
 local gui = require("__flib__.gui")
 local migration = require("__flib__.migration")
 
+local active_task_button = require("scripts.gui.active-task-button")
 local migrations = require("scripts.migrations")
 local edit_task_gui = require("scripts.gui.edit-task.index")
 local player_data = require("scripts.player-data")
@@ -187,6 +188,15 @@ event.on_runtime_mod_setting_changed(function(e)
         tooltip[1] = tooltip[1] .. "-instruction"
       end
       TasksGui.refs.new_task_button.tooltip = tooltip
+    end
+  elseif e.setting == "tlst-show-active-task" then
+    local player = game.get_player(e.player_index)
+    local player_table = global.players[e.player_index]
+    local value = player.mod_settings["tlst-show-active-task"].value
+    if value == "off" then
+      active_task_button.destroy(player_table)
+    else
+      active_task_button.build(player, player_table)
     end
   end
 end)

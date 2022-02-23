@@ -1,6 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.4.0
 Date: ????
+  Features:
+    - Added an option to show the active (topmost in progress) task at the top of the screen
   Changes:
     - Increased GUI spacing to improve visiblity
     - Made add subtask button easier to click

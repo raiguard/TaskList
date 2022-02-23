@@ -26,6 +26,11 @@ function actions.close(Gui)
 end
 
 --- @param Gui TasksGui
+function actions.toggle(Gui)
+  Gui:toggle()
+end
+
+--- @param Gui TasksGui
 function actions.pin(Gui)
   Gui.state.pinned = not Gui.state.pinned
 

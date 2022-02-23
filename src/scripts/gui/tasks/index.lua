@@ -4,6 +4,8 @@ local constants = require("constants")
 
 local util = require("scripts.util")
 
+local active_task_button = require("scripts.gui.active-task-button")
+
 local actions = require("actions")
 local templates = require("templates")
 
@@ -146,6 +148,8 @@ function TasksGui:add_task(Task, index, completed)
       end
     end
   end
+
+  active_task_button.update(self.player, self.player_table)
 end
 
 --- @param Task Task
@@ -173,6 +177,8 @@ function TasksGui:update_task(Task)
         { elem_mods = { caption = Task.description, visible = #Task.description > 0 } },
       },
     })
+
+    active_task_button.update(self.player, self.player_table)
   end
 end
 
@@ -195,6 +201,8 @@ function TasksGui:delete_task(Task, completed)
   else
     flow.visible = false
   end
+
+  active_task_button.update(self.player, self.player_table)
 end
 
 --- @param Task Task
@@ -207,6 +215,8 @@ function TasksGui:move_task(Task, delta)
   if row then
     flow.swap_children(row.get_index_in_parent(), row.get_index_in_parent() + delta)
   end
+
+  active_task_button.update(self.player, self.player_table)
 end
 
 function TasksGui:update_show_completed()

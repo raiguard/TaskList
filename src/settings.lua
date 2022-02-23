@@ -5,4 +5,11 @@ data:extend({
     setting_type = "runtime-per-user",
     default_value = false,
   },
+  {
+    type = "string-setting",
+    name = "tlst-show-active-task",
+    setting_type = "runtime-per-user",
+    allowed_values = { "off", "force", "private" },
+    default_value = "off",
+  },
 })
