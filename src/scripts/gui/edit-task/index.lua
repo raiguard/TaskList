@@ -120,8 +120,9 @@ function index.new(player, player_table, options)
     end
   end
 
+  local default_task = player.mod_settings["tlst-new-tasks-in-progress"].value and "in_progress" or "not_started"
   local status_items = {}
-  local selected_status_index = 1
+  local selected_status_index = constants.task_status[default_task].index
   for status_name, status_info in pairs(constants.task_status) do
     if status_name == Task.status then
       selected_status_index = status_info.index

@@ -12,4 +12,10 @@ data:extend({
     allowed_values = { "off", "force", "private" },
     default_value = "off",
   },
+  {
+    type = "bool-setting",
+    name = "tlst-new-tasks-in-progress",
+    setting_type = "runtime-per-user",
+    default_value = false,
+  },
 })
