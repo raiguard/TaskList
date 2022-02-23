@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.4.0
-Date: ????
+Date: 2022-02-23
   Features:
     - Added an option to automatically add new tasks to the top
     - Added an option to automatically mark new tasks as in progress
