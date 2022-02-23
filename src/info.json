@@ -2,7 +2,7 @@
   "name": "TaskList",
   "version": "0.4.0",
   "title": "Task List",
-  "description": "Keep track of your tasks in a simple and unobtrusive interface.",
+  "description": "Keep track of your tasks / todos in a simple and unobtrusive interface.",
   "author": "raiguard",
   "contact": "https://github.com/raiguard/Factorio-TaskList",
   "factorio_version": "1.1",
