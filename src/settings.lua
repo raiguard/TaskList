@@ -18,4 +18,5 @@ data:extend({
     setting_type = "runtime-per-user",
     default_value = false,
   },
+  { type = "bool-setting", name = "tlst-new-tasks-at-top", setting_type = "runtime-per-user", default_value = false },
 })

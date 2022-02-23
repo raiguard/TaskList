@@ -199,7 +199,7 @@ function index.new(player, player_table, options)
             {
               type = "checkbox",
               caption = { "gui.tlst-add-to-top" },
-              state = false,
+              state = player.mod_settings["tlst-new-tasks-at-top"].value,
               ref = { "add_to_top_checkbox" },
             },
             { type = "empty-widget", style = "flib_horizontal_pusher" },

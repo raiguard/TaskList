@@ -2,6 +2,7 @@
 Version: 0.4.0
 Date: ????
   Features:
+    - Added an option to automatically add new tasks to the top
     - Added an option to automatically mark new tasks as in progress
     - Added an option to show the active (topmost in progress) task at the top of the screen
   Changes:
