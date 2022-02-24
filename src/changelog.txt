@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.4.1
-Date: ????
+Date: 2022-02-24
   Changes:
     - Added Spanish and Catalan locales (by willyw0nka) (#14)
     - Updated Russian locale (by Astorin) (#15)
