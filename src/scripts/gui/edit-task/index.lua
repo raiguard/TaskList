@@ -99,7 +99,7 @@ function index.new(player, player_table, options)
   end
   if owner.object_name == "LuaPlayer" then
     assignable = false
-    assignee_index = ParentTask and ParentTask.assignee.index or 0
+    assignee_index = ParentTask and ParentTask.assignee and ParentTask.assignee.index or 0
   else
     assignee_index = Task.assignee and Task.assignee.index or 0
   end

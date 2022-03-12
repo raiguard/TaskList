@@ -3,6 +3,8 @@ Version: 0.4.2
 Date: ????
   Changes:
     - Added Korean locale (by x2605) (#18)
+  Bugfixes:
+    - Fixed a crash when adding a private subtask (#19)
 ---------------------------------------------------------------------------------------------------
 Version: 0.4.1
 Date: 2022-02-24
