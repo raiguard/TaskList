@@ -1,6 +1,6 @@
 local table = require("__flib__.table")
 
-local util = require("scripts.util")
+local util = require("__TaskList__.scripts.util")
 
 --- @class Task
 local Task = {}

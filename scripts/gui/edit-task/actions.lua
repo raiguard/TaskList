@@ -1,7 +1,7 @@
-local constants = require("constants")
+local constants = require("__TaskList__.constants")
 
-local task = require("scripts.task")
-local util = require("scripts.util")
+local task = require("__TaskList__.scripts.task")
+local util = require("__TaskList__.scripts.util")
 
 local actions = {}
 

@@ -1,5 +1,5 @@
-local active_task_button = require("scripts.gui.active-task-button")
-local tasks_gui = require("scripts.gui.tasks.index")
+local active_task_button = require("__TaskList__.scripts.gui.active-task-button")
+local tasks_gui = require("__TaskList__.scripts.gui.tasks.index")
 
 local player_data = {}
 
