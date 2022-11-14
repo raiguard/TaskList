@@ -111,7 +111,7 @@ function TasksGui:get_parent_flow(Task)
   -- At this point, the owner will be a LuaForce or LuaPlayer
   local flow = owner.object_name == "LuaForce" and self.refs.force_flow or self.refs.private_flow
   for _, owner in pairs(route) do
-    local subflow = owner.completed and flow.completed or flow.incompleted
+    local subflow = owner.completed and flow.completed or flow.incompleted --[[@as LuaGuiElement]]
     local row = subflow[tostring(owner.id)]
     if row then
       flow = row.details_flow.subtasks_flow
@@ -122,14 +122,14 @@ function TasksGui:get_parent_flow(Task)
 end
 
 --- @param Task Task
---- @param index number
+--- @param index number?
+--- @param completed boolean?
 function TasksGui:add_task(Task, index, completed)
   if completed == nil then
     completed = Task.completed
   end
   local flow = self:get_parent_flow(Task)
-  --- @type LuaGuiElement
-  local flow = completed and flow.completed or flow.incompleted
+  local flow = completed and flow.completed or flow.incompleted --[[@as LuaGuiElement]]
 
   gui.add(flow, templates.task_item(Task, index, completed))
 
@@ -155,8 +155,7 @@ end
 --- @param Task Task
 function TasksGui:update_task(Task)
   local flow = self:get_parent_flow(Task)
-  --- @type LuaGuiElement
-  local flow = Task.completed and flow.completed or flow.incompleted
+  local flow = Task.completed and flow.completed or flow.incompleted --[[@as LuaGuiElement]]
 
   local row = flow[tostring(Task.id)]
   if row then
@@ -189,7 +188,7 @@ function TasksGui:delete_task(Task, completed)
   end
   local flow = self:get_parent_flow(Task)
   --- @type LuaGuiElement
-  local flow = completed and flow.completed or flow.incompleted
+  local flow = completed and flow.completed or flow.incompleted --[[@as LuaGuiElement]]
 
   local row = flow[tostring(Task.id)]
   if row then
@@ -210,10 +209,10 @@ end
 function TasksGui:move_task(Task, delta)
   local flow = self:get_parent_flow(Task)
   --- @type LuaGuiElement
-  local flow = Task.completed and flow.completed or flow.incompleted
+  local flow = Task.completed and flow.completed or flow.incompleted --[[@as LuaGuiElement]]
   local row = flow[tostring(Task.id)]
   if row then
-    flow.swap_children(row.get_index_in_parent(), row.get_index_in_parent() + delta)
+    flow.swap_children(row.get_index_in_parent(), row.get_index_in_parent() + delta --[[@as uint]])
   end
 
   active_task_button.update(self.player, self.player_table)
@@ -321,7 +320,7 @@ function index.new(player, player_table)
   refs.window.force_auto_center()
   refs.titlebar_flow.drag_target = refs.window
 
-  --- @type TasksGui
+  --- @class TasksGui
   local self = {
     player = player,
     player_table = player_table,
@@ -341,14 +340,12 @@ function index.new(player, player_table)
 
   -- Add existing tasks
   local force_table = global.forces[util.get_force(player).index]
-  for _, tasks in
-    pairs({
-      force_table.completed_tasks,
-      force_table.tasks,
-      player_table.completed_tasks,
-      player_table.tasks,
-    })
-  do
+  for _, tasks in pairs({
+    force_table.completed_tasks,
+    force_table.tasks,
+    player_table.completed_tasks,
+    player_table.tasks,
+  }) do
     for _, task_id in pairs(tasks) do
       local Task = global.tasks[task_id]
       if Task then

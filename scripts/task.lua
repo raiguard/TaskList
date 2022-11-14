@@ -78,7 +78,7 @@ function Task:move(delta)
   end
 end
 
---- @param callback fun(Gui: TasksGui)
+--- @param callback fun(Gui: EditTaskGui|TasksGui)
 function Task:update_guis(callback)
   local players = {}
 
@@ -129,7 +129,7 @@ function task.new(title, description, owner, assignee, status, add_to_top)
   end
 
   --- If `owner` is a `LuaPlayer`, then `assignee` will always be the same `LuaPlayer`.
-  --- @type Task
+  --- @class Task
   local self = {
     assignee = assignee,
     completed = false,

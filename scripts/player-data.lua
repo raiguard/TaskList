@@ -11,11 +11,17 @@ function player_data.init(player)
     --- @type number[]
     completed_tasks = {},
     flags = {},
+    --- @type PlayerGuis
     guis = {},
     --- @type number[]
     tasks = {},
   }
 end
+
+--- @class PlayerGuis
+--- @field active_task_button LuaGuiElement?
+--- @field edit_task EditTaskGui?
+--- @field tasks TasksGui?
 
 --- Refreshes the player's data, including GUIs, based on changes.
 --- @param player LuaPlayer

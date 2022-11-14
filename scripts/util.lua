@@ -18,7 +18,7 @@ function util.get_force(player)
   if interface and interface.get_player_proper_force then
     return remote.call("EditorExtensions", "get_player_proper_force", player)
   end
-  return player.force
+  return player.force --[[@as LuaForce]]
 end
 
 --- @class GuiIdent
@@ -28,7 +28,7 @@ end
 --- Safely retrieve the GUI for the given player.
 --- @param player_index number
 --- @param gui_name string
---- @return TasksGui
+--- @return EditTaskGui|TasksGui?
 function util.get_gui(player_index, gui_name)
   local player_table = global.players[player_index]
   if player_table then
@@ -47,7 +47,7 @@ function util.recursive_show_completed(flow, to_state)
     util.recursive_show_completed(row.details_flow.subtasks_flow, to_state)
   end
 
-  local completed_flow = flow.completed --- @diagnostic disable-line
+  local completed_flow = flow.completed --[[@as LuaGuiElement]]
   if to_state and #completed_flow.children > 0 then
     completed_flow.visible = true
 

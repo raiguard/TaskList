@@ -70,10 +70,8 @@ function actions.edit_task(Gui, msg)
   end
 end
 
---- @param Gui TasksGui
 --- @param msg table
---- @param e on_gui_checked_state_changed
-function actions.toggle_task_completed(Gui, msg, e)
+function actions.toggle_task_completed(_, msg)
   local task_id = msg.task_id
 
   local Task = global.tasks[task_id]
@@ -82,17 +80,16 @@ function actions.toggle_task_completed(Gui, msg, e)
   end
 end
 
---- @param Gui TasksGui
 --- @param e on_gui_click
-function actions.expand_task(Gui, _, e)
+function actions.expand_task(_, _, e)
   local elem = e.element
-  local details_flow = elem.parent.parent.details_flow
+  local details_flow = elem.parent.parent.details_flow --[[@as LuaGuiElement]]
 
   -- TEMPORARY:
   if e.control or e.shift then
     local our_index = elem.parent.parent.get_index_in_parent()
     local delta = e.shift and 1 or -1
-    elem.parent.parent.parent.swap_children(our_index + delta, our_index)
+    elem.parent.parent.parent.swap_children(our_index + delta --[[@as uint]], our_index)
     return
   end
 
@@ -113,10 +110,8 @@ function actions.toggle_tasks_mode(Gui, _, e)
   Gui.refs.private_flow.visible = visible == "private"
 end
 
---- @param Gui TasksGui
 --- @param msg table
---- @param e on_gui_click
-function actions.move_task(Gui, msg, e)
+function actions.move_task(_, msg, _)
   local delta = msg.delta
   local task_id = msg.task_id
 
@@ -126,9 +121,8 @@ function actions.move_task(Gui, msg, e)
   end
 end
 
---- @param Gui TasksGui
 --- @param msg table
-function actions.cycle_task_status(Gui, msg)
+function actions.cycle_task_status(_, msg)
   local Task = global.tasks[msg.task_id]
   if Task then
     local current = Task.status

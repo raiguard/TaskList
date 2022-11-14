@@ -46,8 +46,11 @@ local util = require("__TaskList__.scripts.util")
 
 --- @param force LuaForce
 local function init_force(force)
+  --- @class ForceTable
   global.forces[force.index] = {
+    --- @type number[]
     completed_tasks = {},
+    --- @type number[]
     tasks = {},
   }
 end
@@ -57,7 +60,9 @@ end
 event.on_init(function()
   global.forces = {}
   global.next_task_id = 1
+  --- @type table<uint, PlayerTable>
   global.players = {}
+  --- @type table<number, Task>
   global.tasks = {}
 
   for _, force in pairs(game.forces) do
@@ -108,14 +113,12 @@ gui.hook_events(function(e)
 end)
 
 event.register("tlst-linked-confirm-gui", function(e)
-  local player = game.get_player(e.player_index)
-  --- @type EditTaskGui
+  local player = game.get_player(e.player_index) --[[@as LuaPlayer]]
   local EditTaskGui = util.get_gui(e.player_index, "edit_task")
   if EditTaskGui then
     EditTaskGui:dispatch({ action = "confirm" })
     player.play_sound({ path = "utility/confirm" })
   elseif player.mod_settings["tlst-new-task-on-confirm"].value then
-    --- @type TasksGui
     local TasksGui = util.get_gui(e.player_index, "tasks")
     if TasksGui and TasksGui.state.visible and not TasksGui.state.pinned then
       TasksGui:dispatch({ action = "edit_task", confirmed = true })
@@ -123,13 +126,13 @@ event.register("tlst-linked-confirm-gui", function(e)
   end
 end)
 
---- @param player_index number
+--- @param player_index uint
 local function toggle_new_task(player_index)
   local EditTaskGui = util.get_gui(player_index, "edit_task")
   if EditTaskGui then
     EditTaskGui:destroy()
   else
-    local player = game.get_player(player_index)
+    local player = game.get_player(player_index) --[[@as LuaPlayer]]
     local player_table = global.players[player_index]
     edit_task_gui.new(player, player_table, { standalone = true })
   end
@@ -146,7 +149,7 @@ event.register({ "tlst-toggle-gui", defines.events.on_lua_shortcut }, function(e
     if Gui then
       Gui:toggle()
     else
-      local player = game.get_player(e.player_index)
+      local player = game.get_player(e.player_index) --[[@as LuaPlayer]]
       player_data.refresh(player, player_table)
     end
   elseif e.prototype_name == "tlst-new-task" then
@@ -157,7 +160,7 @@ end)
 -- PLAYER
 
 event.on_player_created(function(e)
-  local player = game.get_player(e.player_index)
+  local player = game.get_player(e.player_index) --[[@as LuaPlayer]]
 
   player_data.init(player)
   player_data.refresh(player, global.players[e.player_index])
@@ -182,7 +185,7 @@ event.on_runtime_mod_setting_changed(function(e)
   if e.setting == "tlst-new-task-on-confirm" then
     local TasksGui = util.get_gui(e.player_index, "tasks")
     if TasksGui then
-      local player = game.get_player(e.player_index)
+      local player = game.get_player(e.player_index) --[[@as LuaPlayer]]
       local tooltip = { "gui.tlst-new-task" }
       if player.mod_settings[e.setting].value then
         tooltip[1] = tooltip[1] .. "-instruction"
@@ -190,7 +193,7 @@ event.on_runtime_mod_setting_changed(function(e)
       TasksGui.refs.new_task_button.tooltip = tooltip
     end
   elseif e.setting == "tlst-show-active-task" then
-    local player = game.get_player(e.player_index)
+    local player = game.get_player(e.player_index) --[[@as LuaPlayer]]
     local player_table = global.players[e.player_index]
     local value = player.mod_settings["tlst-show-active-task"].value
     if value == "off" then

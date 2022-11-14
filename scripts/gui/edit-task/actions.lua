@@ -27,7 +27,7 @@ function actions.update_assignee_dropdown(Gui)
   local is_private = Gui.refs.private_checkbox.state
   if is_private then
     dropdown.enabled = false
-    dropdown.selected_index = Gui.state.player_selection_index
+    dropdown.selected_index = Gui.state.player_selection_index --[[@as uint]]
   else
     dropdown.enabled = true
   end
@@ -67,6 +67,7 @@ function actions.confirm(Gui, _, e)
   if Task then
     Task:update(refs.title_textfield.text, refs.description_textfield.text, assignee, status)
   else
+    --- @type LuaForce|LuaPlayer|Task
     local owner = Gui.state.parent_task
     if not owner then
       local is_private = refs.private_checkbox.state
@@ -91,7 +92,9 @@ end
 --- @param Gui EditTaskGui
 function actions.delete(Gui)
   local Task = Gui.state.task
-  Task:delete()
+  if Task then
+    Task:delete()
+  end
 
   Gui:destroy()
 end

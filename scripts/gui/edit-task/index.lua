@@ -61,7 +61,7 @@ end
 local index = {}
 
 --- @class NewTaskOptions
---- @field parent_gui LuaGuiElement|nil
+--- @field parent_gui TasksGui|nil
 --- @field task Task|nil
 --- @field parent_task Task|nil
 --- @field set_private boolean
@@ -297,7 +297,7 @@ function index.new(player, player_table, options)
     player.set_shortcut_toggled("tlst-new-task", true)
   end
 
-  --- @type EditTaskGui
+  --- @class EditTaskGui
   local self = {
     parent = Parent,
     player = player,
