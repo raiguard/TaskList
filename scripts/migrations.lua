@@ -1,4 +1,4 @@
-local player_data = require("__TaskList__.scripts.player-data")
+local player_data = require("__TaskList__/scripts/player-data")
 
 local migrations = {}
 

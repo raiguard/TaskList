@@ -1,5 +1,5 @@
-local gui = require("__flib__.gui")
-local mod_gui = require("__core__.lualib.mod-gui")
+local gui = require("__flib__/gui")
+local mod_gui = require("__core__/lualib/mod-gui")
 
 local active_task_button = {}
 

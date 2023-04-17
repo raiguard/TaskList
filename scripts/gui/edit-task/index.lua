@@ -1,10 +1,10 @@
-local gui = require("__flib__.gui")
-local table = require("__flib__.table")
+local gui = require("__flib__/gui")
+local table = require("__flib__/table")
 
-local constants = require("__TaskList__.constants")
-local util = require("__TaskList__.scripts.util")
+local constants = require("__TaskList__/constants")
+local util = require("__TaskList__/scripts/util")
 
-local actions = require("__TaskList__.scripts.gui.edit-task.actions")
+local actions = require("__TaskList__/scripts/gui/edit-task/actions")
 
 -- GUI
 
