@@ -24,7 +24,7 @@ function active_task_button.build(player, player_table)
 end
 
 --- @param player LuaPlayer
---- @param task Task
+--- @param Task Task
 --- @return bool
 local function can_show_task(player, Task)
   if not Task then
