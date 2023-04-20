@@ -192,7 +192,7 @@ event.on_runtime_mod_setting_changed(function(e)
       end
       TasksGui.refs.new_task_button.tooltip = tooltip
     end
-  elseif e.setting == "tlst-show-active-task" then
+  elseif e.setting == "tlst-show-active-task" or e.setting == "tlst-active-filter-assigned" then
     local player = game.get_player(e.player_index) --[[@as LuaPlayer]]
     local player_table = global.players[e.player_index]
     local value = player.mod_settings["tlst-show-active-task"].value
