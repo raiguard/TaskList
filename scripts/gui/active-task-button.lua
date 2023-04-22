@@ -25,7 +25,7 @@ end
 
 --- @param player LuaPlayer
 --- @param Task Task
---- @return bool
+--- @return boolean
 local function can_show_task(player, Task)
   if not Task then
     return false
