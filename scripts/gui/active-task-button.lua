@@ -24,6 +24,26 @@ function active_task_button.build(player, player_table)
 end
 
 --- @param player LuaPlayer
+--- @param Task Task
+--- @return boolean
+local function can_show_task(player, Task)
+  if not Task then
+    return false
+  end
+  if Task.status ~= "in_progress" then
+    return false
+  end
+  if player.mod_settings["tlst-active-filter-assigned"].value then
+    if Task.assignee == nil then
+      return false
+    end
+    return Task.assignee.index == player.index
+  end
+
+  return true
+end
+
+--- @param player LuaPlayer
 --- @param player_table PlayerTable
 function active_task_button.update(player, player_table)
   local button = player_table.guis.active_task_button
@@ -37,7 +57,7 @@ function active_task_button.update(player, player_table)
     -- The "active" task is the first top-level active task we come across
     for _, task_id in pairs(tasks) do
       local Task = global.tasks[task_id]
-      if Task and Task.status == "in_progress" then
+      if can_show_task(player, Task) then
         button.caption = Task.title
         return
       end
