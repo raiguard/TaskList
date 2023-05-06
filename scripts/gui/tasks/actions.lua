@@ -46,7 +46,7 @@ function actions.pin(Gui)
 end
 
 --- @param Gui TasksGui
---- @param e on_gui_checked_state_changed
+--- @param e EventData.on_gui_checked_state_changed
 function actions.toggle_show_completed(Gui, _, e)
   local state = Gui.state
   state.show_completed = not state.show_completed
@@ -80,7 +80,7 @@ function actions.toggle_task_completed(_, msg)
   end
 end
 
---- @param e on_gui_click
+--- @param e EventData.on_gui_click
 function actions.expand_task(_, _, e)
   local elem = e.element
   local details_flow = elem.parent.parent.details_flow --[[@as LuaGuiElement]]
@@ -102,7 +102,7 @@ function actions.expand_task(_, _, e)
 end
 
 --- @param Gui TasksGui
---- @param e on_gui_switch_state_changed
+--- @param e EventData.on_gui_switch_state_changed
 function actions.toggle_tasks_mode(Gui, _, e)
   local visible = e.element.switch_state == "left" and "force" or "private"
 

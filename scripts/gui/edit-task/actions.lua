@@ -34,7 +34,7 @@ function actions.update_assignee_dropdown(Gui)
 end
 
 --- @param Gui EditTaskGui
---- @param e on_gui_confirmed|CustomInputEvent
+--- @param e EventData.on_gui_confirmed|EventData.CustomInputEvent
 function actions.confirm(Gui, _, e)
   local refs = Gui.refs
   local clicked = e.name == defines.events.on_gui_confirmed or e.name == defines.events.on_gui_click
