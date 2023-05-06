@@ -32,7 +32,6 @@
     - Store completion time?
 ]]
 
-local event = require("__flib__/event")
 local gui = require("__flib__/gui")
 local migration = require("__flib__/migration")
 
@@ -57,7 +56,7 @@ end
 
 -- BOOTSTRAP
 
-event.on_init(function()
+script.on_init(function()
   global.forces = {}
   global.next_task_id = 1
   --- @type table<uint, PlayerTable>
@@ -75,7 +74,7 @@ event.on_init(function()
   migrations.generic()
 end)
 
-event.on_load(function()
+script.on_load(function()
   for _, Task in pairs(global.tasks) do
     task.load(Task)
   end
@@ -88,7 +87,7 @@ event.on_load(function()
   end
 end)
 
-event.on_configuration_changed(function(e)
+script.on_configuration_changed(function(e)
   if migration.on_config_changed(e, migrations.versions) then
     migrations.generic()
   end
@@ -96,7 +95,7 @@ end)
 
 -- FORCE
 
-event.on_force_created(function(e)
+script.on_event(defines.events.on_force_created, function(e)
   init_force(e.force)
 end)
 
@@ -112,7 +111,7 @@ gui.hook_events(function(e)
   end
 end)
 
-event.register("tlst-linked-confirm-gui", function(e)
+script.on_event("tlst-linked-confirm-gui", function(e)
   local player = game.get_player(e.player_index) --[[@as LuaPlayer]]
   local EditTaskGui = util.get_gui(e.player_index, "edit_task")
   if EditTaskGui then
@@ -138,11 +137,11 @@ local function toggle_new_task(player_index)
   end
 end
 
-event.register("tlst-new-task", function(e)
+script.on_event("tlst-new-task", function(e)
   toggle_new_task(e.player_index)
 end)
 
-event.register({ "tlst-toggle-gui", defines.events.on_lua_shortcut }, function(e)
+script.on_event({ "tlst-toggle-gui", defines.events.on_lua_shortcut }, function(e)
   if (e.input_name or e.prototype_name) == "tlst-toggle-gui" then
     local player_table = global.players[e.player_index]
     local Gui = util.get_gui(e.player_index, "tasks")
@@ -159,14 +158,14 @@ end)
 
 -- PLAYER
 
-event.on_player_created(function(e)
+script.on_event(defines.events.on_player_created, function(e)
   local player = game.get_player(e.player_index) --[[@as LuaPlayer]]
 
   player_data.init(player)
   player_data.refresh(player, global.players[e.player_index])
 end)
 
-event.on_player_removed(function(e)
+script.on_event(defines.events.on_player_removed, function(e)
   -- Remove all player tasks
   local player_table = global.players[e.player_index]
   for _, task_ids in pairs({ player_table.completed_tasks, player_table.tasks }) do
@@ -181,7 +180,7 @@ event.on_player_removed(function(e)
   global.players[e.player_index] = nil
 end)
 
-event.on_runtime_mod_setting_changed(function(e)
+script.on_event(defines.events.on_runtime_mod_setting_changed, function(e)
   if e.setting == "tlst-new-task-on-confirm" then
     local TasksGui = util.get_gui(e.player_index, "tasks")
     if TasksGui then
