@@ -6,6 +6,7 @@ Date: ????
 Version: 0.4.4
 Date: 2023-05-06
   Features:
+    - Added "filter active task: assigned to me" option (#27)
 ---------------------------------------------------------------------------------------------------
 Version: 0.4.3
 Date: 2022-11-13
