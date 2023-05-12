@@ -34,6 +34,21 @@ function templates.frame_action_button(sprite, tooltip, action, ref)
   }
 end
 
+-- XXX: See https://forums.factorio.com/100896
+local toplevel_width = 452
+local nesting_offset = 22
+--- @param Task Task
+--- @return number
+local function get_task_description_width(Task)
+  local nesting_level = 0
+  repeat
+    Task = Task.owner --[[@as Task?]]
+    nesting_level = nesting_level + 1
+  until Task.object_name ~= "Task"
+
+  return toplevel_width - (nesting_offset * nesting_level)
+end
+
 --- @param Task Task
 --- @param index number|nil
 --- @param completed boolean
@@ -102,7 +117,11 @@ function templates.task_item(Task, index, completed)
       visible = false,
       {
         type = "label",
-        style_mods = { font_color = constants.description_color, single_line = false },
+        style_mods = {
+          font_color = constants.description_color,
+          single_line = false,
+          width = get_task_description_width(Task),
+        },
         caption = Task.description,
         visible = #Task.description > 0,
       },
