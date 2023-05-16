@@ -31,7 +31,7 @@ function EditTaskGui:destroy()
   end
   self.player_table.guis.edit_task = nil
 
-  if self.parent and not self.parent.state.pinned then
+  if self.parent and self.parent.refs.window.valid and not self.parent.state.pinned then
     self.player.opened = self.parent.refs.window --- @diagnostic disable-line
   end
 
