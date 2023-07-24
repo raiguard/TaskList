@@ -196,7 +196,7 @@ script.on_event(defines.events.on_runtime_mod_setting_changed, function(e)
     local player_table = global.players[e.player_index]
     local value = player.mod_settings["tlst-show-active-task"].value
     if value == "off" then
-      active_task_button.destroy(player_table)
+      active_task_button.destroy(player,player_table)
     else
       active_task_button.build(player, player_table)
     end

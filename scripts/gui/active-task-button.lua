@@ -46,11 +46,14 @@ end
 --- @param player LuaPlayer
 --- @param player_table PlayerTable
 function active_task_button.update(player, player_table)
+  
   local button = player_table.guis.active_task_button
   if button and button.valid then
     local tasks
     if player.mod_settings["tlst-show-active-task"].value == "force" then
       tasks = global.forces[player.force.index].tasks
+    elseif player.mod_settings["tlst-show-active-task"].value == "off" then
+      active_task_button.destroy(player,player_table)
     else
       tasks = player_table.tasks
     end
@@ -67,14 +70,43 @@ function active_task_button.update(player, player_table)
 end
 
 --- @param player_table PlayerTable
-function active_task_button.destroy(player_table)
+function active_task_button.destroy(player,player_table)
+  
   local button = player_table.guis.active_task_button
+
+
   if button then
+    
     if button.valid then
+      
       button.destroy()
+      
     end
     player_table.guis.active_task_button = nil
   end
+
+
+  
+  local gui = player.gui.top
+  mod_gui_button_flow = gui.mod_gui_button_flow
+  if mod_gui_button_flow then
+    if #mod_gui_button_flow.children_names == 0 then
+       mod_gui_button_flow.destroy()
+    end
+  end
+  top_frame = gui.mod_gui_top_frame
+  if top_frame then
+    inner_frame = top_frame.mod_gui_inner_frame
+     if inner_frame then
+        if #inner_frame.children_names == 0 then
+          inner_frame.destroy()
+        end
+    end
+        if #top_frame.children_names == 0 then
+          top_frame.destroy()
+        end
+  end
+
 end
 
 return active_task_button

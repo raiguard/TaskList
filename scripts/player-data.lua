@@ -38,7 +38,7 @@ function player_data.refresh(player, player_table)
     EditTaskGui:destroy()
   end
 
-  active_task_button.destroy(player_table)
+  active_task_button.destroy(player,player_table)
   if player.mod_settings["tlst-show-active-task"].value ~= "off" then
     active_task_button.build(player, player_table)
   end
