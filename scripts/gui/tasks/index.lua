@@ -131,6 +131,12 @@ function TasksGui:add_task(Task, index, completed)
   local flow = self:get_parent_flow(Task)
   local flow = completed and flow.completed or flow.incompleted --[[@as LuaGuiElement]]
 
+  -- Somehow the task state is getting desynced from the GUI sometimes
+  local existing = flow[tostring(Task.id)]
+  if existing then
+    existing.destroy()
+  end
+
   gui.add(flow, templates.task_item(Task, index, completed))
 
   if #flow.children > 0 and (not completed or self.state.show_completed) then
