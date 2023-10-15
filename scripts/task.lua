@@ -2,7 +2,20 @@ local table = require("__flib__/table")
 
 local util = require("__TaskList__/scripts/util")
 
---- @class Task
+--- @alias TaskID integer
+
+--- @class Task: LuaObject
+--- @field assignee LuaPlayer?
+--- @field completed boolean
+--- @field completed_tasks TaskID[]
+--- @field description string
+--- @field id TaskID
+--- @field object_name "Task"
+--- @field owner LuaForce|LuaPlayer|Task
+--- @field owner_table ForceTable|PlayerTable|Task
+--- @field status string
+--- @field tasks TaskID[]
+--- @field title string
 local Task = {}
 
 --- Update the task info and refresh all GUIs
@@ -129,7 +142,7 @@ function task.new(title, description, owner, assignee, status, add_to_top)
   end
 
   --- If `owner` is a `LuaPlayer`, then `assignee` will always be the same `LuaPlayer`.
-  --- @class Task
+  --- @type Task
   local self = {
     assignee = assignee,
     completed = false,
@@ -140,7 +153,7 @@ function task.new(title, description, owner, assignee, status, add_to_top)
     owner = owner,
     owner_table = owner_table,
     status = status,
-    tasks = {}, --- @type number[]
+    tasks = {},
     title = title,
   }
 

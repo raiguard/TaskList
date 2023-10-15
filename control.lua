@@ -57,6 +57,7 @@ end
 -- BOOTSTRAP
 
 script.on_init(function()
+  --- @type table<uint, ForceTable>
   global.forces = {}
   global.next_task_id = 1
   --- @type table<uint, PlayerTable>
