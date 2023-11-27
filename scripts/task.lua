@@ -107,7 +107,7 @@ function Task:update_guis(callback)
         table.insert(players, player_index)
       end
     end
-  else
+  elseif owner.valid then
     players = { owner.index }
   end
 
