@@ -61,12 +61,12 @@ end
 local index = {}
 
 --- @class NewTaskOptions
---- @field parent_gui TasksGui|nil
---- @field task Task|nil
---- @field parent_task Task|nil
---- @field set_private boolean
---- @field standalone boolean
---- @field ignore_close boolean
+--- @field parent_gui TasksGui?
+--- @field task Task?
+--- @field parent_task Task?
+--- @field set_private boolean?
+--- @field standalone boolean?
+--- @field ignore_close boolean?
 
 --- @param player LuaPlayer
 --- @param player_table PlayerTable
@@ -102,10 +102,6 @@ function index.new(player, player_table, options)
     assignee_index = ParentTask and ParentTask.assignee and ParentTask.assignee.index or 0
   else
     assignee_index = Task.assignee and Task.assignee.index or 0
-  end
-
-  if assignable and not assignee_index and owner.assignee then
-    assignee_index = owner.assignee.index
   end
 
   for player_index, other_player in pairs(game.players) do

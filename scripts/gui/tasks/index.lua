@@ -11,6 +11,12 @@ local templates = require("__TaskList__/scripts/gui/tasks/templates")
 
 -- GUI
 
+--- @class TasksGuiState
+--- @field ignore_close boolean
+--- @field pinned boolean
+--- @field show_completed boolean
+--- @field visible boolean
+
 --- @class TasksGuiRefs
 --- @field window LuaGuiElement
 --- @field titlebar_flow LuaGuiElement
@@ -331,7 +337,7 @@ function index.new(player, player_table)
     player = player,
     player_table = player_table,
     refs = refs,
-    --- @class TasksGuiState
+    --- @type TasksGuiState
     state = {
       ignore_close = false,
       pinned = false,
