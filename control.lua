@@ -166,6 +166,20 @@ script.on_event(defines.events.on_player_created, function(e)
   player_data.refresh(player, global.players[e.player_index])
 end)
 
+script.on_event(defines.events.on_player_changed_force, function(e)
+  local player = game.get_player(e.player_index)
+  if not player then
+    return
+  end
+
+  local player_table = global.players[e.player_index]
+  if not player_table then
+    return
+  end
+
+  player_data.refresh(player, player_table)
+end)
+
 script.on_event(defines.events.on_player_removed, function(e)
   -- Remove all player tasks
   local player_table = global.players[e.player_index]
