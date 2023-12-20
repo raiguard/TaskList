@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.4.8
-Date: ????
+Date: 2023-12-20
   Compatibility:
     - [Blueprint Sandboxes] The player's "actual" force will be used in favor of the blueprint sandboxes force. (#37)
   Bugfixes:
