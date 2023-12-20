@@ -18,7 +18,14 @@ function util.get_force(player)
   if interface and interface.get_player_proper_force then
     return remote.call("EditorExtensions", "get_player_proper_force", player)
   end
-  return player.force --[[@as LuaForce]]
+  local force = player.force --[[@as LuaForce]]
+  if string.find(force.name, "bpsb%-") then
+    local proper_name = string.match(force.name, "bpsb%-sb%-f%-(.*)")
+    if proper_name then
+      force = game.forces[proper_name]
+    end
+  end
+  return force
 end
 
 --- @class GuiIdent

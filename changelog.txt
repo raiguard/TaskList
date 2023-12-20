@@ -1,6 +1,8 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.4.8
 Date: ????
+  Compatibility:
+    - [Blueprint Sandboxes] The player's "actual" force will be used in favor of the blueprint sandboxes force. (#37)
   Bugfixes:
     - Fixed a crash when a player is removed from the game. (#45)
     - Fixed that the GUI would not account for a player changing forces during the course of a game.
