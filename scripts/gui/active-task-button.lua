@@ -50,13 +50,13 @@ function active_task_button.update(player, player_table)
   if button and button.valid then
     local tasks
     if player.mod_settings["tlst-show-active-task"].value == "force" then
-      tasks = global.forces[player.force.index].tasks
+      tasks = storage.forces[player.force.index].tasks
     else
       tasks = player_table.tasks
     end
     -- The "active" task is the first top-level active task we come across
     for _, task_id in pairs(tasks) do
-      local Task = global.tasks[task_id]
+      local Task = storage.tasks[task_id]
       if can_show_task(player, Task) then
         button.caption = Task.title
         return

@@ -154,7 +154,7 @@ function TasksGui:add_task(Task, index, completed)
   -- Add subtasks
   for _, subtasks in pairs({ Task.completed_tasks, Task.tasks }) do
     for _, subtask_id in pairs(subtasks) do
-      local subtask = global.tasks[subtask_id]
+      local subtask = storage.tasks[subtask_id]
       if subtask then
         self:add_task(subtask)
       end
@@ -351,7 +351,7 @@ function index.new(player, player_table)
   player_table.guis.tasks = self
 
   -- Add existing tasks
-  local force_table = global.forces[util.get_force(player).index]
+  local force_table = storage.forces[util.get_force(player).index]
   for _, tasks in pairs({
     force_table.completed_tasks,
     force_table.tasks,
@@ -359,7 +359,7 @@ function index.new(player, player_table)
     player_table.tasks,
   }) do
     for _, task_id in pairs(tasks) do
-      local Task = global.tasks[task_id]
+      local Task = storage.tasks[task_id]
       if Task then
         self:add_task(Task)
       end

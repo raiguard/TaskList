@@ -3,11 +3,11 @@ local tasks_gui = require("scripts.gui.tasks.index")
 
 local player_data = {}
 
---- Initializes the player's `global` table.
+--- Initializes the player's `storage` table.
 --- @param player LuaPlayer
 function player_data.init(player)
   --- @class PlayerTable
-  global.players[player.index] = {
+  storage.players[player.index] = {
     --- @type number[]
     completed_tasks = {},
     flags = {},

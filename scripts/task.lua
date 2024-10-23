@@ -38,14 +38,14 @@ end
 function Task:delete()
   for _, subtasks in pairs({ self.completed_tasks, self.tasks }) do
     for _, task_id in pairs(subtasks) do
-      local subtask = global.tasks[task_id]
+      local subtask = storage.tasks[task_id]
       if subtask then
         subtask:delete()
       end
     end
   end
 
-  global.tasks[self.id] = nil
+  storage.tasks[self.id] = nil
 
   local owner_table = self.owner_table
   local tasks_table = owner_table[self.completed and "completed_tasks" or "tasks"]
@@ -128,17 +128,17 @@ local task = {}
 --- @param status string
 --- @param add_to_top boolean
 function task.new(title, description, owner, assignee, status, add_to_top)
-  local id = global.next_task_id
-  global.next_task_id = id + 1
+  local id = storage.next_task_id
+  storage.next_task_id = id + 1
 
   local owner_table
 
   if owner.object_name == "Task" then
     owner_table = owner
   elseif owner.object_name == "LuaForce" then
-    owner_table = global.forces[owner.index]
+    owner_table = storage.forces[owner.index]
   else
-    owner_table = global.players[owner.index]
+    owner_table = storage.players[owner.index]
   end
 
   --- If `owner` is a `LuaPlayer`, then `assignee` will always be the same `LuaPlayer`.
@@ -165,7 +165,7 @@ function task.new(title, description, owner, assignee, status, add_to_top)
 
   task.load(self)
 
-  global.tasks[id] = self
+  storage.tasks[id] = self
 
   self:update_guis(function(Gui)
     Gui:add_task(self, add_to_top and 1 or nil)

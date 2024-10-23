@@ -17,7 +17,7 @@
 
   DESIGN NOTES:
   - Each task will have an entirely unique ID
-    - Store the next ID in the root of `global`
+    - Store the next ID in the root of `storage`
   - Tasks will be stored in a one-dimensional table keyed by task ID
   - Tasks can be owned by the force, or by the player
     - Player tasks will be shown separately from force tasks
@@ -46,7 +46,7 @@ local util = require("scripts.util")
 --- @param force LuaForce
 local function init_force(force)
   --- @class ForceTable
-  global.forces[force.index] = {
+  storage.forces[force.index] = {
     --- @type number[]
     completed_tasks = {},
     --- @type number[]
@@ -58,12 +58,12 @@ end
 
 script.on_init(function()
   --- @type table<uint, ForceTable>
-  global.forces = {}
-  global.next_task_id = 1
+  storage.forces = {}
+  storage.next_task_id = 1
   --- @type table<uint, PlayerTable>
-  global.players = {}
+  storage.players = {}
   --- @type table<number, Task>
-  global.tasks = {}
+  storage.tasks = {}
 
   for _, force in pairs(game.forces) do
     init_force(force)
@@ -76,11 +76,11 @@ script.on_init(function()
 end)
 
 script.on_load(function()
-  for _, Task in pairs(global.tasks) do
+  for _, Task in pairs(storage.tasks) do
     task.load(Task)
   end
 
-  for _, player_table in pairs(global.players) do
+  for _, player_table in pairs(storage.players) do
     tasks_gui.load(player_table.guis.tasks)
     if player_table.guis.edit_task then
       edit_task_gui.load(player_table.guis.edit_task)
@@ -133,7 +133,7 @@ local function toggle_new_task(player_index)
     EditTaskGui:destroy()
   else
     local player = game.get_player(player_index) --[[@as LuaPlayer]]
-    local player_table = global.players[player_index]
+    local player_table = storage.players[player_index]
     edit_task_gui.new(player, player_table, { standalone = true })
   end
 end
@@ -144,7 +144,7 @@ end)
 
 script.on_event({ "tlst-toggle-gui", defines.events.on_lua_shortcut }, function(e)
   if (e.input_name or e.prototype_name) == "tlst-toggle-gui" then
-    local player_table = global.players[e.player_index]
+    local player_table = storage.players[e.player_index]
     local Gui = util.get_gui(e.player_index, "tasks")
     if Gui then
       Gui:toggle()
@@ -163,7 +163,7 @@ script.on_event(defines.events.on_player_created, function(e)
   local player = game.get_player(e.player_index) --[[@as LuaPlayer]]
 
   player_data.init(player)
-  player_data.refresh(player, global.players[e.player_index])
+  player_data.refresh(player, storage.players[e.player_index])
 end)
 
 script.on_event(defines.events.on_player_changed_force, function(e)
@@ -172,7 +172,7 @@ script.on_event(defines.events.on_player_changed_force, function(e)
     return
   end
 
-  local player_table = global.players[e.player_index]
+  local player_table = storage.players[e.player_index]
   if not player_table then
     return
   end
@@ -182,17 +182,17 @@ end)
 
 script.on_event(defines.events.on_player_removed, function(e)
   -- Remove all player tasks
-  local player_table = global.players[e.player_index]
+  local player_table = storage.players[e.player_index]
   for _, task_ids in pairs({ player_table.completed_tasks, player_table.tasks }) do
     for _, task_id in pairs(task_ids) do
-      local Task = global.tasks[task_id]
+      local Task = storage.tasks[task_id]
       if Task then
         Task:delete()
       end
     end
   end
 
-  global.players[e.player_index] = nil
+  storage.players[e.player_index] = nil
 end)
 
 script.on_event(defines.events.on_runtime_mod_setting_changed, function(e)
@@ -208,7 +208,7 @@ script.on_event(defines.events.on_runtime_mod_setting_changed, function(e)
     end
   elseif e.setting == "tlst-show-active-task" or e.setting == "tlst-active-filter-assigned" then
     local player = game.get_player(e.player_index) --[[@as LuaPlayer]]
-    local player_table = global.players[e.player_index]
+    local player_table = storage.players[e.player_index]
     local value = player.mod_settings["tlst-show-active-task"].value
     if value == "off" then
       active_task_button.destroy(player_table)

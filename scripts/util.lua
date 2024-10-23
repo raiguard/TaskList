@@ -37,7 +37,7 @@ end
 --- @param gui_name string
 --- @return EditTaskGui|TasksGui?
 function util.get_gui(player_index, gui_name)
-  local player_table = global.players[player_index]
+  local player_table = storage.players[player_index]
   if player_table then
     local Gui = player_table.guis[gui_name]
     if Gui and Gui.refs.window.valid then
