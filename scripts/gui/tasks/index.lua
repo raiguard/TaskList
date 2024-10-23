@@ -267,7 +267,7 @@ function index.new(player, player_table)
         { type = "label", style = "frame_title", caption = { "gui.tlst-tasks" }, ignored_by_interaction = true },
         { type = "empty-widget", style = "flib_titlebar_drag_handle", ignored_by_interaction = true },
         templates.frame_action_button(
-          "flib_pin",
+          "flib_pin_white",
           { "gui.flib-keep-open" },
           { gui = "tasks", action = "pin" },
           { "pin_button" }

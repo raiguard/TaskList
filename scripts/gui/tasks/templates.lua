@@ -23,9 +23,7 @@ function templates.frame_action_button(sprite, tooltip, action, ref)
   return {
     type = "sprite-button",
     style = "frame_action_button",
-    sprite = sprite .. "_white",
-    hovered_sprite = sprite .. "_black",
-    clicked_sprite = sprite .. "_black",
+    sprite = sprite,
     tooltip = tooltip,
     ref = ref,
     actions = {
@@ -88,7 +86,7 @@ function templates.task_item(Task, index, completed)
       {
         type = "sprite-button",
         style = "mini_button_aligned_to_text_vertically_when_centered",
-        sprite = "utility/rename_icon_small_black",
+        sprite = "utility/rename_icon",
         tooltip = { "gui.tlst-edit-task" },
         actions = {
           on_click = {
