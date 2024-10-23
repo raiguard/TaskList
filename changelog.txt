@@ -2,6 +2,8 @@
 Version: 0.5.0
 Date: ????
   Changes:
+    - Updated to Factorio 2.0.
+    - The height of the GUI is constrained to 800 pixels.
 ---------------------------------------------------------------------------------------------------
 Version: 0.4.8
 Date: 2023-12-20
