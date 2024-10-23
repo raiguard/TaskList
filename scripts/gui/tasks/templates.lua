@@ -1,4 +1,4 @@
-local constants = require("__TaskList__/constants")
+local constants = require("constants")
 
 local templates = {}
 

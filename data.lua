@@ -1,4 +1,4 @@
-local data_util = require("__flib__/data-util")
+local data_util = require("__flib__.data-util")
 
 data:extend({
   { type = "custom-input", name = "tlst-toggle-gui", key_sequence = "CONTROL + T", action = "lua" },

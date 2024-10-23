@@ -1,7 +1,7 @@
-local constants = require("__TaskList__/constants")
+local constants = require("constants")
 
-local edit_task_gui = require("__TaskList__/scripts/gui/edit-task/index")
-local util = require("__TaskList__/scripts/util")
+local edit_task_gui = require("scripts.gui.edit-task.index")
+local util = require("scripts.util")
 
 local actions = {}
 

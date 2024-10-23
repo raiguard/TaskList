@@ -32,16 +32,16 @@
     - Store completion time?
 ]]
 
-local gui = require("__flib__/gui")
-local migration = require("__flib__/migration")
+local gui = require("__flib__.gui")
+local migration = require("__flib__.migration")
 
-local active_task_button = require("__TaskList__/scripts/gui/active-task-button")
-local migrations = require("__TaskList__/scripts/migrations")
-local edit_task_gui = require("__TaskList__/scripts/gui/edit-task/index")
-local player_data = require("__TaskList__/scripts/player-data")
-local task = require("__TaskList__/scripts/task")
-local tasks_gui = require("__TaskList__/scripts/gui/tasks/index")
-local util = require("__TaskList__/scripts/util")
+local active_task_button = require("scripts.gui.active-task-button")
+local migrations = require("scripts.migrations")
+local edit_task_gui = require("scripts.gui.edit-task.index")
+local player_data = require("scripts.player-data")
+local task = require("scripts.task")
+local tasks_gui = require("scripts.gui.tasks.index")
+local util = require("scripts.util")
 
 --- @param force LuaForce
 local function init_force(force)

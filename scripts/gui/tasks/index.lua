@@ -1,13 +1,13 @@
-local gui = require("__flib__/gui")
+local gui = require("__flib__.gui")
 
-local constants = require("__TaskList__/constants")
+local constants = require("constants")
 
-local util = require("__TaskList__/scripts/util")
+local util = require("scripts.util")
 
-local active_task_button = require("__TaskList__/scripts/gui/active-task-button")
+local active_task_button = require("scripts.gui.active-task-button")
 
-local actions = require("__TaskList__/scripts/gui/tasks/actions")
-local templates = require("__TaskList__/scripts/gui/tasks/templates")
+local actions = require("scripts.gui.tasks.actions")
+local templates = require("scripts.gui.tasks.templates")
 
 -- GUI
 
