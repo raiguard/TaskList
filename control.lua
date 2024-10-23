@@ -32,7 +32,7 @@
     - Store completion time?
 ]]
 
-local gui = require("__flib__.gui")
+local gui = require("gui")
 local migration = require("__flib__.migration")
 
 local active_task_button = require("scripts.gui.active-task-button")
