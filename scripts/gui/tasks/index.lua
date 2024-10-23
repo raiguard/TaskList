@@ -321,6 +321,7 @@ function index.new(player, player_table)
         {
           type = "scroll-pane",
           style = "tlst_tasks_scroll_pane",
+          style_mods = { maximal_height = 800 },
           ref = { "scroll_pane" },
           templates.checkboxes_flow("force"),
           templates.checkboxes_flow("private", false),
