@@ -1,5 +1,3 @@
-local data_util = require("__flib__.data-util")
-
 data:extend({
   { type = "custom-input", name = "tlst-toggle-gui", key_sequence = "CONTROL + T", action = "lua" },
   { type = "custom-input", name = "tlst-new-task", key_sequence = "", action = "lua" },
@@ -7,10 +5,10 @@ data:extend({
   {
     type = "shortcut",
     name = "tlst-toggle-gui",
-    icon = { filename = "__TaskList__/graphics/tasks-dark-x32.png", size = 32, mipmap_count = 2 },
-    small_icon = { filename = "__TaskList__/graphics/tasks-dark-x24.png", size = 24, mipmap_count = 2 },
-    disabled_icon = { filename = "__TaskList__/graphics/tasks-light-x32.png", size = 32, mipmap_count = 2 },
-    disabled_small_icon = { filename = "__TaskList__/graphics/tasks-light-x24.png", size = 24, mipmap_count = 2 },
+    icon = "__TaskList__/graphics/tasks-dark-x32.png",
+    icon_size = 32,
+    small_icon = "__TaskList__/graphics/tasks-dark-x24.png",
+    small_icon_size = 24,
     toggleable = true,
     associated_control_input = "tlst-toggle-gui",
     action = "lua",
@@ -18,10 +16,10 @@ data:extend({
   {
     type = "shortcut",
     name = "tlst-new-task",
-    icon = { filename = "__TaskList__/graphics/new-task-dark-x32.png", size = 32, mipmap_count = 2 },
-    small_icon = { filename = "__TaskList__/graphics/new-task-dark-x24.png", size = 24, mipmap_count = 2 },
-    disabled_icon = { filename = "__TaskList__/graphics/new-task-light-x32.png", size = 32, mipmap_count = 2 },
-    disabled_small_icon = { filename = "__TaskList__/graphics/new-task-light-x24.png", size = 24, mipmap_count = 2 },
+    icon = "__TaskList__/graphics/new-task-dark-x32.png",
+    icon_size = 32,
+    small_icon = "__TaskList__/graphics/new-task-dark-x24.png",
+    small_icon_size = 24,
     toggleable = true,
     associated_control_input = "tlst-new-task",
     action = "lua",
