@@ -6,7 +6,7 @@ local util = require("scripts.util")
 
 --- @class Task: LuaObject
 --- @field assignee LuaPlayer?
---- @field priority int
+--- @field priority string
 --- @field area string
 --- @field completed boolean
 --- @field completed_tasks TaskID[]
@@ -25,11 +25,13 @@ local Task = {}
 --- @param description string
 --- @param assignee LuaPlayer|nil
 --- @param status string
-function Task:update(title, description, assignee, status)
+function Task:update(title, description, assignee, status, priority, area)
     self.title = title
     self.description = description
     self.assignee = assignee
     self.status = status
+    self.priority = priority
+    self.area = area
 
     self:update_guis(function(Gui)
         Gui:update_task(self)
