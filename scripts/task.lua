@@ -127,7 +127,7 @@ local task = {}
 
 --- @param title string
 --- @param description string
---- @field priority int
+--- @field priority string
 --- @field area string
 --- @param owner LuaForce|LuaPlayer|Task
 --- @param assignee LuaPlayer|nil

@@ -184,6 +184,7 @@ function TasksGui:update_task(Task)
           },
         },
         { elem_mods = { caption = Task.priority } },
+        { elem_mods = { caption = Task.area } },
       },
       {
         { elem_mods = { caption = Task.description, visible = #Task.description > 0 } },
