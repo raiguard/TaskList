@@ -74,6 +74,7 @@ function templates.task_item(Task, index, completed)
         caption = Task.assignee and Task.assignee.name or nil,
         visible = Task.assignee and true or false,
       },
+
       {
         type = "sprite",
         style = "flib_indicator",
@@ -82,6 +83,11 @@ function templates.task_item(Task, index, completed)
         actions = {
           on_click = { gui = "tasks", action = "cycle_task_status", task_id = Task.id },
         },
+      },
+      {
+        type = "label",
+        style = "info_label",
+        caption = Task.priority or nil,
       },
       {
         type = "sprite-button",
