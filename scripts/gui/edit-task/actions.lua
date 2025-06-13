@@ -63,9 +63,12 @@ function actions.confirm(Gui, _, e)
     end
   end
 
+  local priority = refs.priority_textfield.text
+  local area = refs.area_textfield.text
+
   local Task = Gui.state.task
   if Task then
-    Task:update(refs.title_textfield.text, refs.description_textfield.text, assignee, status)
+    Task:update(refs.title_textfield.text, refs.description_textfield.text, assignee, status,priority,area)
   else
     --- @type LuaForce|LuaPlayer|Task
     local owner = Gui.state.parent_task
@@ -80,7 +83,9 @@ function actions.confirm(Gui, _, e)
       owner,
       assignee,
       status,
-      refs.add_to_top_checkbox.state
+      refs.add_to_top_checkbox.state,
+      priority,
+      area
     )
   end
 

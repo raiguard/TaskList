@@ -189,6 +189,28 @@ function index.new(player, player_table, options)
               on_confirmed = { gui = "edit_task", action = "confirm" },
             },
           },
+          { type = "label", caption = { "gui.tlst-priority" } },
+          {
+            type = "text-box",
+            style_mods = { height = 200, width = 400 },
+            text = Task.priority,
+            elem_mods = { word_wrap = true },
+            ref = { "priority_textfield" },
+            actions = {
+              on_confirmed = { gui = "edit_task", action = "confirm" },
+            },
+          },
+          { type = "label", caption = { "gui.tlst-area" } },
+          {
+            type = "text-box",
+            style_mods = { height = 200, width = 400 },
+            text = Task.area,
+            elem_mods = { word_wrap = true },
+            ref = { "area_textfield" },
+            actions = {
+              on_confirmed = { gui = "edit_task", action = "confirm" },
+            },
+          },
           {
             type = "flow",
             visible = not Task.title,
@@ -224,7 +246,7 @@ function index.new(player, player_table, options)
               ref = { "assignee_dropdown" },
             },
           },
-          {
+            {
             type = "flow",
             style_mods = { vertical_align = "center" },
             {
