@@ -63,7 +63,7 @@ function actions.confirm(Gui, _, e)
     end
   end
 
-  local priority = refs.priority_textfield.text
+  local priority = refs.priority_dropdown.selected_index
   local area = refs.area_textfield.text
 
   local Task = Gui.state.task
