@@ -78,8 +78,10 @@ function index.new(player, player_table, options)
   local ParentTask = options.parent_task
 
   local players = { { "gui.tlst-unassigned" } }
+  local priorities = {}
   local force = util.get_force(player)
   local assignee_selection_index = 1
+  local priority_selection_index = 5
   local player_selection_index = 0
 
   local title_caption
@@ -116,6 +118,12 @@ function index.new(player, player_table, options)
     end
   end
 
+  for i = 1, 10, 1 do
+    table.insert(priorities, i)
+  end
+
+  priority_selection_index = Task.priority or 5
+
   local default_task = player.mod_settings["tlst-new-tasks-in-progress"].value and "in_progress" or "not_started"
   local status_items = {}
   local selected_status_index = constants.task_status[default_task].index
@@ -144,7 +152,7 @@ function index.new(player, player_table, options)
         actions = {
           on_click = { gui = "edit_task", transform = "handle_titlebar_click" },
         },
-        { type = "label", style = "frame_title", caption = title_caption, ignored_by_interaction = true },
+        { type = "label",        style = "frame_title",                      caption = title_caption,      ignored_by_interaction = true },
         { type = "empty-widget", style = "flib_dialog_titlebar_drag_handle", ignored_by_interaction = true },
       },
       {
@@ -214,7 +222,7 @@ function index.new(player, player_table, options)
           {
             type = "flow",
             style_mods = { vertical_align = "center" },
-            { type = "label", caption = { "gui.tlst-assignee" } },
+            { type = "label",        caption = { "gui.tlst-assignee" } },
             { type = "empty-widget", style = "flib_horizontal_pusher" },
             {
               type = "drop-down",
@@ -222,6 +230,37 @@ function index.new(player, player_table, options)
               selected_index = assignee_selection_index,
               enabled = assignable,
               ref = { "assignee_dropdown" },
+            },
+          },
+          {
+            type = "flow",
+            style_mods = { vertical_align = "center" },
+            { type = "label",        caption = { "gui.tlst-priority" } },
+            { type = "empty-widget", style = "flib_horizontal_pusher" },
+            {
+              type = "drop-down",
+              items = priorities,
+              selected_index = priority_selection_index,
+              ref = { "priority_dropdown" },
+            },
+          },
+          {
+            type = "flow",
+            style_mods = { vertical_align = "center" },
+            {
+              type = "label",
+              caption = { "", { "gui.tlst-area" }, " [img=info]" },
+              tooltip = { "gui.tlst-area-description" },
+            },
+            { type = "empty-widget", style = "flib_horizontal_pusher" },
+            {
+              type = "text-box",
+              text = Task.area,
+              elem_mods = { word_wrap = true },
+              ref = { "area_textfield" },
+              actions = {
+                on_confirmed = { gui = "edit_task", action = "confirm" },
+              },
             },
           },
           {
