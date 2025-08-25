@@ -10,7 +10,7 @@ function templates.checkboxes_flow(name, visible)
     direction = "vertical",
     ref = { name .. "_flow" },
     { type = "flow", name = "incompleted", direction = "vertical", visible = false },
-    { type = "flow", name = "completed", direction = "vertical", visible = false },
+    { type = "flow", name = "completed",   direction = "vertical", visible = false },
     visible = visible,
   }
 end
@@ -74,6 +74,7 @@ function templates.task_item(Task, index, completed)
         caption = Task.assignee and Task.assignee.name or nil,
         visible = Task.assignee and true or false,
       },
+
       {
         type = "sprite",
         style = "flib_indicator",
@@ -82,6 +83,16 @@ function templates.task_item(Task, index, completed)
         actions = {
           on_click = { gui = "tasks", action = "cycle_task_status", task_id = Task.id },
         },
+      },
+      {
+        type = "label",
+        style = "info_label",
+        caption = Task.priority or nil,
+      },
+      {
+        type = "label",
+        style = "info_label",
+        caption = Task.area or nil,
       },
       {
         type = "sprite-button",
@@ -128,7 +139,7 @@ function templates.task_item(Task, index, completed)
         name = "subtasks_flow",
         direction = "vertical",
         { type = "flow", name = "incompleted", direction = "vertical", visible = false },
-        { type = "flow", name = "completed", direction = "vertical", visible = false },
+        { type = "flow", name = "completed",   direction = "vertical", visible = false },
         {
           type = "flow",
           style = "tlst_task_item_flow",
